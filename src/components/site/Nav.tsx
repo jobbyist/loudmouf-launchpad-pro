@@ -5,11 +5,11 @@ import { CartDrawer } from "./CartDrawer";
 import { Menu, X } from "lucide-react";
 
 const links = [
-  { label: "Home", href: "#home" },
-  { label: "Product", href: "#product" },
-  { label: "Why LOUDMOUF™", href: "#why" },
-  { label: "FAQs", href: "#faq" },
-  { label: "Pre-Order", href: "#preorder" },
+  { label: "Home", href: "/#home", type: "hash" as const },
+  { label: "Allocations", href: "/#product", type: "hash" as const },
+  { label: "The Collective", href: "/#why", type: "hash" as const },
+  { label: "Launch Event", href: "/launch", type: "route" as const },
+  { label: "FAQs", href: "/#faq", type: "hash" as const },
 ];
 
 export function Nav() {
@@ -25,9 +25,10 @@ export function Nav() {
 
   return (
     <>
-      {/* Announcement bar */}
-      <div className="fixed inset-x-0 top-0 z-50 h-8 flex items-center justify-center bg-black text-loud-yellow text-[11px] uppercase tracking-[0.25em]">
-        Free delivery on orders over R800 · 18+ only
+      <div className="fixed inset-x-0 top-0 z-50 h-8 flex items-center justify-center bg-black text-[11px] uppercase tracking-[0.25em]">
+        <Link to="/launch" className="text-gradient-loud font-semibold hover:opacity-80">
+          Reserve your spot at our official launch event · 18+ Members Only
+        </Link>
       </div>
 
       <header
@@ -41,23 +42,25 @@ export function Nav() {
           }`}
         >
           <Link to="/" className="flex items-center">
-            <Logo className="text-2xl" />
+            <Logo size="md" />
           </Link>
 
-          <nav className="hidden md:flex items-center gap-8 text-[13px] uppercase tracking-[0.18em] text-white/80">
-            {links.map((l) => (
-              <a key={l.href} href={l.href} className="hover:text-loud-yellow transition">
-                {l.label}
-              </a>
-            ))}
+          <nav className="hidden md:flex items-center gap-7 text-[12px] uppercase tracking-[0.18em] text-white/80">
+            {links.map((l) =>
+              l.type === "route" ? (
+                <Link key={l.href} to={l.href} className="hover:text-loud-yellow transition">{l.label}</Link>
+              ) : (
+                <a key={l.href} href={l.href} className="hover:text-loud-yellow transition">{l.label}</a>
+              ),
+            )}
           </nav>
 
           <div className="flex items-center gap-2">
             <a
-              href="#preorder"
-              className="hidden sm:inline-flex items-center rounded-full bg-loud-yellow px-4 py-2 text-[11px] font-semibold uppercase tracking-widest text-black hover:glow-yellow transition"
+              href="/#preorder"
+              className="cta-gradient hidden sm:inline-flex items-center rounded-full px-4 py-2 text-[11px] font-semibold uppercase tracking-widest text-black shadow-md"
             >
-              Pre-Order
+              Join The Club
             </a>
             <CartDrawer />
             <button
@@ -73,17 +76,19 @@ export function Nav() {
         {open && (
           <div className="md:hidden mx-auto mt-2 max-w-7xl glass rounded-3xl p-6">
             <nav className="flex flex-col gap-4 text-sm uppercase tracking-widest">
-              {links.map((l) => (
-                <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="text-white/80 hover:text-loud-yellow">
-                  {l.label}
-                </a>
-              ))}
+              {links.map((l) =>
+                l.type === "route" ? (
+                  <Link key={l.href} to={l.href} onClick={() => setOpen(false)} className="text-white/80 hover:text-loud-yellow">{l.label}</Link>
+                ) : (
+                  <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="text-white/80 hover:text-loud-yellow">{l.label}</a>
+                ),
+              )}
               <a
-                href="#preorder"
+                href="/#preorder"
                 onClick={() => setOpen(false)}
-                className="mt-2 inline-flex items-center justify-center rounded-full bg-loud-yellow px-4 py-3 text-xs font-semibold uppercase tracking-widest text-black"
+                className="cta-gradient mt-2 inline-flex items-center justify-center rounded-full px-4 py-3 text-xs font-semibold uppercase tracking-widest text-black"
               >
-                Pre-Order Now
+                Join The Club
               </a>
             </nav>
           </div>

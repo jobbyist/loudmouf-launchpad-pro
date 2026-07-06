@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ShoppingCart, Minus, Plus, Trash2, ExternalLink, Loader2 } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
+import { incrementEarlyAccessClaimed } from "./EarlyAccessBar";
 
 export function CartDrawer() {
   const [open, setOpen] = useState(false);
@@ -19,6 +20,7 @@ export function CartDrawer() {
   const checkout = () => {
     const url = getCheckoutUrl();
     if (url) {
+      incrementEarlyAccessClaimed(totalItems);
       window.open(url, "_blank");
       setOpen(false);
     }
@@ -111,7 +113,7 @@ export function CartDrawer() {
                   onClick={checkout}
                   size="lg"
                   disabled={items.length === 0 || isLoading || isSyncing}
-                  className="w-full bg-loud-yellow text-black hover:bg-loud-yellow/90 font-semibold uppercase tracking-widest"
+                  className="cta-gradient w-full text-black hover:opacity-90 font-semibold uppercase tracking-widest"
                 >
                   {isLoading || isSyncing ? (
                     <Loader2 className="h-4 w-4 animate-spin" />

@@ -8,6 +8,7 @@ import { AgeGate } from "@/components/site/AgeGate";
 import { Countdown } from "@/components/site/Countdown";
 import { ProductCard } from "@/components/site/ProductCard";
 import { Logo } from "@/components/site/Logo";
+import { EarlyAccessBar } from "@/components/site/EarlyAccessBar";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Progress } from "@/components/ui/progress";
@@ -88,8 +89,7 @@ function LandingPage() {
               transition={{ duration: 0.8, delay: 0.3 }}
               className="mt-6 max-w-lg text-base sm:text-lg text-white/70"
             >
-              Premium South African cannabis pouches — discreet, potent, unapologetic. Reserve your tin from the first
-              production run before it drops nationwide.
+              South Africa's first cannabis pouches infused with premium true-grade terpenes. Exercise your constitutional right to personal cultivation within a supportive, members-only collective.
             </motion.p>
 
             <motion.div
@@ -100,15 +100,15 @@ function LandingPage() {
             >
               <a
                 href="#preorder"
-                className="group inline-flex items-center gap-2 rounded-full bg-loud-yellow px-7 py-4 text-sm font-semibold uppercase tracking-widest text-black hover:glow-yellow transition"
+                className="cta-gradient group inline-flex items-center gap-2 rounded-full px-7 py-4 text-sm font-semibold uppercase tracking-widest text-black shadow-xl hover:opacity-90 transition"
               >
-                Pre-Order Now <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition" />
+                Join The Collective <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition" />
               </a>
               <a
                 href="#product"
                 className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-7 py-4 text-sm font-semibold uppercase tracking-widest text-white hover:bg-white/10"
               >
-                Learn More
+                View Yield Profiles
               </a>
             </motion.div>
 
@@ -397,10 +397,10 @@ function LandingPage() {
 
           <div className="mt-10 mx-auto max-w-md">
             <div className="flex items-center justify-between text-[11px] uppercase tracking-widest text-white/60 mb-2">
-              <span>1,240 / 2,000 reserved</span>
-              <span className="text-loud-yellow">62%</span>
+              <span>Founding members · limited to 2,000</span>
+              <span className="text-gradient-loud font-semibold">25% off</span>
             </div>
-            <Progress value={62} className="h-2 bg-white/10 [&>*]:bg-loud-yellow" />
+            <Progress value={62} className="h-2 bg-white/10" />
           </div>
 
           <div className="mt-10 flex justify-center">
@@ -410,9 +410,9 @@ function LandingPage() {
           <div className="mt-10 flex flex-wrap justify-center gap-3">
             <a
               href="#product"
-              className="group inline-flex items-center gap-2 rounded-full bg-loud-yellow px-8 py-4 text-sm font-semibold uppercase tracking-widest text-black hover:glow-yellow transition"
+              className="cta-gradient group inline-flex items-center gap-2 rounded-full px-8 py-4 text-sm font-semibold uppercase tracking-widest text-black shadow-xl hover:opacity-90 transition"
             >
-              Pre-Order Now <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition" />
+              Reserve My Monthly Share <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition" />
             </a>
             <a
               href="https://wa.me/27680200749"
@@ -435,6 +435,7 @@ function LandingPage() {
       </section>
 
       <Footer />
+      <EarlyAccessBar />
     </div>
   );
 }
