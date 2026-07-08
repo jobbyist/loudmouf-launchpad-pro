@@ -31,7 +31,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist'          # Change this if your build outputs elsewhere
+          path: './.output/public'   # ← This is the correct path for your project
 
   deploy:
     environment:
