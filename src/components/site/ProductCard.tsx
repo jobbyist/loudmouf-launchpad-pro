@@ -62,12 +62,12 @@ export function ProductCard({ product, index }: { product: ShopifyProduct; index
           </div>
         </div>
 
-        <GradientBorderButton
+        <Button
           onClick={() => setOpen(true)}
           className="mt-5 w-full uppercase tracking-widest text-xs font-semibold"
         >
           <Sparkles className="h-4 w-4 mr-1.5" /> Reserve My Share
-        </GradientBorderButton>
+        </Button>
       </div>
     </motion.div>
 
