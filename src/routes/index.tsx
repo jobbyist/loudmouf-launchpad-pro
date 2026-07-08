@@ -515,9 +515,9 @@ function LandingPage() {
           </div>
 
           <div className="mt-8 flex flex-wrap items-center justify-center gap-6 text-[11px] uppercase tracking-widest text-white/50">
-            <div className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-loud-yellow" /> Secure Shopify Checkout</div>
-            <div className="flex items-center gap-2"><Truck className="h-4 w-4 text-loud-yellow" /> The Courier Guy · 3–5 Days</div>
-            <div className="flex items-center gap-2"><Clock className="h-4 w-4 text-loud-yellow" /> Ships within 4 weeks</div>
+            <div className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-loud-yellow" /> Secure Online Payments</div>
+            <div className="flex items-center gap-2"><Truck className="h-4 w-4 text-loud-yellow" /> Founding Member Portal</div>
+            <div className="flex items-center gap-2"><Clock className="h-4 w-4 text-loud-yellow" /> Launch Summit Access Pass</div>
           </div>
 
           <div className="mt-14 relative mx-auto max-w-2xl">
