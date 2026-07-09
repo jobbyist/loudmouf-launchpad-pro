@@ -1,27 +1,19 @@
 import { useEffect, useState } from "react";
 import { Progress } from "@/components/ui/progress";
 import { Sparkles } from "lucide-react";
+import { diffToLaunch, MEMBER_CAP, MEMBERS_CLAIMED_BASELINE } from "@/lib/launch";
 
-const CAP = 2000;
 const STORAGE_KEY = "loudmouf-early-access-claimed";
-// 30-day soft launch window
-const LAUNCH_TS_KEY = "loudmouf-launch-ts";
-
-function getLaunchTs() {
-  if (typeof window === "undefined") return Date.now() + 30 * 24 * 3600 * 1000;
-  const stored = window.localStorage.getItem(LAUNCH_TS_KEY);
-  if (stored) return Number(stored);
-  const ts = Date.now() + 30 * 24 * 3600 * 1000;
-  window.localStorage.setItem(LAUNCH_TS_KEY, String(ts));
-  return ts;
-}
 
 function useClaimed() {
-  const [claimed, setClaimed] = useState(0);
+  const [claimed, setClaimed] = useState(MEMBERS_CLAIMED_BASELINE);
   useEffect(() => {
     const read = () => {
-      const v = Number(window.localStorage.getItem(STORAGE_KEY) || "137");
-      setClaimed(Math.min(CAP, Math.max(0, v)));
+      const raw = window.localStorage.getItem(STORAGE_KEY);
+      // If no value yet, or stored below the current baseline, use baseline.
+      const stored = raw != null ? Number(raw) : MEMBERS_CLAIMED_BASELINE;
+      const v = Math.max(MEMBERS_CLAIMED_BASELINE, stored);
+      setClaimed(Math.min(MEMBER_CAP, v));
     };
     read();
     const on = () => read();
@@ -41,26 +33,18 @@ function pad(n: number) {
 
 export function EarlyAccessBar() {
   const claimed = useClaimed();
-  const [remaining, setRemaining] = useState({ d: 0, h: 0, m: 0, s: 0 });
+  const [remaining, setRemaining] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const target = getLaunchTs();
-    const tick = () => {
-      const diff = Math.max(0, target - Date.now());
-      setRemaining({
-        d: Math.floor(diff / 86_400_000),
-        h: Math.floor((diff / 3_600_000) % 24),
-        m: Math.floor((diff / 60_000) % 60),
-        s: Math.floor((diff / 1_000) % 60),
-      });
-    };
-    tick();
-    const id = setInterval(tick, 1000);
+    setMounted(true);
+    setRemaining(diffToLaunch());
+    const id = setInterval(() => setRemaining(diffToLaunch()), 1000);
     return () => clearInterval(id);
   }, []);
 
-  const seatsLeft = CAP - claimed;
-  const pct = (claimed / CAP) * 100;
+  const seatsLeft = MEMBER_CAP - claimed;
+  const pct = (claimed / MEMBER_CAP) * 100;
 
   return (
     <div className="fixed inset-x-0 bottom-0 z-40 pointer-events-none">
@@ -70,7 +54,7 @@ export function EarlyAccessBar() {
             <div className="flex items-center gap-2 text-[10px] sm:text-[11px] uppercase tracking-[0.22em]">
               <Sparkles className="h-3.5 w-3.5 text-loud-yellow" />
               <span className="text-gradient-loud font-semibold">Early Access · 25% Off</span>
-              <span className="text-white/50">· {seatsLeft.toLocaleString()} of {CAP.toLocaleString()} spots left</span>
+              <span className="text-white/50">· {seatsLeft.toLocaleString()} of {MEMBER_CAP.toLocaleString()} spots left</span>
             </div>
             <div className="mt-2">
               <Progress value={pct} className="h-1.5 bg-white/10" />
@@ -80,11 +64,15 @@ export function EarlyAccessBar() {
             </p>
           </div>
           <div className="flex items-center gap-3 justify-between md:justify-end">
-            <div className="flex items-center gap-1.5 font-mono text-xs sm:text-sm text-white tabular-nums">
-              <span className="px-2 py-1 rounded bg-white/5">{pad(remaining.d)}d</span>
-              <span className="px-2 py-1 rounded bg-white/5">{pad(remaining.h)}h</span>
-              <span className="px-2 py-1 rounded bg-white/5">{pad(remaining.m)}m</span>
-              <span className="px-2 py-1 rounded bg-white/5 hidden sm:inline-block">{pad(remaining.s)}s</span>
+            <div
+              suppressHydrationWarning
+              className="flex items-center gap-1.5 font-mono text-xs sm:text-sm text-white tabular-nums"
+              data-mounted={mounted}
+            >
+              <span className="px-2 py-1 rounded bg-white/5">{pad(remaining.days)}d</span>
+              <span className="px-2 py-1 rounded bg-white/5">{pad(remaining.hours)}h</span>
+              <span className="px-2 py-1 rounded bg-white/5">{pad(remaining.minutes)}m</span>
+              <span className="px-2 py-1 rounded bg-white/5 hidden sm:inline-block">{pad(remaining.seconds)}s</span>
             </div>
             <a
               href="#preorder"
@@ -102,8 +90,9 @@ export function EarlyAccessBar() {
 /** Call this after a confirmed purchase to advance the counter. */
 export function incrementEarlyAccessClaimed(by = 1) {
   if (typeof window === "undefined") return;
-  const cur = Number(window.localStorage.getItem(STORAGE_KEY) || "137");
-  const next = Math.min(CAP, cur + by);
+  const raw = window.localStorage.getItem(STORAGE_KEY);
+  const cur = Math.max(MEMBERS_CLAIMED_BASELINE, raw != null ? Number(raw) : MEMBERS_CLAIMED_BASELINE);
+  const next = Math.min(MEMBER_CAP, cur + by);
   window.localStorage.setItem(STORAGE_KEY, String(next));
   window.dispatchEvent(new Event("loudmouf:early-access-claimed"));
 }

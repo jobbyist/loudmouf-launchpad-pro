@@ -1,28 +1,25 @@
 import { useEffect, useState } from "react";
+import { diffToLaunch, LAUNCH_TS } from "@/lib/launch";
 
-// 30-day campaign countdown, anchored to a fixed launch date so it doesn't
-// reset on every visit. Update this once launch date is confirmed.
-const LAUNCH_ISO = "2026-08-04T20:00:00+02:00"; // 30 days from build
-
-function diff(target: number) {
-  const now = Date.now();
-  const d = Math.max(0, target - now);
-  return {
-    days: Math.floor(d / 86400000),
-    hours: Math.floor((d / 3600000) % 24),
-    minutes: Math.floor((d / 60000) % 60),
-    seconds: Math.floor((d / 1000) % 60),
-  };
-}
+/**
+ * Drop 001 countdown. Anchored to LAUNCH_TS in `src/lib/launch.ts`
+ * so the sticky EarlyAccessBar and hero countdown stay in sync.
+ *
+ * Renders zeroes during SSR / first paint to avoid hydration mismatches
+ * (Date.now() differs between server + client), then updates every second.
+ */
+const ZERO = { days: 0, hours: 0, minutes: 0, seconds: 0 };
 
 export function Countdown({ compact = false }: { compact?: boolean }) {
-  const target = new Date(LAUNCH_ISO).getTime();
-  const [t, setT] = useState(() => diff(target));
+  const [t, setT] = useState(ZERO);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const i = setInterval(() => setT(diff(target)), 1000);
+    setMounted(true);
+    setT(diffToLaunch());
+    const i = setInterval(() => setT(diffToLaunch()), 1000);
     return () => clearInterval(i);
-  }, [target]);
+  }, []);
 
   const items: Array<[string, number]> = [
     ["Days", t.days],
@@ -33,11 +30,14 @@ export function Countdown({ compact = false }: { compact?: boolean }) {
 
   return (
     <div
+      suppressHydrationWarning
       className={
         compact
           ? "flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-loud-yellow"
           : "flex flex-wrap items-end gap-3 sm:gap-5"
       }
+      data-launch-ts={LAUNCH_TS}
+      data-mounted={mounted}
     >
       {items.map(([label, val]) => (
         <div
