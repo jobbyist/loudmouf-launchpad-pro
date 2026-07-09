@@ -23,14 +23,14 @@ import adCreative from "@/assets/ad-creative.png.asset.json";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "LOUDMOUF™ — Big Taste. Zero Smoke. Pre-Order Now." },
+      { title: "LOUDMOUF™ — Big Taste. Zero Smoke." },
       {
         name: "description",
         content:
-          "Premium South African cannabis pouches. Discreet. Potent. Unapologetic. Reserve the first production run of LOUDMOUF™ — Cheesecake, Blueberry and Bubblegum. Free delivery over R800.",
+          "SA’s first cannabis pouches made with high-grade THC and flavor-infused terpenes. Join the collective and secure your yield: Cheesecake, Blueberry & Bubblegum.",
       },
       { property: "og:title", content: "LOUDMOUF™ — Big Taste. Zero Smoke." },
-      { property: "og:description", content: "Reserve the first production run of LOUDMOUF™ premium cannabis pouches. 18+ only." },
+      { property: "og:description", content: "SA’s first cannabis pouches made with high-grade THC and flavor-infused terpenes. Join the collective and secure your yield: Cheesecake, Blueberry & Bubblegum." },
       { property: "og:type", content: "website" },
       { property: "og:image", content: adCreative.url },
       { name: "twitter:card", content: "summary_large_image" },
