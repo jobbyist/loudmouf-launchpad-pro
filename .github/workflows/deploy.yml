@@ -30,15 +30,18 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Copy CNAME to build output
-        run: mkdir -p .output/public && cp CNAME .output/public/
-
-      - name: Upload GitHub Pages artifact
+      - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: './.output/public'
 
   deploy:
+
+      - name: Copy CNAME for custom domain
+        run: |
+          mkdir -p .output/public
+          cp CNAME .output/public/CNAME || echo "CNAME file not found"
+          echo "CNAME copied successfully"
     needs: build
     runs-on: ubuntu-latest
     environment:

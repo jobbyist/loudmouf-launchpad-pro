@@ -7,6 +7,15 @@ import { useCartStore } from "@/stores/cartStore";
 import { cn } from "@/lib/utils";
 import trueGrade from "@/assets/true-grade.webp.asset.json";
 
+// Helper to safely get asset URL
+const getAssetUrl = (asset: { url?: string } | undefined): string => {
+  if (!asset?.url) return '/placeholder.png';
+  if (asset.url.startsWith('/__l5e/')) {
+    return `https://storage.googleapis.com/gpt-engineer-file-uploads${asset.url.replace('/__l5e/', '/')}`;
+  }
+  return asset.url;
+};
+
 export interface ProfileMeta {
   strain: "Sativa" | "Indica" | "Hybrid";
   vibe: string;
@@ -124,8 +133,8 @@ export function ProductModal({
                   className="h-full w-full object-cover"
                 />
               )}
-                src="/true-grade.webp"
-                src={trueGrade.url}
+              <img
+                src={getAssetUrl(trueGrade)}
                 alt="True Grade Quality"
                 className="absolute bottom-3 right-3 h-16 w-16 opacity-90"
               />

@@ -1,4 +1,21 @@
 {
+  "version": 2,
+  "framework": "vite",
   "buildCommand": "npm run build",
-  "outputDirectory": ".output/public"
+  "outputDirectory": ".output/public",
+  "installCommand": "npm ci",
+  "env": {
+    "NODE_ENV": "production",
+    "SHOPIFY_STOREFRONT_TOKEN": "997533fd82ffe57f640986f050aa1be6",
+    "SHOPIFY_STORE_DOMAIN": "loudmouf-launchpad-buagl.myshopify.com"
+  },
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" }
+      ]
+    }
+  ]
 }

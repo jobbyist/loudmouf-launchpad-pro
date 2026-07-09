@@ -13,11 +13,26 @@ import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Progress } from "@/components/ui/progress";
 import { ArrowRight, ShieldCheck, Leaf, FlaskConical, Truck, Sparkles, Package, Clock, MessageSquare, Star } from "lucide-react";
+
+// Import asset JSON files - these contain URLs to Lovable.dev hosted assets
 import heroPoster from "@/assets/hero-poster.png.asset.json";
 import heroVideo from "@/assets/hero.mp4.asset.json";
 import storyImg from "@/assets/story.png.asset.json";
 import productsHero from "@/assets/products-hero.png.asset.json";
 import adCreative from "@/assets/ad-creative.png.asset.json";
+
+// Helper to safely get asset URL from .asset.json
+const getAssetUrl = (asset: { url?: string } | undefined): string => {
+  if (!asset?.url) {
+    console.warn('Asset URL not found, using fallback');
+    return '/placeholder.png';
+  }
+  // In production, convert relative URLs to absolute if needed
+  if (asset.url.startsWith('/__l5e/')) {
+    return `https://storage.googleapis.com/gpt-engineer-file-uploads${asset.url.replace('/__l5e/', '/')}`;
+  }
+  return asset.url;
+};
 
 import { useState } from 'react';
 import AmbassadorModal from '@/components/site/AmbassadorModal'; // Adjust path if needed
@@ -37,9 +52,9 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "LOUDMOUF™ — Big Taste. Zero Smoke." },
       { property: "og:description", content: "Reserve the first production run of LOUDMOUF™ premium cannabis pouches. 18+ only." },
       { property: "og:type", content: "website" },
-      { property: "og:image", content: adCreative.url },
+      { property: "og:image", content: getAssetUrl(adCreative) },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: adCreative.url },
+      { name: "twitter:image", content: getAssetUrl(adCreative) },
     ],
     links: [{ rel: "canonical", href: "https://app.loudmouf.co.za/" }],
   }),
@@ -152,10 +167,10 @@ function LandingPage() {
                 muted
                 loop
                 playsInline
-                poster={heroPoster.url}
+                poster={getAssetUrl(heroPoster)}
                 className="h-full w-full object-cover"
               >
-                <source src={heroVideo.url} type="video/mp4" />
+                <source src={getAssetUrl(heroVideo)} type="video/mp4" />
               </video>
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
               <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-[10px] uppercase tracking-widest text-white/70">
@@ -282,7 +297,7 @@ function LandingPage() {
             transition={{ duration: 0.8 }}
             className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-white/10"
           >
-            <img src={storyImg.url} alt="LOUDMOUF brand story" className="h-full w-full object-cover" />
+            <img src={getAssetUrl(storyImg)} alt="LOUDMOUF brand story" className="h-full w-full object-cover" />
           </motion.div>
           <div>
             <p className="text-xs uppercase tracking-[0.3em] text-loud-yellow">The Movement</p>
@@ -382,17 +397,17 @@ function LandingPage() {
 
   {/* Press Logos */}
   <div className="mt-16">
-        src="/images/logos/businessbagel.svg" 
+    <p className="text-center text-xs uppercase tracking-[0.3em] text-white/50 mb-6">
       AS FEATURED IN
     </p>
     <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-8 opacity-75">
       <img 
-        src="/images/logos/gravitas.svg" 
+        src="/logos/businessbagel.svg" 
         alt="Business Bagel" 
         className="h-8 w-auto grayscale hover:grayscale-0 transition-all" 
       />
       <img 
-        src="/images/logos/nsbc.svg" 
+        src="/logos/gravitas.svg" 
         alt="Gravitas Industries" 
         className="h-8 w-auto grayscale hover:grayscale-0 transition-all" 
       />
@@ -520,10 +535,9 @@ function LandingPage() {
             <div className="flex items-center gap-2"><Clock className="h-4 w-4 text-loud-yellow" /> Launch Summit Access Pass</div>
           </div>
 
-          <div className="mt-14 relative mx-auto max-w-2xl">
+            <img src={getAssetUrl(productsHero)} alt="LOUDMOUF product lineup" className="mx-auto w-full rounded-3xl border border-white/10" loading="lazy" />
+          <div className="mt-12">
             <img src={productsHero.url} alt="LOUDMOUF product lineup" className="mx-auto w-full rounded-3xl border border-white/10" loading="lazy" />
-          </div>
-        </div>
       </section>
 
       <Footer />
