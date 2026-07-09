@@ -58,7 +58,7 @@ function LandingPage() {
         {/* Floating brand X motifs */}
         <div className="pointer-events-none absolute inset-0 grid-noise" />
         <FloatingX className="top-24 left-[8%] text-loud-yellow/30 rotate-12" />
-        <FloatingX className="top-64 right-[10%] text-loud-purple/40 -rotate-6" delay={0.6} />
+        <FloatingX className="top-64 right-[10%] text-loud-pink/40 -rotate-6" delay={0.6} />
         <FloatingX className="bottom-40 left-[15%] text-loud-blue/30 rotate-45" delay={1.2} />
 
         <div className="relative mx-auto max-w-7xl px-6 grid gap-16 lg:grid-cols-[1.05fr_1fr] items-center">
@@ -81,7 +81,7 @@ function LandingPage() {
             >
               <span className="italic text-loud-yellow">Big</span> Taste.
               <br />
-              <span className="italic text-loud-purple">Zero</span> Smoke.
+              <span className="italic text-loud-pink">Zero</span> Smoke.
             </motion.h1>
 
             <motion.p
@@ -202,7 +202,7 @@ function LandingPage() {
       </section>
 
       {/* WHY LOUDMOUF */}
-      <section id="why" className="relative bg-gradient-to-b from-transparent via-loud-purple/10 to-transparent py-24 sm:py-32">
+      <section id="why" className="relative bg-gradient-to-b from-transparent via-loud-pink/10 to-transparent py-24 sm:py-32">
         <div className="mx-auto max-w-7xl px-6">
           <div className="max-w-2xl">
             <p className="text-xs uppercase tracking-[0.3em] text-loud-yellow">Why LOUDMOUF™</p>
