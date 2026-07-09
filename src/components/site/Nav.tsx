@@ -41,7 +41,7 @@ export function Nav() {
             scrolled ? "glass" : "bg-transparent"
           }`}
         >
-          <Link to="/loudmouf-logo.png" className="flex items-center">
+          <Link to="/" className="flex items-center">
             <Logo size="md" />
           </Link>
 
