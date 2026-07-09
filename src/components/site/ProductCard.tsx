@@ -63,7 +63,7 @@ export function ProductCard({ product, index }: { product: ShopifyProduct; index
 
           <Button
             onClick={() => setOpen(true)}
-            className="cta-gradient mt-5 w-full text-black hover:opacity-90 uppercase tracking-widest text-xs font-semibold"
+            className="mt-5 w-full bg-white text-black hover:bg-white/90 uppercase tracking-widest text-xs font-semibold shadow-lg shadow-black/40"
           >
             <Sparkles className="h-4 w-4 mr-1.5" /> Reserve My Share
           </Button>
