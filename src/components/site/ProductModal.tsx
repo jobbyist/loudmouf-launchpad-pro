@@ -97,6 +97,7 @@ export function ProductModal({
   const variant = product.node.variants.edges[0]?.node;
   const price = product.node.priceRange.minVariantPrice;
   const { addItem, isLoading } = useCartStore();
+  const { memberVerified, openOnboarding, openCart } = useUIStore();
 
   const handleAdd = async () => {
     if (!variant) return;
@@ -109,6 +110,13 @@ export function ProductModal({
       selectedOptions: variant.selectedOptions || [],
     });
     onOpenChange(false);
+    // First-time members must complete the Collective onboarding + SAID
+    // verification before hitting the cart. Returning members skip straight
+    // to the cart drawer.
+    setTimeout(() => {
+      if (memberVerified) openCart();
+      else openOnboarding();
+    }, 200);
   };
 
   return (
