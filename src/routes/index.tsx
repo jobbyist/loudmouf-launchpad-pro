@@ -9,6 +9,7 @@ import { Countdown } from "@/components/site/Countdown";
 import { ProductCard } from "@/components/site/ProductCard";
 import { Logo } from "@/components/site/Logo";
 import { EarlyAccessBar } from "@/components/site/EarlyAccessBar";
+import { OnboardingModal } from "@/components/site/OnboardingModal";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Progress } from "@/components/ui/progress";
@@ -436,6 +437,7 @@ function LandingPage() {
 
       <Footer />
       <EarlyAccessBar />
+      <OnboardingModal />
     </div>
   );
 }
