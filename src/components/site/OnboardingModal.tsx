@@ -154,10 +154,7 @@ export function OnboardingModal() {
 
   return (
     <Dialog open={onboardingOpen} onOpenChange={setOnboardingOpen}>
-      <DialogContent
-        showCloseButton
-        className="max-w-xl bg-loud-ink border-white/10 p-0 overflow-hidden"
-      >
+      <DialogContent className="max-w-xl bg-loud-ink border-white/10 p-0 overflow-hidden">
         <div className="relative">
           <div className="absolute inset-0 pointer-events-none gradient-loud opacity-10" />
 
