@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Loader2, Plus, ShieldCheck, Leaf, Flame } from "lucide-react";
 import type { ShopifyProduct } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
+import { useUIStore } from "@/stores/uiStore";
 import { cn } from "@/lib/utils";
 import trueGrade from "@/assets/true-grade.webp.asset.json";
 
