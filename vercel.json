@@ -6,8 +6,8 @@
   "installCommand": "npm ci",
   "env": {
     "NODE_ENV": "production",
-    "SHOPIFY_STOREFRONT_TOKEN": "997533fd82ffe57f640986f050aa1be6",
-    "SHOPIFY_STORE_DOMAIN": "loudmouf-launchpad-buagl.myshopify.com"
+"SHOPIFY_STOREFRONT_TOKEN": "@shopify-storefront-token",
+"SHOPIFY_STORE_DOMAIN": "@shopify-store-domain"
   },
   "headers": [
     {
