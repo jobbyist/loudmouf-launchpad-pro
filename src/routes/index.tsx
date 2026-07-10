@@ -11,10 +11,37 @@ import { Logo } from "@/components/site/Logo";
 import { EarlyAccessBar } from "@/components/site/EarlyAccessBar";
 import { OnboardingModal } from "@/components/site/OnboardingModal";
 import { LoudAI } from "@/components/site/LoudAI";
+<<<<<<< HEAD
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { AssetValidator } from "@/components/site/AssetValidator";
 import { Newsroom } from "@/components/site/Newsroom";
 import { ArrowRight, ShieldCheck, Leaf, FlaskConical, Truck, Sparkles, Package, Star, Check, Mic } from "lucide-react";
+=======
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import {
+  ArrowRight,
+  ShieldCheck,
+  Leaf,
+  FlaskConical,
+  Truck,
+  Sparkles,
+  Package,
+  Star,
+  Check,
+  Mic,
+} from "lucide-react";
+import heroPoster from "@/assets/hero-poster.png.asset.json";
+import heroVideo from "@/assets/hero.mp4.asset.json";
+import storyImg from "@/assets/story.png.asset.json";
+import adCreative from "@/assets/ad-creative.png.asset.json";
+import { MEMBERSHIP_PLANS } from "@/lib/launch";
+
+>>>>>>> main
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -25,7 +52,11 @@ export const Route = createFileRoute("/")({
           "SA’s first cannabis pouches made with high-grade THC and flavor-infused terpenes. Join the collective and secure your yield: Cheesecake, Blueberry & Bubblegum.",
       },
       { property: "og:title", content: "LOUDMOUF™ — Big Taste. Zero Smoke." },
-      { property: "og:description", content: "SA’s first cannabis pouches made with high-grade THC and flavor-infused terpenes. Join the collective and secure your yield: Cheesecake, Blueberry & Bubblegum." },
+      {
+        property: "og:description",
+        content:
+          "SA’s first cannabis pouches made with high-grade THC and flavor-infused terpenes. Join the collective and secure your yield: Cheesecake, Blueberry & Bubblegum.",
+      },
       { property: "og:type", content: "website" },
       { property: "og:image", content: "/images/ad-creative.png" },
       { name: "twitter:image", content: "/images/ad-creative.png" },
@@ -84,8 +115,9 @@ function LandingPage() {
               transition={{ duration: 0.8, delay: 0.3 }}
               className="mt-6 max-w-lg text-base sm:text-lg text-white/70"
             >
-              South Africa's Private Lifestyle Club for premium cannabis pouches infused with true-grade terpenes.
-              Exercise your constitutional right to private, personal cultivation within a supportive, members-only collective.
+              South Africa's Private Lifestyle Club for premium cannabis pouches infused with
+              true-grade terpenes. Exercise your constitutional right to private, personal
+              cultivation within a supportive, members-only collective.
             </motion.p>
 
             <motion.div
@@ -98,7 +130,8 @@ function LandingPage() {
                 to="/membership"
                 className="cta-gradient group inline-flex items-center gap-2 rounded-full px-7 py-4 text-sm font-semibold uppercase tracking-widest text-black shadow-xl hover:opacity-90 transition"
               >
-                Become a Member <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition" />
+                Become a Member{" "}
+                <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition" />
               </Link>
               <a
                 href="#product"
@@ -121,16 +154,26 @@ function LandingPage() {
               transition={{ duration: 0.6, delay: 0.7 }}
               className="mt-10"
             >
-              <p className="text-[11px] uppercase tracking-[0.3em] text-white/50 mb-3">Drop 001 launches in</p>
+              <p className="text-[11px] uppercase tracking-[0.3em] text-white/50 mb-3">
+                Drop 001 launches in
+              </p>
               <Countdown />
             </motion.div>
 
             {/* Trust row */}
             <div className="mt-10 flex flex-wrap items-center gap-6 text-[11px] uppercase tracking-widest text-white/50">
-              <div className="flex items-center gap-2"><Leaf className="h-4 w-4 text-loud-yellow" /> Lab Tested</div>
-              <div className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-loud-yellow" /> Premium Quality</div>
-              <div className="flex items-center gap-2"><Sparkles className="h-4 w-4 text-loud-yellow" /> 18+ Only</div>
-              <div className="flex items-center gap-2"><Truck className="h-4 w-4 text-loud-yellow" /> Discreet Delivery</div>
+              <div className="flex items-center gap-2">
+                <Leaf className="h-4 w-4 text-loud-yellow" /> Lab Tested
+              </div>
+              <div className="flex items-center gap-2">
+                <ShieldCheck className="h-4 w-4 text-loud-yellow" /> Premium Quality
+              </div>
+              <div className="flex items-center gap-2">
+                <Sparkles className="h-4 w-4 text-loud-yellow" /> 18+ Only
+              </div>
+              <div className="flex items-center gap-2">
+                <Truck className="h-4 w-4 text-loud-yellow" /> Discreet Delivery
+              </div>
             </div>
           </div>
 
@@ -156,7 +199,9 @@ function LandingPage() {
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
               <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-[10px] uppercase tracking-widest text-white/70">
                 <span>Drop 001 · Cheesecake · Blueberry · Bubblegum</span>
-                <span className="rounded-full bg-loud-yellow/90 px-2 py-1 text-black font-semibold">Limited</span>
+                <span className="rounded-full bg-loud-yellow/90 px-2 py-1 text-black font-semibold">
+                  Limited
+                </span>
               </div>
             </div>
           </motion.div>
@@ -167,8 +212,20 @@ function LandingPage() {
       <section aria-hidden className="border-y border-white/10 bg-black py-5 overflow-hidden">
         <div className="flex whitespace-nowrap animate-marquee">
           {Array.from({ length: 2 }).map((_, i) => (
-            <div key={i} className="flex items-center gap-10 pr-10 font-display uppercase text-2xl text-white/70">
-              {["Big Taste", "Zero Smoke", "Discreet", "Potent", "Unapologetic", "South African", "Lab Tested", "18+ Only"].map((w) => (
+            <div
+              key={i}
+              className="flex items-center gap-10 pr-10 font-display uppercase text-2xl text-white/70"
+            >
+              {[
+                "Big Taste",
+                "Zero Smoke",
+                "Discreet",
+                "Potent",
+                "Unapologetic",
+                "South African",
+                "Lab Tested",
+                "18+ Only",
+              ].map((w) => (
                 <span key={w} className="flex items-center gap-10">
                   {w} <span className="text-loud-yellow">✕</span>
                 </span>
@@ -183,11 +240,15 @@ function LandingPage() {
         <div className="flex flex-wrap items-end justify-between gap-6 mb-14">
           <div>
             <p className="text-xs uppercase tracking-[0.3em] text-loud-yellow">The Flavours</p>
-            <h2 className="display mt-3 text-5xl sm:text-6xl text-white">Bold Flavours.<br />Zero Smoke.</h2>
+            <h2 className="display mt-3 text-5xl sm:text-6xl text-white">
+              Bold Flavours.
+              <br />
+              Zero Smoke.
+            </h2>
           </div>
           <p className="max-w-md text-sm text-white/60">
-            Three signature strains crafted for every mood. Reserve your tin from the first production run — each shipment
-            is capped.
+            Three signature strains crafted for every mood. Reserve your tin from the first
+            production run — each shipment is capped.
           </p>
         </div>
 
@@ -203,19 +264,42 @@ function LandingPage() {
       </section>
 
       {/* WHY LOUDMOUF */}
-      <section id="why" className="relative bg-gradient-to-b from-transparent via-loud-pink/10 to-transparent py-24 sm:py-32">
+      <section
+        id="why"
+        className="relative bg-gradient-to-b from-transparent via-loud-pink/10 to-transparent py-24 sm:py-32"
+      >
         <div className="mx-auto max-w-7xl px-6">
           <div className="max-w-2xl">
             <p className="text-xs uppercase tracking-[0.3em] text-loud-yellow">Why LOUDMOUF™</p>
-            <h2 className="display mt-3 text-5xl sm:text-6xl text-white">Built Different.<br />Made Loud.</h2>
+            <h2 className="display mt-3 text-5xl sm:text-6xl text-white">
+              Built Different.
+              <br />
+              Made Loud.
+            </h2>
           </div>
 
           <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {[
-              { icon: Leaf, title: "Premium Cannabis", copy: "High-quality cannabis pouches crafted for maximum effect." },
-              { icon: ShieldCheck, title: "Discreet & Convenient", copy: "Smoke-free and odourless. Take it anywhere, anytime." },
-              { icon: FlaskConical, title: "Lab Tested", copy: "Every batch is lab tested for purity, potency and safety." },
-              { icon: Truck, title: "Discreet Delivery", copy: "Fast, discreet Courier Guy delivery straight to your door." },
+              {
+                icon: Leaf,
+                title: "Premium Cannabis",
+                copy: "High-quality cannabis pouches crafted for maximum effect.",
+              },
+              {
+                icon: ShieldCheck,
+                title: "Discreet & Convenient",
+                copy: "Smoke-free and odourless. Take it anywhere, anytime.",
+              },
+              {
+                icon: FlaskConical,
+                title: "Lab Tested",
+                copy: "Every batch is lab tested for purity, potency and safety.",
+              },
+              {
+                icon: Truck,
+                title: "Discreet Delivery",
+                copy: "Fast, discreet Courier Guy delivery straight to your door.",
+              },
             ].map((f, i) => (
               <motion.div
                 key={f.title}
@@ -240,14 +324,33 @@ function LandingPage() {
       <section className="relative mx-auto max-w-7xl px-6 py-24 sm:py-32">
         <div className="max-w-2xl">
           <p className="text-xs uppercase tracking-[0.3em] text-loud-yellow">How It Works</p>
-          <h2 className="display mt-3 text-5xl sm:text-6xl text-white">Three steps.<br />Zero friction.</h2>
+          <h2 className="display mt-3 text-5xl sm:text-6xl text-white">
+            Three steps.
+            <br />
+            Zero friction.
+          </h2>
         </div>
 
         <div className="mt-14 grid gap-6 md:grid-cols-3">
           {[
-            { n: "01", icon: Package, t: "Pre-Order", c: "Reserve your tin from Drop 001 with secure checkout via Shopify." },
-            { n: "02", icon: Sparkles, t: "Production", c: "Your tin is lab-tested, packed and readied at our Cape Town facility." },
-            { n: "03", icon: Truck, t: "Delivery", c: "The Courier Guy delivers discreetly in 3–5 working days across SA." },
+            {
+              n: "01",
+              icon: Package,
+              t: "Pre-Order",
+              c: "Reserve your tin from Drop 001 with secure checkout via Shopify.",
+            },
+            {
+              n: "02",
+              icon: Sparkles,
+              t: "Production",
+              c: "Your tin is lab-tested, packed and readied at our Cape Town facility.",
+            },
+            {
+              n: "03",
+              icon: Truck,
+              t: "Delivery",
+              c: "The Courier Guy delivers discreetly in 3–5 working days across SA.",
+            },
           ].map((s, i) => (
             <motion.div
               key={s.n}
@@ -278,7 +381,15 @@ function LandingPage() {
             transition={{ duration: 0.8 }}
             className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-white/10"
           >
+<<<<<<< HEAD
             <img src="/images/story.png" alt="LOUDMOUF brand story" className="h-full w-full object-cover" />
+=======
+            <img
+              src={storyImg.url}
+              alt="LOUDMOUF brand story"
+              className="h-full w-full object-cover"
+            />
+>>>>>>> main
           </motion.div>
           <div>
             <p className="text-xs uppercase tracking-[0.3em] text-loud-yellow">The Movement</p>
@@ -288,9 +399,9 @@ function LandingPage() {
               <span className="text-gradient-loud">A statement.</span>
             </h2>
             <p className="mt-6 max-w-lg text-white/70 leading-relaxed">
-              LOUDMOUF™ is for those who want the experience without the smoke. Born in South Africa, built for the
-              unapologetic — musicians, creatives, hustlers and the crew that moves loud without ever needing to raise
-              their voice.
+              LOUDMOUF™ is for those who want the experience without the smoke. Born in South
+              Africa, built for the unapologetic — musicians, creatives, hustlers and the crew that
+              moves loud without ever needing to raise their voice.
             </p>
             <p className="mt-4 max-w-lg text-white/70 leading-relaxed">
               Big flavour. Zero smoke. Stay loud.
@@ -307,7 +418,10 @@ function LandingPage() {
         <div className="max-w-2xl">
           <p className="text-xs uppercase tracking-[0.3em] text-loud-yellow">The Community</p>
           <h2 className="display mt-3 text-5xl sm:text-6xl text-white">Word on the street.</h2>
-          <p className="mt-4 text-white/60">Real reviews from real customers will land here once Drop 001 ships. Be one of the first.</p>
+          <p className="mt-4 text-white/60">
+            Real reviews from real customers will land here once Drop 001 ships. Be one of the
+            first.
+          </p>
         </div>
         <div className="mt-10 grid gap-5 md:grid-cols-3">
           {[1, 2, 3].map((i) => (
@@ -317,7 +431,9 @@ function LandingPage() {
                   <Star key={k} className="h-4 w-4" />
                 ))}
               </div>
-              <p className="mt-4 text-sm text-white/50">No reviews yet — be the first to share your Drop 001 experience.</p>
+              <p className="mt-4 text-sm text-white/50">
+                No reviews yet — be the first to share your Drop 001 experience.
+              </p>
               <div className="mt-6 flex items-center gap-3">
                 <div className="h-9 w-9 rounded-full bg-white/10" />
                 <div>
@@ -374,7 +490,11 @@ function LandingPage() {
                 a: "LOUDMOUF™ is sold in compliance with South African cannabis regulations for adult personal use. Strictly 18+ only.",
               },
             ].map((item, i) => (
-              <AccordionItem key={i} value={`item-${i}`} className="glass rounded-2xl border-white/10 px-6">
+              <AccordionItem
+                key={i}
+                value={`item-${i}`}
+                className="glass rounded-2xl border-white/10 px-6"
+              >
                 <AccordionTrigger className="text-left text-white hover:no-underline uppercase tracking-wider text-sm">
                   {item.q}
                 </AccordionTrigger>
@@ -391,7 +511,11 @@ function LandingPage() {
         <div className="relative mx-auto max-w-6xl px-6">
           <div className="max-w-2xl">
             <p className="text-xs uppercase tracking-[0.3em] text-loud-yellow">Membership</p>
-            <h2 className="display mt-3 text-5xl sm:text-6xl text-white">Two ways in.<br />One collective.</h2>
+            <h2 className="display mt-3 text-5xl sm:text-6xl text-white">
+              Two ways in.
+              <br />
+              One collective.
+            </h2>
           </div>
           <div className="mt-12 grid gap-6 md:grid-cols-2">
             {MEMBERSHIP_PLANS.map((plan) => (
@@ -413,13 +537,24 @@ function LandingPage() {
                   )}
                   <h3 className="display mt-4 text-3xl text-white">{plan.name}</h3>
                   <p className="mt-2 text-sm text-white/60">{plan.tagline}</p>
-                  <p className="mt-5 font-display text-5xl text-white">R{plan.monthly}<span className="text-xs uppercase tracking-widest text-white/50 ml-2">/ month</span></p>
+                  <p className="mt-5 font-display text-5xl text-white">
+                    R{plan.monthly}
+                    <span className="text-xs uppercase tracking-widest text-white/50 ml-2">
+                      / month
+                    </span>
+                  </p>
                   <ul className="mt-5 space-y-2 text-sm text-white/80">
                     {plan.benefits.slice(0, 5).map((b) => (
-                      <li key={b} className="flex gap-2"><Check className="mt-0.5 h-4 w-4 flex-shrink-0 text-loud-yellow" /><span>{b}</span></li>
+                      <li key={b} className="flex gap-2">
+                        <Check className="mt-0.5 h-4 w-4 flex-shrink-0 text-loud-yellow" />
+                        <span>{b}</span>
+                      </li>
                     ))}
                   </ul>
-                  <Link to="/membership" className={`mt-7 inline-flex w-full items-center justify-center rounded-full px-6 py-3 text-xs font-semibold uppercase tracking-widest ${plan.recommended ? "cta-gradient text-black" : "bg-white text-black hover:bg-white/90"}`}>
+                  <Link
+                    to="/membership"
+                    className={`mt-7 inline-flex w-full items-center justify-center rounded-full px-6 py-3 text-xs font-semibold uppercase tracking-widest ${plan.recommended ? "cta-gradient text-black" : "bg-white text-black hover:bg-white/90"}`}
+                  >
                     {plan.cta}
                   </Link>
                 </div>
@@ -437,15 +572,21 @@ function LandingPage() {
             <p className="text-xs uppercase tracking-[0.3em] text-loud-yellow">Launch Summit</p>
             <h2 className="display mt-3 text-4xl sm:text-5xl text-white">The Collective, live.</h2>
             <p className="mt-4 text-white/70 max-w-md">
-              An invite-only night for founding members. Music, tastings, first-run allocations and the story behind LOUDMOUF™.
+              An invite-only night for founding members. Music, tastings, first-run allocations and
+              the story behind LOUDMOUF™.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <Link to="/launch" className="cta-gradient inline-flex items-center gap-2 rounded-full px-6 py-3 text-xs font-semibold uppercase tracking-widest text-black">
+              <Link
+                to="/launch"
+                className="cta-gradient inline-flex items-center gap-2 rounded-full px-6 py-3 text-xs font-semibold uppercase tracking-widest text-black"
+              >
                 Reserve Your Seat <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
           </div>
-          <div className="relative"><Countdown /></div>
+          <div className="relative">
+            <Countdown />
+          </div>
         </div>
       </section>
 
@@ -454,17 +595,27 @@ function LandingPage() {
         <div className="rounded-3xl border border-white/10 bg-black/60 p-8 sm:p-12">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-loud-yellow flex items-center gap-2"><Mic className="h-3.5 w-3.5" /> The Big Mood Series</p>
+              <p className="text-xs uppercase tracking-[0.3em] text-loud-yellow flex items-center gap-2">
+                <Mic className="h-3.5 w-3.5" /> The Big Mood Series
+              </p>
               <h2 className="display mt-3 text-4xl sm:text-5xl text-white">Now streaming.</h2>
               <p className="mt-3 max-w-lg text-white/60 text-sm">
-                Conversations with the artists, cultivators and creatives shaping the LOUDMOUF™ Collective. Season One coming soon.
+                Conversations with the artists, cultivators and creatives shaping the LOUDMOUF™
+                Collective. Season One coming soon.
               </p>
             </div>
-            <span className="rounded-full glass px-3 py-1.5 text-[10px] uppercase tracking-widest text-gradient-loud font-semibold">Season One · Coming Soon</span>
+            <span className="rounded-full glass px-3 py-1.5 text-[10px] uppercase tracking-widest text-gradient-loud font-semibold">
+              Season One · Coming Soon
+            </span>
           </div>
           <div className="mt-6 flex flex-wrap gap-2">
             {["Spotify", "Apple Podcasts", "YouTube", "Substack", "TikTok"].map((p) => (
-              <span key={p} className="rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-[11px] uppercase tracking-widest text-white/80">{p}</span>
+              <span
+                key={p}
+                className="rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-[11px] uppercase tracking-widest text-white/80"
+              >
+                {p}
+              </span>
             ))}
           </div>
         </div>
@@ -474,10 +625,18 @@ function LandingPage() {
       <section className="relative mx-auto max-w-6xl px-6 pb-24">
         <div className="flex flex-wrap items-center justify-center gap-3 text-[10px] uppercase tracking-widest text-white/60">
           {[
-            "18+ Members Only", "Private Members Club", "Secure Verification", "POPIA Compliant",
-            "Verified Delivery Partner", "True Grade (In Progress)", "Kosher (In Progress)", "Proudly South African",
+            "18+ Members Only",
+            "Private Members Club",
+            "Secure Verification",
+            "POPIA Compliant",
+            "Verified Delivery Partner",
+            "True Grade (In Progress)",
+            "Kosher (In Progress)",
+            "Proudly South African",
           ].map((b) => (
-            <span key={b} className="glass rounded-full px-3 py-1.5">{b}</span>
+            <span key={b} className="glass rounded-full px-3 py-1.5">
+              {b}
+            </span>
           ))}
         </div>
       </section>

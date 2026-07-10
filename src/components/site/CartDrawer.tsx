@@ -1,5 +1,12 @@
 import { useEffect } from "react";
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ShoppingBasket, Minus, Plus, Trash2, ExternalLink, Loader2 } from "lucide-react";
@@ -9,7 +16,8 @@ import { incrementEarlyAccessClaimed } from "./EarlyAccessBar";
 
 export function CartDrawer() {
   const { cartOpen: open, setCartOpen: setOpen } = useUIStore();
-  const { items, isLoading, isSyncing, updateQuantity, removeItem, getCheckoutUrl, syncCart } = useCartStore();
+  const { items, isLoading, isSyncing, updateQuantity, removeItem, getCheckoutUrl, syncCart } =
+    useCartStore();
   const totalItems = items.reduce((s, i) => s + i.quantity, 0);
   const totalPrice = items.reduce((s, i) => s + parseFloat(i.price.amount) * i.quantity, 0);
   const currency = items[0]?.price.currencyCode ?? "ZAR";
@@ -44,9 +52,13 @@ export function CartDrawer() {
       </SheetTrigger>
       <SheetContent className="w-full sm:max-w-lg flex flex-col h-full bg-loud-ink border-l border-white/10">
         <SheetHeader>
-          <SheetTitle className="font-display text-2xl uppercase">Your Allocation Basket</SheetTitle>
+          <SheetTitle className="font-display text-2xl uppercase">
+            Your Allocation Basket
+          </SheetTitle>
           <SheetDescription>
-            {totalItems === 0 ? "No allocations requested yet." : `${totalItems} yield share${totalItems !== 1 ? "s" : ""} · ready to confirm.`}
+            {totalItems === 0
+              ? "No allocations requested yet."
+              : `${totalItems} yield share${totalItems !== 1 ? "s" : ""} · ready to confirm.`}
           </SheetDescription>
         </SheetHeader>
         <div className="flex flex-col flex-1 pt-4 min-h-0">
@@ -61,7 +73,10 @@ export function CartDrawer() {
             <>
               <div className="flex-1 overflow-y-auto pr-1 min-h-0 space-y-3">
                 {items.map((item) => (
-                  <div key={item.variantId} className="flex gap-3 rounded-xl border border-white/10 bg-white/5 p-3">
+                  <div
+                    key={item.variantId}
+                    className="flex gap-3 rounded-xl border border-white/10 bg-white/5 p-3"
+                  >
                     <div className="h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg bg-black/40">
                       {item.product.node.images?.edges?.[0]?.node && (
                         <img
@@ -74,7 +89,10 @@ export function CartDrawer() {
                     <div className="min-w-0 flex-1">
                       <h4 className="truncate text-sm font-semibold">{item.product.node.title}</h4>
                       <p className="text-xs text-white/50">
-                        {item.selectedOptions?.filter((o) => o.value !== "Default Title").map((o) => o.value).join(" · ") || "1 Tin · Yield Share"}
+                        {item.selectedOptions
+                          ?.filter((o) => o.value !== "Default Title")
+                          .map((o) => o.value)
+                          .join(" · ") || "1 Tin · Yield Share"}
                       </p>
                       <p className="mt-1 text-sm font-semibold text-loud-yellow">
                         {item.price.currencyCode === "ZAR" ? "R" : item.price.currencyCode + " "}
@@ -82,15 +100,35 @@ export function CartDrawer() {
                       </p>
                     </div>
                     <div className="flex flex-col items-end justify-between">
-                      <Button variant="ghost" size="icon" className="h-6 w-6 text-white/40 hover:text-white" onClick={() => removeItem(item.variantId)} aria-label="Remove allocation">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-6 w-6 text-white/40 hover:text-white"
+                        onClick={() => removeItem(item.variantId)}
+                        aria-label="Remove allocation"
+                      >
                         <Trash2 className="h-3 w-3" />
                       </Button>
                       <div className="flex items-center gap-1">
-                        <Button variant="outline" size="icon" className="h-6 w-6 border-white/20" onClick={() => updateQuantity(item.variantId, item.quantity - 1)} aria-label="Decrease">
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          className="h-6 w-6 border-white/20"
+                          onClick={() => updateQuantity(item.variantId, item.quantity - 1)}
+                          aria-label="Decrease"
+                        >
                           <Minus className="h-3 w-3" />
                         </Button>
-                        <span className="w-6 text-center text-xs tabular-nums">{item.quantity}</span>
-                        <Button variant="outline" size="icon" className="h-6 w-6 border-white/20" onClick={() => updateQuantity(item.variantId, item.quantity + 1)} aria-label="Increase">
+                        <span className="w-6 text-center text-xs tabular-nums">
+                          {item.quantity}
+                        </span>
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          className="h-6 w-6 border-white/20"
+                          onClick={() => updateQuantity(item.variantId, item.quantity + 1)}
+                          aria-label="Increase"
+                        >
                           <Plus className="h-3 w-3" />
                         </Button>
                       </div>
@@ -104,7 +142,9 @@ export function CartDrawer() {
                   <span>R150 · 3–5 days · Delivery Partner</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm uppercase tracking-widest text-white/60">Contribution Subtotal</span>
+                  <span className="text-sm uppercase tracking-widest text-white/60">
+                    Contribution Subtotal
+                  </span>
                   <span className="font-display text-2xl">
                     {currency === "ZAR" ? "R" : currency + " "}
                     {totalPrice.toFixed(2)}

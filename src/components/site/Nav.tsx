@@ -49,9 +49,13 @@ export function Nav() {
           <nav className="hidden md:flex items-center gap-7 text-[12px] uppercase tracking-[0.18em] text-white/80">
             {links.map((l) =>
               l.type === "route" ? (
-                <Link key={l.href} to={l.href} className="hover:text-loud-yellow transition">{l.label}</Link>
+                <Link key={l.href} to={l.href} className="hover:text-loud-yellow transition">
+                  {l.label}
+                </Link>
               ) : (
-                <a key={l.href} href={l.href} className="hover:text-loud-yellow transition">{l.label}</a>
+                <a key={l.href} href={l.href} className="hover:text-loud-yellow transition">
+                  {l.label}
+                </a>
               ),
             )}
           </nav>
@@ -79,9 +83,23 @@ export function Nav() {
             <nav className="flex flex-col gap-4 text-sm uppercase tracking-widest">
               {links.map((l) =>
                 l.type === "route" ? (
-                  <Link key={l.href} to={l.href} onClick={() => setOpen(false)} className="text-white/80 hover:text-loud-yellow">{l.label}</Link>
+                  <Link
+                    key={l.href}
+                    to={l.href}
+                    onClick={() => setOpen(false)}
+                    className="text-white/80 hover:text-loud-yellow"
+                  >
+                    {l.label}
+                  </Link>
                 ) : (
-                  <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="text-white/80 hover:text-loud-yellow">{l.label}</a>
+                  <a
+                    key={l.href}
+                    href={l.href}
+                    onClick={() => setOpen(false)}
+                    className="text-white/80 hover:text-loud-yellow"
+                  >
+                    {l.label}
+                  </a>
                 ),
               )}
               <Link

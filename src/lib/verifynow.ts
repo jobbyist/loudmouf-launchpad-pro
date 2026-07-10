@@ -34,11 +34,7 @@ export function parseSAID(said: string): SAIDInfo {
   const century = yy <= currentYY ? 2000 : 1900;
   const year = century + yy;
   const dob = new Date(Date.UTC(year, mm - 1, dd));
-  if (
-    dob.getUTCFullYear() !== year ||
-    dob.getUTCMonth() !== mm - 1 ||
-    dob.getUTCDate() !== dd
-  ) {
+  if (dob.getUTCFullYear() !== year || dob.getUTCMonth() !== mm - 1 || dob.getUTCDate() !== dd) {
     return { valid: false, reason: "Invalid date of birth in ID." };
   }
 

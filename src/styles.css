@@ -53,16 +53,15 @@
 :root {
   --radius: 0.875rem;
 
-  --loud-ink: oklch(0.13 0.02 280);        /* near-black w/ blue undertone */
-  --loud-graphite: oklch(0.19 0.03 280);   /* card graphite */
-  --loud-purple: oklch(0.52 0.24 285);     /* #6B1DFF */
-  --loud-yellow: oklch(0.86 0.17 82);      /* #FFC933 cheesecake */
-  --loud-blue: oklch(0.32 0.16 265);       /* #164DB6 blueberry deep */
-  --loud-blue-bright: oklch(0.55 0.19 260);/* accent blue */
-  --loud-pink: oklch(0.66 0.27 5);         /* #FF4FA2 bubblegum */
+  --loud-ink: oklch(0.13 0.02 280); /* near-black w/ blue undertone */
+  --loud-graphite: oklch(0.19 0.03 280); /* card graphite */
+  --loud-purple: oklch(0.52 0.24 285); /* #6B1DFF */
+  --loud-yellow: oklch(0.86 0.17 82); /* #FFC933 cheesecake */
+  --loud-blue: oklch(0.32 0.16 265); /* #164DB6 blueberry deep */
+  --loud-blue-bright: oklch(0.55 0.19 260); /* accent blue */
+  --loud-pink: oklch(0.66 0.27 5); /* #FF4FA2 bubblegum */
 
-
-  --background: oklch(0.10 0.02 280);
+  --background: oklch(0.1 0.02 280);
   --foreground: oklch(0.98 0.005 260);
   --card: oklch(0.15 0.03 282);
   --card-foreground: oklch(0.98 0.005 260);
@@ -72,7 +71,7 @@
   --primary-foreground: oklch(0.13 0.02 280);
   --secondary: oklch(0.22 0.04 285);
   --secondary-foreground: oklch(0.98 0.005 260);
-  --muted: oklch(0.20 0.03 282);
+  --muted: oklch(0.2 0.03 282);
   --muted-foreground: oklch(0.72 0.02 270);
   --accent: var(--loud-purple);
   --accent-foreground: oklch(0.98 0.005 260);
@@ -85,7 +84,7 @@
 
 .dark {
   /* Site is dark by default; keep parity */
-  --background: oklch(0.10 0.02 280);
+  --background: oklch(0.1 0.02 280);
   --foreground: oklch(0.98 0.005 260);
 }
 
@@ -107,7 +106,10 @@
     text-rendering: optimizeLegibility;
   }
 
-  h1, h2, h3, h4 {
+  h1,
+  h2,
+  h3,
+  h4 {
     font-family: var(--font-display);
     letter-spacing: -0.01em;
     line-height: 0.95;
@@ -134,8 +136,9 @@
 }
 
 @utility glow-purple {
-  box-shadow: 0 0 60px -10px color-mix(in oklab, var(--loud-purple) 55%, transparent),
-              0 0 120px -30px color-mix(in oklab, var(--loud-purple) 40%, transparent);
+  box-shadow:
+    0 0 60px -10px color-mix(in oklab, var(--loud-purple) 55%, transparent),
+    0 0 120px -30px color-mix(in oklab, var(--loud-purple) 40%, transparent);
 }
 
 @utility glow-yellow {
@@ -143,28 +146,39 @@
 }
 
 @utility gradient-loud {
-  background-image: linear-gradient(135deg,
+  background-image: linear-gradient(
+    135deg,
     var(--loud-yellow) 0%,
     var(--loud-pink) 55%,
-    var(--loud-blue) 100%);
+    var(--loud-blue) 100%
+  );
 }
 
 @utility cta-gradient {
-  background-image: linear-gradient(135deg,
+  background-image: linear-gradient(
+    135deg,
     var(--loud-yellow) 0%,
     var(--loud-pink) 55%,
-    var(--loud-blue-bright) 100%);
-  color: #0D0D0D;
-  transition: filter .2s ease, transform .2s ease, box-shadow .2s ease;
+    var(--loud-blue-bright) 100%
+  );
+  color: #0d0d0d;
+  transition:
+    filter 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 @utility cta-gradient-hover {
   filter: brightness(1.05);
   box-shadow: 0 10px 40px -10px color-mix(in oklab, var(--loud-pink) 55%, transparent);
 }
 
-
 @utility text-gradient-loud {
-  background-image: linear-gradient(135deg, var(--loud-yellow), var(--loud-pink) 55%, var(--loud-blue-bright));
+  background-image: linear-gradient(
+    135deg,
+    var(--loud-yellow),
+    var(--loud-pink) 55%,
+    var(--loud-blue-bright)
+  );
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -172,21 +186,38 @@
 
 @utility grid-noise {
   background-image:
-    radial-gradient(circle at 20% 10%, color-mix(in oklab, var(--loud-purple) 22%, transparent) 0, transparent 45%),
-    radial-gradient(circle at 85% 90%, color-mix(in oklab, var(--loud-blue) 22%, transparent) 0, transparent 45%);
+    radial-gradient(
+      circle at 20% 10%,
+      color-mix(in oklab, var(--loud-purple) 22%, transparent) 0,
+      transparent 45%
+    ),
+    radial-gradient(
+      circle at 85% 90%,
+      color-mix(in oklab, var(--loud-blue) 22%, transparent) 0,
+      transparent 45%
+    );
 }
 
 @keyframes marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
 @utility animate-marquee {
   animation: marquee 40s linear infinite;
 }
 
 @keyframes float-y {
-  0%,100% { transform: translateY(0); }
-  50%     { transform: translateY(-14px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
 }
 @utility animate-float {
   animation: float-y 6s ease-in-out infinite;

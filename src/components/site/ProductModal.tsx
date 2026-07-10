@@ -33,7 +33,12 @@ export const PROFILES: Record<string, ProfileMeta> = {
       { name: "Pinene", pct: 16, note: "Fresh, clear-headed focus." },
     ],
     effects: ["Uplifted mood", "Creative flow", "Sociable energy", "Daytime clarity"],
-    composition: ["Premium true-grade terpenes", "Smoke-free pouch", "Tobacco-free", "Discreet & odourless"],
+    composition: [
+      "Premium true-grade terpenes",
+      "Smoke-free pouch",
+      "Tobacco-free",
+      "Discreet & odourless",
+    ],
     accentClass: "text-loud-yellow",
     ringClass: "ring-loud-yellow/40",
     gradientClass: "from-loud-yellow/25 via-loud-yellow/5 to-transparent",
@@ -50,10 +55,16 @@ export const PROFILES: Record<string, ProfileMeta> = {
       { name: "Humulene", pct: 16, note: "Grounded, herbal balance." },
     ],
     effects: ["Deep relaxation", "Evening wind-down", "Restful sleep support", "Body ease"],
-    composition: ["Premium true-grade terpenes", "Smoke-free pouch", "Tobacco-free", "Discreet & odourless"],
+    composition: [
+      "Premium true-grade terpenes",
+      "Smoke-free pouch",
+      "Tobacco-free",
+      "Discreet & odourless",
+    ],
     accentClass: "text-[color:var(--loud-blue-bright)]",
     ringClass: "ring-[color:var(--loud-blue-bright)]/40",
-    gradientClass: "from-[color:var(--loud-blue-bright)]/25 via-[color:var(--loud-blue-bright)]/5 to-transparent",
+    gradientClass:
+      "from-[color:var(--loud-blue-bright)]/25 via-[color:var(--loud-blue-bright)]/5 to-transparent",
   },
   bubblegum: {
     strain: "Hybrid",
@@ -67,7 +78,12 @@ export const PROFILES: Record<string, ProfileMeta> = {
       { name: "Terpinolene", pct: 20, note: "Sweet, playful top-note." },
     ],
     effects: ["Balanced euphoria", "Social spark", "Playful mood", "Anytime ease"],
-    composition: ["Premium true-grade terpenes", "Smoke-free pouch", "Tobacco-free", "Discreet & odourless"],
+    composition: [
+      "Premium true-grade terpenes",
+      "Smoke-free pouch",
+      "Tobacco-free",
+      "Discreet & odourless",
+    ],
     accentClass: "text-loud-pink",
     ringClass: "ring-loud-pink/40",
     gradientClass: "from-loud-pink/25 via-loud-pink/5 to-transparent",
@@ -89,7 +105,10 @@ export function ProductModal({
   onOpenChange: (v: boolean) => void;
   product: ShopifyProduct;
 }) {
-  const cleanTitle = product.node.title.replace(/LOUDMOUF™\s*/i, "").replace(/—.*/, "").trim();
+  const cleanTitle = product.node.title
+    .replace(/LOUDMOUF™\s*/i, "")
+    .replace(/—.*/, "")
+    .trim();
   const profile = resolveProfile(cleanTitle);
   const images = product.node.images.edges.map((e) => e.node);
   const [active, setActive] = useState(0);
@@ -124,7 +143,12 @@ export function ProductModal({
         <div className="grid md:grid-cols-2">
           {/* Gallery */}
           <div className={cn("relative p-6 bg-gradient-to-br", profile.gradientClass)}>
-            <div className={cn("relative aspect-square overflow-hidden rounded-2xl bg-black/40 ring-1", profile.ringClass)}>
+            <div
+              className={cn(
+                "relative aspect-square overflow-hidden rounded-2xl bg-black/40 ring-1",
+                profile.ringClass,
+              )}
+            >
               {images[active] && (
                 <img
                   src={images[active].url}
@@ -171,32 +195,41 @@ export function ProductModal({
             {/* THC scale */}
             <div>
               <div className="flex items-center justify-between text-[11px] uppercase tracking-widest text-white/60">
-                <span className="flex items-center gap-1.5"><Flame className="h-3.5 w-3.5" /> Potency</span>
+                <span className="flex items-center gap-1.5">
+                  <Flame className="h-3.5 w-3.5" /> Potency
+                </span>
                 <span className={profile.accentClass}>{profile.thc}%</span>
               </div>
               <div className="mt-2 h-2 w-full rounded-full bg-white/10 overflow-hidden">
-                <div
-                  className="h-full cta-gradient"
-                  style={{ width: `${profile.thc}%` }}
-                />
+                <div className="h-full cta-gradient" style={{ width: `${profile.thc}%` }} />
               </div>
               <div className="mt-1 flex justify-between text-[9px] uppercase tracking-widest text-white/30">
-                <span>Mellow</span><span>Balanced</span><span>Loud</span>
+                <span>Mellow</span>
+                <span>Balanced</span>
+                <span>Loud</span>
               </div>
             </div>
 
             {/* Terpene profile */}
             <div>
-              <p className="text-[11px] uppercase tracking-widest text-white/60 mb-2">Terpene Profile</p>
+              <p className="text-[11px] uppercase tracking-widest text-white/60 mb-2">
+                Terpene Profile
+              </p>
               <div className="space-y-2">
                 {profile.terpenes.map((t) => (
-                  <div key={t.name} className="rounded-lg border border-white/10 bg-white/[0.03] p-2.5">
+                  <div
+                    key={t.name}
+                    className="rounded-lg border border-white/10 bg-white/[0.03] p-2.5"
+                  >
                     <div className="flex items-center justify-between text-xs">
                       <span className="font-semibold text-white">{t.name}</span>
                       <span className={cn("tabular-nums", profile.accentClass)}>{t.pct}%</span>
                     </div>
                     <div className="mt-1 h-1 w-full rounded-full bg-white/5 overflow-hidden">
-                      <div className={cn("h-full", profile.accentClass.replace("text-", "bg-"))} style={{ width: `${t.pct * 2}%` }} />
+                      <div
+                        className={cn("h-full", profile.accentClass.replace("text-", "bg-"))}
+                        style={{ width: `${t.pct * 2}%` }}
+                      />
                     </div>
                     <p className="mt-1 text-[11px] text-white/50">{t.note}</p>
                   </div>
@@ -210,15 +243,23 @@ export function ProductModal({
                 <p className="text-[11px] uppercase tracking-widest text-white/60 mb-2">Effects</p>
                 <ul className="space-y-1 text-xs text-white/70">
                   {profile.effects.map((e) => (
-                    <li key={e} className="flex items-center gap-1.5"><Leaf className="h-3 w-3 text-loud-yellow" />{e}</li>
+                    <li key={e} className="flex items-center gap-1.5">
+                      <Leaf className="h-3 w-3 text-loud-yellow" />
+                      {e}
+                    </li>
                   ))}
                 </ul>
               </div>
               <div>
-                <p className="text-[11px] uppercase tracking-widest text-white/60 mb-2">Composition</p>
+                <p className="text-[11px] uppercase tracking-widest text-white/60 mb-2">
+                  Composition
+                </p>
                 <ul className="space-y-1 text-xs text-white/70">
                   {profile.composition.map((e) => (
-                    <li key={e} className="flex items-center gap-1.5"><ShieldCheck className="h-3 w-3 text-loud-yellow" />{e}</li>
+                    <li key={e} className="flex items-center gap-1.5">
+                      <ShieldCheck className="h-3 w-3 text-loud-yellow" />
+                      {e}
+                    </li>
                   ))}
                 </ul>
               </div>
@@ -226,20 +267,32 @@ export function ProductModal({
 
             <div className="flex items-end justify-between pt-2 border-t border-white/10">
               <div>
-                <p className="text-[10px] uppercase tracking-widest text-white/40">Member contribution</p>
+                <p className="text-[10px] uppercase tracking-widest text-white/40">
+                  Member contribution
+                </p>
                 <p className="font-display text-3xl text-white leading-none mt-1">
                   R{parseFloat(price.amount).toFixed(0)}
-                  <span className="ml-2 text-xs align-middle text-white/40 line-through">R{(parseFloat(price.amount) / 0.75).toFixed(0)}</span>
+                  <span className="ml-2 text-xs align-middle text-white/40 line-through">
+                    R{(parseFloat(price.amount) / 0.75).toFixed(0)}
+                  </span>
                 </p>
-                <p className={cn("mt-1 text-[10px] uppercase tracking-widest", profile.accentClass)}>Early access · 25% off</p>
+                <p
+                  className={cn("mt-1 text-[10px] uppercase tracking-widest", profile.accentClass)}
+                >
+                  Early access · 25% off
+                </p>
               </div>
               <Button
                 onClick={handleAdd}
                 disabled={isLoading || !variant}
                 className="cta-gradient text-black hover:opacity-90 uppercase tracking-widest text-xs font-semibold px-6"
               >
-                {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : (
-                  <><Plus className="h-4 w-4 mr-1" /> Secure This Yield Share</>
+                {isLoading ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <>
+                    <Plus className="h-4 w-4 mr-1" /> Secure This Yield Share
+                  </>
                 )}
               </Button>
             </div>

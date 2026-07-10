@@ -22,9 +22,28 @@ interface FormState {
   consent: boolean;
 }
 
-const TIERS: Array<{ id: "standard" | "premium"; name: string; sub: string; price: string; accent: string }> = [
-  { id: "standard", name: "Standard Membership", sub: "Enter the Collective · portal, tracker, community.", price: "R99 / month", accent: "from-loud-yellow/20 to-transparent border-loud-yellow/40" },
-  { id: "premium", name: "Premium Membership", sub: "Rewards Card · loyalty · cashback · priority.", price: "R149 / month", accent: "from-loud-pink/25 via-loud-yellow/10 to-[color:var(--loud-blue-bright)]/20 border-loud-pink/40" },
+const TIERS: Array<{
+  id: "standard" | "premium";
+  name: string;
+  sub: string;
+  price: string;
+  accent: string;
+}> = [
+  {
+    id: "standard",
+    name: "Standard Membership",
+    sub: "Enter the Collective · portal, tracker, community.",
+    price: "R99 / month",
+    accent: "from-loud-yellow/20 to-transparent border-loud-yellow/40",
+  },
+  {
+    id: "premium",
+    name: "Premium Membership",
+    sub: "Rewards Card · loyalty · cashback · priority.",
+    price: "R149 / month",
+    accent:
+      "from-loud-pink/25 via-loud-yellow/10 to-[color:var(--loud-blue-bright)]/20 border-loud-pink/40",
+  },
 ];
 
 const STEP_TITLES = [
@@ -37,7 +56,8 @@ const STEP_TITLES = [
 ];
 
 export function OnboardingModal() {
-  const { onboardingOpen, setOnboardingOpen, closeOnboarding, openCart, setMemberVerified } = useUIStore();
+  const { onboardingOpen, setOnboardingOpen, closeOnboarding, openCart, setMemberVerified } =
+    useUIStore();
   const [step, setStep] = useState(0);
   const [form, setForm] = useState<FormState>({
     firstName: "",
@@ -70,17 +90,24 @@ export function OnboardingModal() {
 
   function validateStep(): string | null {
     if (step === 0) {
-      const s = z.object({
-        firstName: z.string().trim().min(1, "First name is required").max(80),
-        lastName: z.string().trim().min(1, "Last name is required").max(80),
-      }).safeParse(form);
+      const s = z
+        .object({
+          firstName: z.string().trim().min(1, "First name is required").max(80),
+          lastName: z.string().trim().min(1, "Last name is required").max(80),
+        })
+        .safeParse(form);
       return s.success ? null : s.error.issues[0].message;
     }
     if (step === 1) {
-      const s = z.object({
-        email: z.string().trim().email("Enter a valid email"),
-        mobile: z.string().trim().regex(/^(\+?27|0)[6-8][0-9]{8}$/, "Enter a valid SA mobile number"),
-      }).safeParse(form);
+      const s = z
+        .object({
+          email: z.string().trim().email("Enter a valid email"),
+          mobile: z
+            .string()
+            .trim()
+            .regex(/^(\+?27|0)[6-8][0-9]{8}$/, "Enter a valid SA mobile number"),
+        })
+        .safeParse(form);
       return s.success ? null : s.error.issues[0].message;
     }
     if (step === 2) {
@@ -188,16 +215,39 @@ export function OnboardingModal() {
                 {step === 0 && (
                   <>
                     <p className="text-sm text-white/70">
-                      LOUDMOUF™ is a private members-only lifestyle club. Tell us who's joining — this must match your South African ID.
+                      LOUDMOUF™ is a private members-only lifestyle club. Tell us who's joining —
+                      this must match your South African ID.
                     </p>
                     <div className="grid grid-cols-2 gap-3">
                       <div>
-                        <Label htmlFor="fn" className="text-xs uppercase tracking-widest text-white/60">First name</Label>
-                        <Input id="fn" value={form.firstName} onChange={(e) => update("firstName", e.target.value)} className="mt-1 bg-white/5 border-white/10 text-white" placeholder="Kagiso" />
+                        <Label
+                          htmlFor="fn"
+                          className="text-xs uppercase tracking-widest text-white/60"
+                        >
+                          First name
+                        </Label>
+                        <Input
+                          id="fn"
+                          value={form.firstName}
+                          onChange={(e) => update("firstName", e.target.value)}
+                          className="mt-1 bg-white/5 border-white/10 text-white"
+                          placeholder="Kagiso"
+                        />
                       </div>
                       <div>
-                        <Label htmlFor="ln" className="text-xs uppercase tracking-widest text-white/60">Last name</Label>
-                        <Input id="ln" value={form.lastName} onChange={(e) => update("lastName", e.target.value)} className="mt-1 bg-white/5 border-white/10 text-white" placeholder="Mokoena" />
+                        <Label
+                          htmlFor="ln"
+                          className="text-xs uppercase tracking-widest text-white/60"
+                        >
+                          Last name
+                        </Label>
+                        <Input
+                          id="ln"
+                          value={form.lastName}
+                          onChange={(e) => update("lastName", e.target.value)}
+                          className="mt-1 bg-white/5 border-white/10 text-white"
+                          placeholder="Mokoena"
+                        />
                       </div>
                     </div>
                   </>
@@ -206,15 +256,40 @@ export function OnboardingModal() {
                 {step === 1 && (
                   <>
                     <p className="text-sm text-white/70">
-                      We'll send your membership confirmation and drop invites here. Kept private, never shared.
+                      We'll send your membership confirmation and drop invites here. Kept private,
+                      never shared.
                     </p>
                     <div>
-                      <Label htmlFor="em" className="text-xs uppercase tracking-widest text-white/60">Email</Label>
-                      <Input id="em" type="email" value={form.email} onChange={(e) => update("email", e.target.value)} className="mt-1 bg-white/5 border-white/10 text-white" placeholder="you@domain.co.za" />
+                      <Label
+                        htmlFor="em"
+                        className="text-xs uppercase tracking-widest text-white/60"
+                      >
+                        Email
+                      </Label>
+                      <Input
+                        id="em"
+                        type="email"
+                        value={form.email}
+                        onChange={(e) => update("email", e.target.value)}
+                        className="mt-1 bg-white/5 border-white/10 text-white"
+                        placeholder="you@domain.co.za"
+                      />
                     </div>
                     <div>
-                      <Label htmlFor="mb" className="text-xs uppercase tracking-widest text-white/60">Mobile</Label>
-                      <Input id="mb" type="tel" value={form.mobile} onChange={(e) => update("mobile", e.target.value)} className="mt-1 bg-white/5 border-white/10 text-white" placeholder="082 123 4567" />
+                      <Label
+                        htmlFor="mb"
+                        className="text-xs uppercase tracking-widest text-white/60"
+                      >
+                        Mobile
+                      </Label>
+                      <Input
+                        id="mb"
+                        type="tel"
+                        value={form.mobile}
+                        onChange={(e) => update("mobile", e.target.value)}
+                        className="mt-1 bg-white/5 border-white/10 text-white"
+                        placeholder="082 123 4567"
+                      />
                     </div>
                   </>
                 )}
@@ -222,17 +297,26 @@ export function OnboardingModal() {
                 {step === 2 && (
                   <>
                     <p className="text-sm text-white/70">
-                      Membership requires SA ID verification via VerifyNow — this confirms you're 18+ and legally eligible.
+                      Membership requires SA ID verification via VerifyNow — this confirms you're
+                      18+ and legally eligible.
                     </p>
                     <div>
-                      <Label htmlFor="said" className="text-xs uppercase tracking-widest text-white/60">SA ID number</Label>
+                      <Label
+                        htmlFor="said"
+                        className="text-xs uppercase tracking-widest text-white/60"
+                      >
+                        SA ID number
+                      </Label>
                       <div className="mt-1 flex gap-2">
                         <Input
                           id="said"
                           inputMode="numeric"
                           maxLength={13}
                           value={form.said}
-                          onChange={(e) => { update("said", e.target.value.replace(/\D/g, "").slice(0, 13)); setSaidInfo(null); }}
+                          onChange={(e) => {
+                            update("said", e.target.value.replace(/\D/g, "").slice(0, 13));
+                            setSaidInfo(null);
+                          }}
                           className="bg-white/5 border-white/10 text-white font-mono tabular-nums tracking-wider"
                           placeholder="13 digits"
                         />
@@ -248,21 +332,38 @@ export function OnboardingModal() {
                     </div>
 
                     {saidInfo && (
-                      <div className={cn(
-                        "rounded-xl border p-3 text-xs",
-                        saidInfo.valid
-                          ? "border-loud-yellow/30 bg-loud-yellow/5 text-white"
-                          : "border-loud-pink/40 bg-loud-pink/5 text-white/90"
-                      )}>
+                      <div
+                        className={cn(
+                          "rounded-xl border p-3 text-xs",
+                          saidInfo.valid
+                            ? "border-loud-yellow/30 bg-loud-yellow/5 text-white"
+                            : "border-loud-pink/40 bg-loud-pink/5 text-white/90",
+                        )}
+                      >
                         {saidInfo.valid ? (
                           <div className="space-y-1">
                             <div className="flex items-center gap-2 text-loud-yellow font-semibold uppercase tracking-widest">
                               <ShieldCheck className="h-3.5 w-3.5" /> Verified · VerifyNow
                             </div>
                             <div className="grid grid-cols-3 gap-2 text-white/70">
-                              <div><span className="text-white/40 block text-[10px] uppercase tracking-widest">DOB</span>{saidInfo.dob}</div>
-                              <div><span className="text-white/40 block text-[10px] uppercase tracking-widest">Age</span>{saidInfo.age}</div>
-                              <div><span className="text-white/40 block text-[10px] uppercase tracking-widest">Status</span>{saidInfo.citizenship === "SA" ? "SA Citizen" : "PR"}</div>
+                              <div>
+                                <span className="text-white/40 block text-[10px] uppercase tracking-widest">
+                                  DOB
+                                </span>
+                                {saidInfo.dob}
+                              </div>
+                              <div>
+                                <span className="text-white/40 block text-[10px] uppercase tracking-widest">
+                                  Age
+                                </span>
+                                {saidInfo.age}
+                              </div>
+                              <div>
+                                <span className="text-white/40 block text-[10px] uppercase tracking-widest">
+                                  Status
+                                </span>
+                                {saidInfo.citizenship === "SA" ? "SA Citizen" : "PR"}
+                              </div>
                             </div>
                           </div>
                         ) : (
@@ -278,7 +379,10 @@ export function OnboardingModal() {
 
                 {step === 3 && (
                   <div className="space-y-2">
-                    <p className="text-sm text-white/70">Select the monthly contribution tier that fits your lifestyle. You can change it later in the member portal.</p>
+                    <p className="text-sm text-white/70">
+                      Select the monthly contribution tier that fits your lifestyle. You can change
+                      it later in the member portal.
+                    </p>
                     {TIERS.map((t) => (
                       <button
                         key={t.id}
@@ -293,7 +397,9 @@ export function OnboardingModal() {
                         <div className="flex items-center justify-between">
                           <div>
                             <p className="font-display text-lg text-white leading-none">{t.name}</p>
-                            <p className="text-[11px] uppercase tracking-widest text-white/60 mt-1">{t.sub}</p>
+                            <p className="text-[11px] uppercase tracking-widest text-white/60 mt-1">
+                              {t.sub}
+                            </p>
                           </div>
                           <div className="text-right">
                             <p className="text-sm font-semibold text-white">{t.price}</p>
@@ -311,11 +417,24 @@ export function OnboardingModal() {
 
                 {step === 4 && (
                   <div className="space-y-3 text-sm text-white/70">
-                    <p>By joining you agree to the LOUDMOUF™ Membership Agreement, our Community Guidelines and the Private-Use Mandate: allocations are for your personal, non-commercial use only.</p>
+                    <p>
+                      By joining you agree to the LOUDMOUF™ Membership Agreement, our Community
+                      Guidelines and the Private-Use Mandate: allocations are for your personal,
+                      non-commercial use only.
+                    </p>
                     <ul className="space-y-1.5 text-xs">
-                      <li className="flex gap-2"><Check className="h-4 w-4 text-loud-yellow flex-shrink-0" /> I am 18 years or older and legally competent.</li>
-                      <li className="flex gap-2"><Check className="h-4 w-4 text-loud-yellow flex-shrink-0" /> I delegate my private cultivation rights to LOUDMOUF™ under the Mandate framework.</li>
-                      <li className="flex gap-2"><Check className="h-4 w-4 text-loud-yellow flex-shrink-0" /> I will consume only in private, in accordance with SA law.</li>
+                      <li className="flex gap-2">
+                        <Check className="h-4 w-4 text-loud-yellow flex-shrink-0" /> I am 18 years
+                        or older and legally competent.
+                      </li>
+                      <li className="flex gap-2">
+                        <Check className="h-4 w-4 text-loud-yellow flex-shrink-0" /> I delegate my
+                        private cultivation rights to LOUDMOUF™ under the Mandate framework.
+                      </li>
+                      <li className="flex gap-2">
+                        <Check className="h-4 w-4 text-loud-yellow flex-shrink-0" /> I will consume
+                        only in private, in accordance with SA law.
+                      </li>
                     </ul>
                     <label className="flex items-start gap-3 rounded-xl border border-white/10 bg-white/5 p-3 cursor-pointer">
                       <input
@@ -325,7 +444,8 @@ export function OnboardingModal() {
                         className="mt-0.5 h-4 w-4 accent-loud-yellow"
                       />
                       <span className="text-xs text-white/80">
-                        I accept the Membership Agreement, Community Guidelines and consent to my personal data being processed for verification and fulfilment purposes.
+                        I accept the Membership Agreement, Community Guidelines and consent to my
+                        personal data being processed for verification and fulfilment purposes.
                       </span>
                     </label>
                   </div>
@@ -338,14 +458,13 @@ export function OnboardingModal() {
                     </div>
                     <h3 className="display mt-5 text-3xl text-white">Welcome, {form.firstName}.</h3>
                     <p className="mt-2 text-sm text-white/60 max-w-sm mx-auto">
-                      Your Collective membership is active. Continue to your cart to secure your first monthly allocation.
+                      Your Collective membership is active. Continue to your cart to secure your
+                      first monthly allocation.
                     </p>
                   </div>
                 )}
 
-                {error && step !== 5 && (
-                  <p className="text-xs text-loud-pink">{error}</p>
-                )}
+                {error && step !== 5 && <p className="text-xs text-loud-pink">{error}</p>}
               </motion.div>
             </AnimatePresence>
           </div>
