@@ -13,6 +13,7 @@ import { OnboardingModal } from "@/components/site/OnboardingModal";
 import { LoudAI } from "@/components/site/LoudAI";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { AssetValidator } from "@/components/site/AssetValidator";
+import { Newsroom } from "@/components/site/Newsroom";
 import { ArrowRight, ShieldCheck, Leaf, FlaskConical, Truck, Sparkles, Package, Star, Check, Mic } from "lucide-react";
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -334,6 +335,9 @@ function LandingPage() {
           <span>Influencer collabs — apply below</span>
         </div>
       </section>
+
+      {/* NEWSROOM */}
+      <Newsroom />
 
       {/* FAQ */}
       <section id="faq" className="relative bg-black/40 py-24">

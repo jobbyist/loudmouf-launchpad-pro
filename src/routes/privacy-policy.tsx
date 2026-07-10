@@ -58,7 +58,13 @@ export const Route = createFileRoute("/privacy-policy")({
       <h2>6. Data Security & Retention</h2>
       <p>
         We use industry-standard measures to protect personal information and retain it only as long as required for
-        business or legal purposes.
+        business or legal purposes. Under POPIA compliance, user information is stored securely and automatically 
+        deleted from our database after 6 months of member account inactivity. You will receive a notification 
+        before data deletion occurs, and you may reactivate your account at any time to prevent automatic deletion.
+      </p>
+      <p>
+        Active members' data is retained for the duration of their membership and for a reasonable period after 
+        membership termination as required by law or legitimate business interests.
       </p>
 
       <h2>7. Contact the Information Officer</h2>
