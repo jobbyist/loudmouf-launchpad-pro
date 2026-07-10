@@ -11,37 +11,11 @@ import { Logo } from "@/components/site/Logo";
 import { EarlyAccessBar } from "@/components/site/EarlyAccessBar";
 import { OnboardingModal } from "@/components/site/OnboardingModal";
 import { LoudAI } from "@/components/site/LoudAI";
-<<<<<<< HEAD
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { AssetValidator } from "@/components/site/AssetValidator";
 import { Newsroom } from "@/components/site/Newsroom";
 import { ArrowRight, ShieldCheck, Leaf, FlaskConical, Truck, Sparkles, Package, Star, Check, Mic } from "lucide-react";
-=======
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import {
-  ArrowRight,
-  ShieldCheck,
-  Leaf,
-  FlaskConical,
-  Truck,
-  Sparkles,
-  Package,
-  Star,
-  Check,
-  Mic,
-} from "lucide-react";
-import heroPoster from "@/assets/hero-poster.png.asset.json";
-import heroVideo from "@/assets/hero.mp4.asset.json";
-import storyImg from "@/assets/story.png.asset.json";
-import adCreative from "@/assets/ad-creative.png.asset.json";
 import { MEMBERSHIP_PLANS } from "@/lib/launch";
-
->>>>>>> main
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
