@@ -85,14 +85,22 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "author", content: "LOUDMOUF™ / Gravitas Industries (Pty) Ltd" },
       { name: "theme-color", content: "#0D0D0D" },
       { property: "og:title", content: "LOUDMOUF™ — Private Lifestyle Club" },
-      { property: "og:description", content: "South Africa's Private Lifestyle Club for premium cannabis pouches. 18+ Members only." },
+      {
+        property: "og:description",
+        content:
+          "South Africa's Private Lifestyle Club for premium cannabis pouches. 18+ Members only.",
+      },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "LOUDMOUF" },
       { property: "og:url", content: "https://loudmouf.co.za/" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@loudmoufza" },
       { name: "twitter:title", content: "LOUDMOUF™ — Private Lifestyle Club" },
-      { name: "twitter:description", content: "South Africa's Private Lifestyle Club for premium cannabis pouches. 18+ Members only." },
+      {
+        name: "twitter:description",
+        content:
+          "South Africa's Private Lifestyle Club for premium cannabis pouches. 18+ Members only.",
+      },
     ],
     links: [
       { rel: "stylesheet", href: appCss },

@@ -25,7 +25,11 @@ export const Route = createFileRoute("/membership")({
           "Two paths into the LOUDMOUF™ Collective. Standard at R99/month or Premium at R149/month with Rewards Card, loyalty, cashback and priority access.",
       },
       { property: "og:title", content: "Membership — LOUDMOUF™ Private Lifestyle Club" },
-      { property: "og:description", content: "Standard R99 or Premium R149 with LOUDMOUF™ Rewards Card, cashback and priority access." },
+      {
+        property: "og:description",
+        content:
+          "Standard R99 or Premium R149 with LOUDMOUF™ Rewards Card, cashback and priority access.",
+      },
     ],
   }),
   component: MembershipPage,
@@ -55,11 +59,13 @@ function MembershipPage() {
             transition={{ delay: 0.1 }}
             className="display mt-4 text-5xl sm:text-6xl md:text-7xl text-white"
           >
-            Two ways to join <br className="hidden sm:block" />the <span className="text-gradient-loud">Collective.</span>
+            Two ways to join <br className="hidden sm:block" />
+            the <span className="text-gradient-loud">Collective.</span>
           </motion.h1>
           <p className="mx-auto mt-6 max-w-xl text-white/70">
-            LOUDMOUF™ is a Private Lifestyle Club. Choose the monthly contribution that fits your lifestyle —
-            yield allocations are requested separately at R{YIELD_CONTRIBUTION_PER_TIN} per tin.
+            LOUDMOUF™ is a Private Lifestyle Club. Choose the monthly contribution that fits your
+            lifestyle — yield allocations are requested separately at R{YIELD_CONTRIBUTION_PER_TIN}{" "}
+            per tin.
           </p>
         </div>
       </section>
@@ -96,8 +102,12 @@ function MembershipPage() {
                 <p className="mt-2 text-sm text-white/60">{plan.tagline}</p>
 
                 <div className="mt-6 flex items-end gap-2">
-                  <span className="font-display text-6xl text-white leading-none">R{plan.monthly}</span>
-                  <span className="pb-1.5 text-xs uppercase tracking-widest text-white/50">/ month</span>
+                  <span className="font-display text-6xl text-white leading-none">
+                    R{plan.monthly}
+                  </span>
+                  <span className="pb-1.5 text-xs uppercase tracking-widest text-white/50">
+                    / month
+                  </span>
                 </div>
 
                 <ul className="mt-6 space-y-2.5 text-sm text-white/80">
@@ -129,12 +139,15 @@ function MembershipPage() {
       {/* Contribution calculator */}
       <section className="relative mx-auto max-w-4xl px-6 pb-24">
         <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-8 backdrop-blur-md">
-          <p className="text-xs uppercase tracking-[0.3em] text-loud-yellow">Contribution Calculator</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-loud-yellow">
+            Contribution Calculator
+          </p>
           <h2 className="display mt-3 text-3xl sm:text-4xl text-white">
             Estimate your monthly contribution.
           </h2>
           <p className="mt-2 text-sm text-white/60">
-            Monthly membership + yield allocation requests × R{YIELD_CONTRIBUTION_PER_TIN} = total monthly contribution.
+            Monthly membership + yield allocation requests × R{YIELD_CONTRIBUTION_PER_TIN} = total
+            monthly contribution.
           </p>
 
           <div className="mt-6">
@@ -157,16 +170,17 @@ function MembershipPage() {
             {MEMBERSHIP_PLANS.map((plan) => {
               const total = estimateMonthlyContribution(plan.monthly, allocations);
               return (
-                <div
-                  key={plan.id}
-                  className="rounded-2xl border border-white/10 bg-black/40 p-4"
-                >
+                <div key={plan.id} className="rounded-2xl border border-white/10 bg-black/40 p-4">
                   <p className="text-[11px] uppercase tracking-widest text-white/50">{plan.name}</p>
                   <p className="mt-1 text-sm text-white/60">
                     R{plan.monthly} + {allocations} × R{YIELD_CONTRIBUTION_PER_TIN}
                   </p>
-                  <p className="mt-2 font-display text-4xl text-gradient-loud">R{total.toLocaleString("en-ZA")}</p>
-                  <p className="text-[10px] uppercase tracking-widest text-white/40">Total monthly</p>
+                  <p className="mt-2 font-display text-4xl text-gradient-loud">
+                    R{total.toLocaleString("en-ZA")}
+                  </p>
+                  <p className="text-[10px] uppercase tracking-widest text-white/40">
+                    Total monthly
+                  </p>
                 </div>
               );
             })}
@@ -174,7 +188,10 @@ function MembershipPage() {
         </div>
 
         <p className="mt-8 text-center text-xs uppercase tracking-widest text-white/40">
-          Already a member? <Link to="/member-dashboard" className="text-loud-yellow hover:opacity-80">Open your dashboard →</Link>
+          Already a member?{" "}
+          <Link to="/member-dashboard" className="text-loud-yellow hover:opacity-80">
+            Open your dashboard →
+          </Link>
         </p>
       </section>
 

@@ -10,7 +10,10 @@ export function ProductCard({ product, index }: { product: ShopifyProduct; index
   const [open, setOpen] = useState(false);
   const image = product.node.images.edges[0]?.node;
   const price = product.node.priceRange.minVariantPrice;
-  const cleanTitle = product.node.title.replace(/LOUDMOUF™\s*/i, "").replace(/—.*/, "").trim();
+  const cleanTitle = product.node.title
+    .replace(/LOUDMOUF™\s*/i, "")
+    .replace(/—.*/, "")
+    .trim();
   const profile = resolveProfile(cleanTitle);
 
   return (
@@ -25,7 +28,12 @@ export function ProductCard({ product, index }: { product: ShopifyProduct; index
           "hover:border-white/20 hover:-translate-y-1 transition-all duration-500",
         )}
       >
-        <div className={cn("pointer-events-none absolute inset-0 bg-gradient-to-br opacity-60", profile.gradientClass)} />
+        <div
+          className={cn(
+            "pointer-events-none absolute inset-0 bg-gradient-to-br opacity-60",
+            profile.gradientClass,
+          )}
+        />
         <div className="relative">
           <button
             onClick={() => setOpen(true)}

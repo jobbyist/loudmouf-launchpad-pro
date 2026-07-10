@@ -66,24 +66,24 @@ The build is **soft-launch ready as a marketing + member-registration surface**.
 
 **72 / 100**
 
-| Area | Score |
-|---|---|
-| Brand & Terminology | 90 |
-| Membership Architecture | 90 |
-| Legal Pages | 75 |
-| Backend / VerifyNow | 40 |
-| AI Assistant | 45 (shell only) |
-| SEO | 75 |
-| Accessibility | 70 |
-| Performance | 80 |
-| Security | 65 |
+| Area                    | Score           |
+| ----------------------- | --------------- |
+| Brand & Terminology     | 90              |
+| Membership Architecture | 90              |
+| Legal Pages             | 75              |
+| Backend / VerifyNow     | 40              |
+| AI Assistant            | 45 (shell only) |
+| SEO                     | 75              |
+| Accessibility           | 70              |
+| Performance             | 80              |
+| Security                | 65              |
 
 ---
 
 ## Security Checklist
 
 - [x] Publishable/anon key in client, service role never exposed.
-- [x] SA ID validated (Luhn + age gate) *before* any network call.
+- [x] SA ID validated (Luhn + age gate) _before_ any network call.
 - [x] Masked SA ID persisted (`900101*******`) — never full.
 - [x] External links use `noreferrer` where target=_blank.
 - [ ] CSP headers (Lovable hosting default; strict CSP TBD).
