@@ -18,14 +18,13 @@ interface FormState {
   email: string;
   mobile: string;
   said: string;
-  tier: "pink" | "yellow" | "blue" | "";
+  tier: "standard" | "premium" | "";
   consent: boolean;
 }
 
-const TIERS: Array<{ id: "pink" | "yellow" | "blue"; name: string; sub: string; price: string; accent: string }> = [
-  { id: "pink", name: "Pink Tier", sub: "Entry-level personal allocation", price: "R350 – R550 / month", accent: "from-loud-pink/30 to-transparent border-loud-pink/40" },
-  { id: "yellow", name: "Yellow Tier", sub: "Mid-level balanced allocation", price: "R650 – R950 / month", accent: "from-loud-yellow/30 to-transparent border-loud-yellow/40" },
-  { id: "blue", name: "Deep Blue Tier", sub: "Premium full allocation", price: "R1,050 – R1,250 / month", accent: "from-[color:var(--loud-blue-bright)]/30 to-transparent border-[color:var(--loud-blue-bright)]/40" },
+const TIERS: Array<{ id: "standard" | "premium"; name: string; sub: string; price: string; accent: string }> = [
+  { id: "standard", name: "Standard Membership", sub: "Enter the Collective · portal, tracker, community.", price: "R99 / month", accent: "from-loud-yellow/20 to-transparent border-loud-yellow/40" },
+  { id: "premium", name: "Premium Membership", sub: "Rewards Card · loyalty · cashback · priority.", price: "R149 / month", accent: "from-loud-pink/25 via-loud-yellow/10 to-[color:var(--loud-blue-bright)]/20 border-loud-pink/40" },
 ];
 
 const STEP_TITLES = [

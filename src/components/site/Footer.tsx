@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Logo } from "./Logo";
-import { Instagram, Facebook, Send, Apple, Smartphone } from "lucide-react";
+import { Instagram, Facebook, Send, Apple, Smartphone, Music2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
@@ -34,7 +34,7 @@ export function Footer() {
         <div className="lg:col-span-1">
           <Logo size="lg" />
           <p className="mt-4 max-w-xs text-sm text-white/60">
-            A private members collective for those who want the experience without the smoke. Discreet. Potent. Community-first.
+            A Private Lifestyle Club for members who want the experience without the smoke. Discreet. Potent. Community-first.
           </p>
           <div className="mt-6 flex items-center gap-3">
             <a href="https://instagram.com" aria-label="Instagram" className="glass grid h-10 w-10 place-items-center rounded-full hover:text-loud-yellow">
@@ -42,6 +42,9 @@ export function Footer() {
             </a>
             <a href="https://facebook.com" aria-label="Facebook" className="glass grid h-10 w-10 place-items-center rounded-full hover:text-loud-yellow">
               <Facebook className="h-4 w-4" />
+            </a>
+            <a href="https://tiktok.com/@loudmoufza" aria-label="TikTok" className="glass grid h-10 w-10 place-items-center rounded-full hover:text-loud-yellow">
+              <Music2 className="h-4 w-4" />
             </a>
             <a href="https://wa.me/27680200749" aria-label="WhatsApp" className="glass grid h-10 w-10 place-items-center rounded-full hover:text-loud-yellow">
               <Send className="h-4 w-4" />
@@ -52,19 +55,21 @@ export function Footer() {
         <div>
           <h4 className="text-xs uppercase tracking-widest text-gradient-loud font-semibold">The Collective</h4>
           <ul className="mt-4 space-y-2 text-sm text-white/70">
-            <li><a href="/#product" className="hover:text-white">Yield Profiles</a></li>
-            <li><a href="/#preorder" className="hover:text-white">Reserve My Share</a></li>
-            <li><Link to="/launch" className="hover:text-white">Launch Event</Link></li>
+            <li><a href="/#product" className="hover:text-white">Available Yield Profiles</a></li>
+            <li><Link to="/membership" className="hover:text-white">Membership Plans</Link></li>
+            <li><Link to="/member-dashboard" className="hover:text-white">Member Dashboard</Link></li>
+            <li><Link to="/launch" className="hover:text-white">Launch Summit</Link></li>
             <li><Link to="/track-my-order" className="hover:text-white">Track My Allocation</Link></li>
           </ul>
         </div>
 
         <div>
-          <h4 className="text-xs uppercase tracking-widest text-gradient-loud font-semibold">Membership</h4>
+          <h4 className="text-xs uppercase tracking-widest text-gradient-loud font-semibold">Legal</h4>
           <ul className="mt-4 space-y-2 text-sm text-white/70">
             <li><Link to="/shipping-policy" className="hover:text-white">Delivery Policy</Link></li>
-            <li><Link to="/refund-policy" className="hover:text-white">Returns & Exchanges</Link></li>
+            <li><Link to="/refund-policy" className="hover:text-white">Refund Policy</Link></li>
             <li><Link to="/terms" className="hover:text-white">Membership Agreement</Link></li>
+            <li><Link to="/community-guidelines" className="hover:text-white">Community Guidelines</Link></li>
             <li><Link to="/privacy-policy" className="hover:text-white">Privacy Policy</Link></li>
             <li><Link to="/contact" className="hover:text-white">Contact</Link></li>
           </ul>
@@ -97,12 +102,19 @@ export function Footer() {
               <StoreBadge icon={Smartphone} top="Get it on" bottom="Google Play" />
             </div>
           </div>
+
+          <div className="mt-5">
+            <p className="text-[10px] uppercase tracking-widest text-white/40 mb-2">Delivery Partner</p>
+            <div className="rounded-md border border-white/15 bg-white/[0.06] px-3 py-2 text-[11px] font-semibold uppercase tracking-widest text-white/80 inline-block">
+              Verified SA Delivery Partner · 3–5 days
+            </div>
+          </div>
         </div>
       </div>
 
       <div className="border-t border-white/10">
         <div className="mx-auto max-w-7xl px-6 py-6 flex flex-col md:flex-row items-center justify-between gap-3 text-[11px] uppercase tracking-widest text-white/40">
-          <p>© {new Date().getFullYear()} Gravitas Industries (Pty) Ltd t/a LOUDMOUF™ · CK 2024/596436/07</p>
+          <p>© 2026 LOUDMOUF™ · Gravitas Industries (Pty) Ltd · CK 2024/596436/07</p>
           <p className="text-gradient-loud font-semibold">18+ Private Members Only · Keep out of reach of children</p>
         </div>
       </div>

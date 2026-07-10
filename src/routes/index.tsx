@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { fetchProducts } from "@/lib/shopify";
@@ -10,15 +10,14 @@ import { ProductCard } from "@/components/site/ProductCard";
 import { Logo } from "@/components/site/Logo";
 import { EarlyAccessBar } from "@/components/site/EarlyAccessBar";
 import { OnboardingModal } from "@/components/site/OnboardingModal";
-import { Button } from "@/components/ui/button";
+import { LoudAI } from "@/components/site/LoudAI";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Progress } from "@/components/ui/progress";
-import { ArrowRight, ShieldCheck, Leaf, FlaskConical, Truck, Sparkles, Package, Clock, MessageSquare, Star } from "lucide-react";
+import { ArrowRight, ShieldCheck, Leaf, FlaskConical, Truck, Sparkles, Package, Star, Check, Mic } from "lucide-react";
 import heroPoster from "@/assets/hero-poster.png.asset.json";
 import heroVideo from "@/assets/hero.mp4.asset.json";
 import storyImg from "@/assets/story.png.asset.json";
-import productsHero from "@/assets/products-hero.png.asset.json";
 import adCreative from "@/assets/ad-creative.png.asset.json";
+import { MEMBERSHIP_PLANS } from "@/lib/launch";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -79,9 +78,9 @@ function LandingPage() {
               transition={{ duration: 0.8, delay: 0.1 }}
               className="display mt-6 text-6xl sm:text-7xl md:text-8xl text-white"
             >
-              <span className="italic text-loud-yellow">Big</span> Taste.
+              <span className="text-gradient-loud">BIG</span> Taste.
               <br />
-              <span className="italic text-loud-pink">Zero</span> Smoke.
+              <span className="text-gradient-loud">ZERO</span> Smoke.
             </motion.h1>
 
             <motion.p
@@ -90,7 +89,8 @@ function LandingPage() {
               transition={{ duration: 0.8, delay: 0.3 }}
               className="mt-6 max-w-lg text-base sm:text-lg text-white/70"
             >
-              South Africa's first cannabis pouches infused with premium true-grade terpenes. Exercise your constitutional right to personal cultivation within a supportive, members-only collective.
+              South Africa's Private Lifestyle Club for premium cannabis pouches infused with true-grade terpenes.
+              Exercise your constitutional right to private, personal cultivation within a supportive, members-only collective.
             </motion.p>
 
             <motion.div
@@ -99,17 +99,23 @@ function LandingPage() {
               transition={{ duration: 0.6, delay: 0.5 }}
               className="mt-8 flex flex-wrap items-center gap-3"
             >
-              <a
-                href="#preorder"
+              <Link
+                to="/membership"
                 className="cta-gradient group inline-flex items-center gap-2 rounded-full px-7 py-4 text-sm font-semibold uppercase tracking-widest text-black shadow-xl hover:opacity-90 transition"
               >
-                Join The Collective <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition" />
-              </a>
+                Become a Member <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition" />
+              </Link>
               <a
                 href="#product"
                 className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-7 py-4 text-sm font-semibold uppercase tracking-widest text-white hover:bg-white/10"
               >
-                View Yield Profiles
+                Secure My Yield
+              </a>
+              <a
+                href="#why"
+                className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-transparent px-7 py-4 text-sm font-semibold uppercase tracking-widest text-white/80 hover:text-white hover:border-white/40"
+              >
+                Learn More
               </a>
             </motion.div>
 
@@ -381,63 +387,107 @@ function LandingPage() {
         </div>
       </section>
 
-      {/* PRE-ORDER CTA */}
-      <section id="preorder" className="relative overflow-hidden py-24 sm:py-32">
-        <div className="absolute inset-0 gradient-loud opacity-25" />
-        <div className="absolute inset-0 grid-noise" />
-        <div className="relative mx-auto max-w-5xl px-6 text-center">
-          <p className="text-xs uppercase tracking-[0.3em] text-loud-yellow">Reserve Your Tin</p>
-          <h2 className="display mt-4 text-6xl sm:text-7xl md:text-8xl text-white">
-            Drop 001 is <span className="italic text-loud-yellow">loud</span>.
-            <br />
-            And limited.
-          </h2>
-          <p className="mt-6 mx-auto max-w-xl text-white/70">
-            Only 2,000 tins from the first production run. Reserve yours before the campaign closes.
-          </p>
+      {/* MEMBERSHIP */}
+      <section id="membership" className="relative overflow-hidden py-24 sm:py-32">
+        <div className="absolute inset-0 gradient-loud opacity-10" />
+        <div className="relative mx-auto max-w-6xl px-6">
+          <div className="max-w-2xl">
+            <p className="text-xs uppercase tracking-[0.3em] text-loud-yellow">Membership</p>
+            <h2 className="display mt-3 text-5xl sm:text-6xl text-white">Two ways in.<br />One collective.</h2>
+          </div>
+          <div className="mt-12 grid gap-6 md:grid-cols-2">
+            {MEMBERSHIP_PLANS.map((plan) => (
+              <div
+                key={plan.id}
+                className={`relative rounded-3xl border p-8 backdrop-blur-md overflow-hidden ${plan.recommended ? "border-transparent bg-loud-ink" : "border-white/10 bg-white/[0.03]"}`}
+              >
+                {plan.recommended && (
+                  <>
+                    <span className="pointer-events-none absolute inset-0 rounded-3xl gradient-loud opacity-70" />
+                    <span className="pointer-events-none absolute inset-[2px] rounded-[calc(1.5rem-2px)] bg-loud-ink" />
+                  </>
+                )}
+                <div className="relative">
+                  {plan.recommended && (
+                    <span className="inline-flex items-center gap-1.5 rounded-full glass px-3 py-1 text-[10px] uppercase tracking-widest text-loud-yellow">
+                      <Star className="h-3 w-3" /> Recommended
+                    </span>
+                  )}
+                  <h3 className="display mt-4 text-3xl text-white">{plan.name}</h3>
+                  <p className="mt-2 text-sm text-white/60">{plan.tagline}</p>
+                  <p className="mt-5 font-display text-5xl text-white">R{plan.monthly}<span className="text-xs uppercase tracking-widest text-white/50 ml-2">/ month</span></p>
+                  <ul className="mt-5 space-y-2 text-sm text-white/80">
+                    {plan.benefits.slice(0, 5).map((b) => (
+                      <li key={b} className="flex gap-2"><Check className="mt-0.5 h-4 w-4 flex-shrink-0 text-loud-yellow" /><span>{b}</span></li>
+                    ))}
+                  </ul>
+                  <Link to="/membership" className={`mt-7 inline-flex w-full items-center justify-center rounded-full px-6 py-3 text-xs font-semibold uppercase tracking-widest ${plan.recommended ? "cta-gradient text-black" : "bg-white text-black hover:bg-white/90"}`}>
+                    {plan.cta}
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-          <div className="mt-10 mx-auto max-w-md">
-            <div className="flex items-center justify-between text-[11px] uppercase tracking-widest text-white/60 mb-2">
-              <span>Founding members · limited to 2,000</span>
-              <span className="text-gradient-loud font-semibold">25% off</span>
+      {/* LAUNCH SUMMIT */}
+      <section className="relative mx-auto max-w-6xl px-6 py-20">
+        <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-8 sm:p-12 grid gap-8 lg:grid-cols-[1.2fr_1fr] items-center overflow-hidden relative">
+          <div className="absolute -right-16 -top-16 h-64 w-64 rounded-full gradient-loud opacity-20 blur-3xl" />
+          <div className="relative">
+            <p className="text-xs uppercase tracking-[0.3em] text-loud-yellow">Launch Summit</p>
+            <h2 className="display mt-3 text-4xl sm:text-5xl text-white">The Collective, live.</h2>
+            <p className="mt-4 text-white/70 max-w-md">
+              An invite-only night for founding members. Music, tastings, first-run allocations and the story behind LOUDMOUF™.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Link to="/launch" className="cta-gradient inline-flex items-center gap-2 rounded-full px-6 py-3 text-xs font-semibold uppercase tracking-widest text-black">
+                Reserve Your Seat <ArrowRight className="h-4 w-4" />
+              </Link>
             </div>
-            <Progress value={62} className="h-2 bg-white/10" />
           </div>
+          <div className="relative"><Countdown /></div>
+        </div>
+      </section>
 
-          <div className="mt-10 flex justify-center">
-            <Countdown />
+      {/* PODCAST */}
+      <section className="relative mx-auto max-w-6xl px-6 py-20">
+        <div className="rounded-3xl border border-white/10 bg-black/60 p-8 sm:p-12">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="text-xs uppercase tracking-[0.3em] text-loud-yellow flex items-center gap-2"><Mic className="h-3.5 w-3.5" /> The Big Mood Series</p>
+              <h2 className="display mt-3 text-4xl sm:text-5xl text-white">Now streaming.</h2>
+              <p className="mt-3 max-w-lg text-white/60 text-sm">
+                Conversations with the artists, cultivators and creatives shaping the LOUDMOUF™ Collective. Season One coming soon.
+              </p>
+            </div>
+            <span className="rounded-full glass px-3 py-1.5 text-[10px] uppercase tracking-widest text-gradient-loud font-semibold">Season One · Coming Soon</span>
           </div>
+          <div className="mt-6 flex flex-wrap gap-2">
+            {["Spotify", "Apple Podcasts", "YouTube", "Substack", "TikTok"].map((p) => (
+              <span key={p} className="rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-[11px] uppercase tracking-widest text-white/80">{p}</span>
+            ))}
+          </div>
+        </div>
+      </section>
 
-          <div className="mt-10 flex flex-wrap justify-center gap-3">
-            <a
-              href="#product"
-              className="cta-gradient group inline-flex items-center gap-2 rounded-full px-8 py-4 text-sm font-semibold uppercase tracking-widest text-black shadow-xl hover:opacity-90 transition"
-            >
-              Reserve My Monthly Share <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition" />
-            </a>
-            <a
-              href="https://wa.me/27680200749"
-              className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-8 py-4 text-sm font-semibold uppercase tracking-widest text-white hover:bg-white/10"
-            >
-              <MessageSquare className="h-4 w-4" /> Chat on WhatsApp
-            </a>
-          </div>
-
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-6 text-[11px] uppercase tracking-widest text-white/50">
-            <div className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-loud-yellow" /> Secure Shopify Checkout</div>
-            <div className="flex items-center gap-2"><Truck className="h-4 w-4 text-loud-yellow" /> The Courier Guy · 3–5 Days</div>
-            <div className="flex items-center gap-2"><Clock className="h-4 w-4 text-loud-yellow" /> Ships within 4 weeks</div>
-          </div>
-
-          <div className="mt-14 relative mx-auto max-w-2xl">
-            <img src={productsHero.url} alt="LOUDMOUF product lineup" className="mx-auto w-full rounded-3xl border border-white/10" loading="lazy" />
-          </div>
+      {/* TRUST BADGES */}
+      <section className="relative mx-auto max-w-6xl px-6 pb-24">
+        <div className="flex flex-wrap items-center justify-center gap-3 text-[10px] uppercase tracking-widest text-white/60">
+          {[
+            "18+ Members Only", "Private Members Club", "Secure Verification", "POPIA Compliant",
+            "Verified Delivery Partner", "True Grade (In Progress)", "Kosher (In Progress)", "Proudly South African",
+          ].map((b) => (
+            <span key={b} className="glass rounded-full px-3 py-1.5">{b}</span>
+          ))}
         </div>
       </section>
 
       <Footer />
       <EarlyAccessBar />
       <OnboardingModal />
+      <LoudAI />
     </div>
   );
 }
