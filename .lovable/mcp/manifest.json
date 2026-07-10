@@ -1,0 +1,81 @@
+{
+  "version": 1,
+  "sdk_version": "0.20.0",
+  "path": "/mcp",
+  "auth": {
+    "type": "none"
+  },
+  "mcp": {
+    "server": {
+      "name": "loudmouf-mcp",
+      "version": "0.1.0",
+      "title": "LOUDMOUF™ Collective"
+    },
+    "tools": [
+      {
+        "name": "list_flavors",
+        "title": "List LOUDMOUF flavors",
+        "description": "Return all LOUDMOUF™ cannabis pouch flavors currently on the Shopify storefront — title, description, price (ZAR), image, and Shopify handle.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": true
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_launch_info",
+        "title": "Get LOUDMOUF launch info",
+        "description": "Get the LOUDMOUF™ Collective Drop 001 launch date, time-until-launch, member cap (2000), and current founder-tier spots claimed vs remaining.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": false,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_membership_tiers",
+        "title": "List Collective membership tiers",
+        "description": "Return the LOUDMOUF™ Collective private-membership tiers (Pink, Yellow, Deep Blue) with monthly contribution ranges in ZAR and monthly pouch allocation ranges.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_brand_info",
+        "title": "Get LOUDMOUF brand info",
+        "description": "Get an overview of LOUDMOUF™ — South Africa's first premium cannabis nicotine-free pouch brand — including positioning, product format, and the Collective private-members club model.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
