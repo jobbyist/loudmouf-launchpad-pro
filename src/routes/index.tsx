@@ -12,6 +12,7 @@ import { EarlyAccessBar } from "@/components/site/EarlyAccessBar";
 import { OnboardingModal } from "@/components/site/OnboardingModal";
 import { LoudAI } from "@/components/site/LoudAI";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { AssetValidator } from "@/components/site/AssetValidator";
 import { ArrowRight, ShieldCheck, Leaf, FlaskConical, Truck, Sparkles, Package, Star, Check, Mic } from "lucide-react";
 import heroPoster from "@/assets/hero-poster.png.asset.json";
 import heroVideo from "@/assets/hero.mp4.asset.json";
@@ -484,6 +485,7 @@ function LandingPage() {
         </div>
       </section>
 
+      <AssetValidator />
       <Footer />
       <EarlyAccessBar />
       <OnboardingModal />
