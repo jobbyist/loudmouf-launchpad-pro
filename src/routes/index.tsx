@@ -355,15 +355,7 @@ function LandingPage() {
             transition={{ duration: 0.8 }}
             className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-white/10"
           >
-<<<<<<< HEAD
             <img src="/images/story.png" alt="LOUDMOUF brand story" className="h-full w-full object-cover" />
-=======
-            <img
-              src={storyImg.url}
-              alt="LOUDMOUF brand story"
-              className="h-full w-full object-cover"
-            />
->>>>>>> main
           </motion.div>
           <div>
             <p className="text-xs uppercase tracking-[0.3em] text-loud-yellow">The Movement</p>
