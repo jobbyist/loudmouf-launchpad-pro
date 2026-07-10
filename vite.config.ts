@@ -15,5 +15,10 @@ export default defineConfig({
   },
   vite: {
     plugins: [mcpPlugin()],
+    // Ensure public directory is correctly configured for SSR asset resolution
+    publicDir: "public",
+    server: {
+      fs: { allow: ["."] },
+    },
   },
 });

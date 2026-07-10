@@ -6,7 +6,6 @@ import type { ShopifyProduct } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
 import { useUIStore } from "@/stores/uiStore";
 import { cn } from "@/lib/utils";
-import trueGrade from "@/assets/true-grade.webp.asset.json";
 
 export interface ProfileMeta {
   strain: "Sativa" | "Indica" | "Hybrid";
@@ -158,7 +157,7 @@ export function ProductModal({
                 />
               )}
               <img
-                src={trueGrade.url}
+                src="/images/true-grade.webp"
                 alt="True Grade Quality"
                 className="absolute bottom-3 right-3 h-16 w-16 opacity-90"
               />
