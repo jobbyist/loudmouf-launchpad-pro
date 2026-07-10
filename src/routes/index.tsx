@@ -14,8 +14,6 @@ import { LoudAI } from "@/components/site/LoudAI";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { AssetValidator } from "@/components/site/AssetValidator";
 import { ArrowRight, ShieldCheck, Leaf, FlaskConical, Truck, Sparkles, Package, Star, Check, Mic } from "lucide-react";
-import heroPoster from "@/assets/hero-poster.png.asset.json";
-import heroVideo from "@/assets/hero.mp4.asset.json";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -28,10 +26,9 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "LOUDMOUF™ — Big Taste. Zero Smoke." },
       { property: "og:description", content: "SA’s first cannabis pouches made with high-grade THC and flavor-infused terpenes. Join the collective and secure your yield: Cheesecake, Blueberry & Bubblegum." },
       { property: "og:type", content: "website" },
-      { property: "og:image", content: adCreative.url },
       { property: "og:image", content: "/images/ad-creative.png" },
-      { name: "twitter:image", content: adCreative.url },
       { name: "twitter:image", content: "/images/ad-creative.png" },
+    ],
     links: [{ rel: "canonical", href: "https://loudmouf.co.za/" }],
   }),
   component: LandingPage,
