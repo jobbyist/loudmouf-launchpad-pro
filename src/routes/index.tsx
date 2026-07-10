@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { fetchProducts } from "@/lib/shopify";
@@ -10,15 +10,14 @@ import { ProductCard } from "@/components/site/ProductCard";
 import { Logo } from "@/components/site/Logo";
 import { EarlyAccessBar } from "@/components/site/EarlyAccessBar";
 import { OnboardingModal } from "@/components/site/OnboardingModal";
-import { Button } from "@/components/ui/button";
+import { LoudAI } from "@/components/site/LoudAI";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Progress } from "@/components/ui/progress";
-import { ArrowRight, ShieldCheck, Leaf, FlaskConical, Truck, Sparkles, Package, Clock, MessageSquare, Star } from "lucide-react";
+import { ArrowRight, ShieldCheck, Leaf, FlaskConical, Truck, Sparkles, Package, Star, Check, Mic } from "lucide-react";
 import heroPoster from "@/assets/hero-poster.png.asset.json";
 import heroVideo from "@/assets/hero.mp4.asset.json";
 import storyImg from "@/assets/story.png.asset.json";
-import productsHero from "@/assets/products-hero.png.asset.json";
 import adCreative from "@/assets/ad-creative.png.asset.json";
+import { MEMBERSHIP_PLANS } from "@/lib/launch";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -79,9 +78,9 @@ function LandingPage() {
               transition={{ duration: 0.8, delay: 0.1 }}
               className="display mt-6 text-6xl sm:text-7xl md:text-8xl text-white"
             >
-              <span className="italic text-loud-yellow">Big</span> Taste.
+              <span className="text-gradient-loud">BIG</span> Taste.
               <br />
-              <span className="italic text-loud-pink">Zero</span> Smoke.
+              <span className="text-gradient-loud">ZERO</span> Smoke.
             </motion.h1>
 
             <motion.p
@@ -90,7 +89,8 @@ function LandingPage() {
               transition={{ duration: 0.8, delay: 0.3 }}
               className="mt-6 max-w-lg text-base sm:text-lg text-white/70"
             >
-              South Africa's first cannabis pouches infused with premium true-grade terpenes. Exercise your constitutional right to personal cultivation within a supportive, members-only collective.
+              South Africa's Private Lifestyle Club for premium cannabis pouches infused with true-grade terpenes.
+              Exercise your constitutional right to private, personal cultivation within a supportive, members-only collective.
             </motion.p>
 
             <motion.div
@@ -99,17 +99,23 @@ function LandingPage() {
               transition={{ duration: 0.6, delay: 0.5 }}
               className="mt-8 flex flex-wrap items-center gap-3"
             >
-              <a
-                href="#preorder"
+              <Link
+                to="/membership"
                 className="cta-gradient group inline-flex items-center gap-2 rounded-full px-7 py-4 text-sm font-semibold uppercase tracking-widest text-black shadow-xl hover:opacity-90 transition"
               >
-                Join The Collective <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition" />
-              </a>
+                Become a Member <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition" />
+              </Link>
               <a
                 href="#product"
                 className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-7 py-4 text-sm font-semibold uppercase tracking-widest text-white hover:bg-white/10"
               >
-                View Yield Profiles
+                Secure My Yield
+              </a>
+              <a
+                href="#why"
+                className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-transparent px-7 py-4 text-sm font-semibold uppercase tracking-widest text-white/80 hover:text-white hover:border-white/40"
+              >
+                Learn More
               </a>
             </motion.div>
 

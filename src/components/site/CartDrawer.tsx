@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ShoppingCart, Minus, Plus, Trash2, ExternalLink, Loader2 } from "lucide-react";
+import { ShoppingBasket, Minus, Plus, Trash2, ExternalLink, Loader2 } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
 import { useUIStore } from "@/stores/uiStore";
 import { incrementEarlyAccessClaimed } from "./EarlyAccessBar";
@@ -32,9 +32,9 @@ export function CartDrawer() {
       <SheetTrigger asChild>
         <button
           className="relative inline-flex h-10 w-10 items-center justify-center rounded-full glass hover:glow-purple transition"
-          aria-label="Open cart"
+          aria-label="Open member basket"
         >
-          <ShoppingCart className="h-4 w-4" />
+          <ShoppingBasket className="h-4 w-4" />
           {totalItems > 0 && (
             <Badge className="absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 flex items-center justify-center text-[10px] bg-loud-yellow text-black">
               {totalItems}
@@ -44,17 +44,17 @@ export function CartDrawer() {
       </SheetTrigger>
       <SheetContent className="w-full sm:max-w-lg flex flex-col h-full bg-loud-ink border-l border-white/10">
         <SheetHeader>
-          <SheetTitle className="font-display text-2xl uppercase">Your Cart</SheetTitle>
+          <SheetTitle className="font-display text-2xl uppercase">Your Allocation Basket</SheetTitle>
           <SheetDescription>
-            {totalItems === 0 ? "Nothing here yet." : `${totalItems} item${totalItems !== 1 ? "s" : ""} — ready when you are.`}
+            {totalItems === 0 ? "No allocations requested yet." : `${totalItems} yield share${totalItems !== 1 ? "s" : ""} · ready to confirm.`}
           </SheetDescription>
         </SheetHeader>
         <div className="flex flex-col flex-1 pt-4 min-h-0">
           {items.length === 0 ? (
             <div className="flex-1 grid place-items-center text-center">
               <div>
-                <ShoppingCart className="mx-auto h-10 w-10 text-white/30" />
-                <p className="mt-3 text-sm text-white/50">Your cart is empty.</p>
+                <ShoppingBasket className="mx-auto h-10 w-10 text-white/30" />
+                <p className="mt-3 text-sm text-white/50">Your basket is empty.</p>
               </div>
             </div>
           ) : (
@@ -74,7 +74,7 @@ export function CartDrawer() {
                     <div className="min-w-0 flex-1">
                       <h4 className="truncate text-sm font-semibold">{item.product.node.title}</h4>
                       <p className="text-xs text-white/50">
-                        {item.selectedOptions?.filter((o) => o.value !== "Default Title").map((o) => o.value).join(" · ") || "1 Tin"}
+                        {item.selectedOptions?.filter((o) => o.value !== "Default Title").map((o) => o.value).join(" · ") || "1 Tin · Yield Share"}
                       </p>
                       <p className="mt-1 text-sm font-semibold text-loud-yellow">
                         {item.price.currencyCode === "ZAR" ? "R" : item.price.currencyCode + " "}
@@ -82,15 +82,15 @@ export function CartDrawer() {
                       </p>
                     </div>
                     <div className="flex flex-col items-end justify-between">
-                      <Button variant="ghost" size="icon" className="h-6 w-6 text-white/40 hover:text-white" onClick={() => removeItem(item.variantId)}>
+                      <Button variant="ghost" size="icon" className="h-6 w-6 text-white/40 hover:text-white" onClick={() => removeItem(item.variantId)} aria-label="Remove allocation">
                         <Trash2 className="h-3 w-3" />
                       </Button>
                       <div className="flex items-center gap-1">
-                        <Button variant="outline" size="icon" className="h-6 w-6 border-white/20" onClick={() => updateQuantity(item.variantId, item.quantity - 1)}>
+                        <Button variant="outline" size="icon" className="h-6 w-6 border-white/20" onClick={() => updateQuantity(item.variantId, item.quantity - 1)} aria-label="Decrease">
                           <Minus className="h-3 w-3" />
                         </Button>
                         <span className="w-6 text-center text-xs tabular-nums">{item.quantity}</span>
-                        <Button variant="outline" size="icon" className="h-6 w-6 border-white/20" onClick={() => updateQuantity(item.variantId, item.quantity + 1)}>
+                        <Button variant="outline" size="icon" className="h-6 w-6 border-white/20" onClick={() => updateQuantity(item.variantId, item.quantity + 1)} aria-label="Increase">
                           <Plus className="h-3 w-3" />
                         </Button>
                       </div>
@@ -101,10 +101,10 @@ export function CartDrawer() {
               <div className="mt-4 space-y-4 border-t border-white/10 pt-4">
                 <div className="flex items-center justify-between text-sm text-white/60">
                   <span>Delivery</span>
-                  <span>R150 · 3–5 days · Courier Guy</span>
+                  <span>R150 · 3–5 days · Delivery Partner</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm uppercase tracking-widest text-white/60">Subtotal</span>
+                  <span className="text-sm uppercase tracking-widest text-white/60">Contribution Subtotal</span>
                   <span className="font-display text-2xl">
                     {currency === "ZAR" ? "R" : currency + " "}
                     {totalPrice.toFixed(2)}
@@ -120,12 +120,12 @@ export function CartDrawer() {
                     <Loader2 className="h-4 w-4 animate-spin" />
                   ) : (
                     <>
-                      <ExternalLink className="h-4 w-4 mr-2" /> Secure Checkout
+                      <ExternalLink className="h-4 w-4 mr-2" /> Confirm Contribution
                     </>
                   )}
                 </Button>
                 <p className="text-[10px] text-center uppercase tracking-widest text-white/40">
-                  Powered by Shopify · Visa · Mastercard · Apple Pay
+                  Secure member portal · Visa · Mastercard · Apple Pay · EFT
                 </p>
               </div>
             </>

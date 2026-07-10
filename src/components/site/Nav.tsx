@@ -6,10 +6,11 @@ import { Menu, X } from "lucide-react";
 
 const links = [
   { label: "Home", href: "/#home", type: "hash" as const },
-  { label: "Allocations", href: "/#product", type: "hash" as const },
-  { label: "The Collective", href: "/#why", type: "hash" as const },
-  { label: "Launch Event", href: "/launch", type: "route" as const },
-  { label: "FAQs", href: "/#faq", type: "hash" as const },
+  { label: "Yield Profiles", href: "/#product", type: "hash" as const },
+  { label: "Membership", href: "/membership", type: "route" as const },
+  { label: "Dashboard", href: "/member-dashboard", type: "route" as const },
+  { label: "Launch Summit", href: "/launch", type: "route" as const },
+  { label: "Community", href: "/community-guidelines", type: "route" as const },
 ];
 
 export function Nav() {
@@ -25,9 +26,9 @@ export function Nav() {
 
   return (
     <>
-      <div className="fixed inset-x-0 top-0 z-50 h-8 flex items-center justify-center bg-black text-[11px] uppercase tracking-[0.25em]">
+      <div className="fixed inset-x-0 top-0 z-50 h-8 flex items-center justify-center bg-black text-[11px] uppercase tracking-[0.25em] px-4 text-center">
         <Link to="/launch" className="text-gradient-loud font-semibold hover:opacity-80">
-          Reserve your spot at our official launch event · 18+ Members Only
+          Soft Launch · Reserve your seat at the LOUDMOUF™ Launch Summit · 18+ Members Only
         </Link>
       </div>
 
@@ -56,12 +57,12 @@ export function Nav() {
           </nav>
 
           <div className="flex items-center gap-2">
-            <a
-              href="/#preorder"
+            <Link
+              to="/membership"
               className="cta-gradient hidden sm:inline-flex items-center rounded-full px-4 py-2 text-[11px] font-semibold uppercase tracking-widest text-black shadow-md"
             >
-              Join The Club
-            </a>
+              Become a Member
+            </Link>
             <CartDrawer />
             <button
               className="md:hidden inline-flex h-10 w-10 items-center justify-center rounded-full glass"
@@ -83,13 +84,13 @@ export function Nav() {
                   <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="text-white/80 hover:text-loud-yellow">{l.label}</a>
                 ),
               )}
-              <a
-                href="/#preorder"
+              <Link
+                to="/membership"
                 onClick={() => setOpen(false)}
                 className="cta-gradient mt-2 inline-flex items-center justify-center rounded-full px-4 py-3 text-xs font-semibold uppercase tracking-widest text-black"
               >
-                Join The Club
-              </a>
+                Become a Member
+              </Link>
             </nav>
           </div>
         )}
