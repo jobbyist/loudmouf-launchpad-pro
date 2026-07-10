@@ -1,5 +1,4 @@
 import { defineTool } from "@lovable.dev/mcp-js";
-import { z } from "zod";
 import {
   SHOPIFY_STOREFRONT_URL,
   SHOPIFY_STOREFRONT_TOKEN,
@@ -59,4 +58,3 @@ export default defineTool({
     };
   },
 });
-export const _schema = z.object({});
