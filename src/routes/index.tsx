@@ -16,10 +16,6 @@ import { AssetValidator } from "@/components/site/AssetValidator";
 import { ArrowRight, ShieldCheck, Leaf, FlaskConical, Truck, Sparkles, Package, Star, Check, Mic } from "lucide-react";
 import heroPoster from "@/assets/hero-poster.png.asset.json";
 import heroVideo from "@/assets/hero.mp4.asset.json";
-import storyImg from "@/assets/story.png.asset.json";
-import adCreative from "@/assets/ad-creative.png.asset.json";
-import { MEMBERSHIP_PLANS } from "@/lib/launch";
-
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -33,9 +29,9 @@ export const Route = createFileRoute("/")({
       { property: "og:description", content: "SA’s first cannabis pouches made with high-grade THC and flavor-infused terpenes. Join the collective and secure your yield: Cheesecake, Blueberry & Bubblegum." },
       { property: "og:type", content: "website" },
       { property: "og:image", content: adCreative.url },
-      { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:image", content: "/images/ad-creative.png" },
       { name: "twitter:image", content: adCreative.url },
-    ],
+      { name: "twitter:image", content: "/images/ad-creative.png" },
     links: [{ rel: "canonical", href: "https://loudmouf.co.za/" }],
   }),
   component: LandingPage,
@@ -154,10 +150,10 @@ function LandingPage() {
                 muted
                 loop
                 playsInline
-                poster={heroPoster.url}
+                poster="/images/hero-poster.png"
                 className="h-full w-full object-cover"
               >
-                <source src={heroVideo.url} type="video/mp4" />
+                <source src="/images/hero.mp4" type="video/mp4" />
               </video>
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
               <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-[10px] uppercase tracking-widest text-white/70">
@@ -284,7 +280,7 @@ function LandingPage() {
             transition={{ duration: 0.8 }}
             className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-white/10"
           >
-            <img src={storyImg.url} alt="LOUDMOUF brand story" className="h-full w-full object-cover" />
+            <img src="/images/story.png" alt="LOUDMOUF brand story" className="h-full w-full object-cover" />
           </motion.div>
           <div>
             <p className="text-xs uppercase tracking-[0.3em] text-loud-yellow">The Movement</p>
