@@ -40,7 +40,9 @@ export function LoudAI() {
                   </span>
                   <div>
                     <p className="text-sm font-semibold text-white">LOUD AI</p>
-                    <p className="text-[10px] uppercase tracking-widest text-white/50">Member Concierge</p>
+                    <p className="text-[10px] uppercase tracking-widest text-white/50">
+                      Member Concierge
+                    </p>
                   </div>
                 </div>
                 <button

@@ -31,11 +31,13 @@ import { z } from "zod";
 
 export const verifySAIDServerFn = createServerFn({ method: "POST" })
   .inputValidator((data) =>
-    z.object({
-      said: z.string().regex(/^\d{13}$/),
-      firstName: z.string().min(1).max(80),
-      lastName: z.string().min(1).max(80),
-    }).parse(data),
+    z
+      .object({
+        said: z.string().regex(/^\d{13}$/),
+        firstName: z.string().min(1).max(80),
+        lastName: z.string().min(1).max(80),
+      })
+      .parse(data),
   )
   .handler(async ({ data }) => {
     const key = process.env.VERIFYNOW_API_KEY!;

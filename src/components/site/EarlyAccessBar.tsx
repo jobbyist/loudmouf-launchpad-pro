@@ -54,7 +54,9 @@ export function EarlyAccessBar() {
             <div className="flex items-center gap-2 text-[10px] sm:text-[11px] uppercase tracking-[0.22em]">
               <Sparkles className="h-3.5 w-3.5 text-loud-yellow" />
               <span className="text-gradient-loud font-semibold">Early Access · 25% Off</span>
-              <span className="text-white/50">· {seatsLeft.toLocaleString()} of {MEMBER_CAP.toLocaleString()} spots left</span>
+              <span className="text-white/50">
+                · {seatsLeft.toLocaleString()} of {MEMBER_CAP.toLocaleString()} spots left
+              </span>
             </div>
             <div className="mt-2">
               <Progress value={pct} className="h-1.5 bg-white/10" />
@@ -72,7 +74,9 @@ export function EarlyAccessBar() {
               <span className="px-2 py-1 rounded bg-white/5">{pad(remaining.days)}d</span>
               <span className="px-2 py-1 rounded bg-white/5">{pad(remaining.hours)}h</span>
               <span className="px-2 py-1 rounded bg-white/5">{pad(remaining.minutes)}m</span>
-              <span className="px-2 py-1 rounded bg-white/5 hidden sm:inline-block">{pad(remaining.seconds)}s</span>
+              <span className="px-2 py-1 rounded bg-white/5 hidden sm:inline-block">
+                {pad(remaining.seconds)}s
+              </span>
             </div>
             <a
               href="#preorder"
@@ -91,7 +95,10 @@ export function EarlyAccessBar() {
 export function incrementEarlyAccessClaimed(by = 1) {
   if (typeof window === "undefined") return;
   const raw = window.localStorage.getItem(STORAGE_KEY);
-  const cur = Math.max(MEMBERS_CLAIMED_BASELINE, raw != null ? Number(raw) : MEMBERS_CLAIMED_BASELINE);
+  const cur = Math.max(
+    MEMBERS_CLAIMED_BASELINE,
+    raw != null ? Number(raw) : MEMBERS_CLAIMED_BASELINE,
+  );
   const next = Math.min(MEMBER_CAP, cur + by);
   window.localStorage.setItem(STORAGE_KEY, String(next));
   window.dispatchEvent(new Event("loudmouf:early-access-claimed"));

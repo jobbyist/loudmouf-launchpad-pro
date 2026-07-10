@@ -1,9 +1,5 @@
 import { defineTool } from "@lovable.dev/mcp-js";
-import {
-  SHOPIFY_STOREFRONT_URL,
-  SHOPIFY_STOREFRONT_TOKEN,
-  STOREFRONT_QUERY,
-} from "@/lib/shopify";
+import { SHOPIFY_STOREFRONT_URL, SHOPIFY_STOREFRONT_TOKEN, STOREFRONT_QUERY } from "@/lib/shopify";
 
 export default defineTool({
   name: "list_flavors",

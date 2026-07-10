@@ -1,5 +1,11 @@
 import { defineTool } from "@lovable.dev/mcp-js";
-import { LAUNCH_ISO, LAUNCH_TS, MEMBER_CAP, MEMBERS_CLAIMED_BASELINE, diffToLaunch } from "@/lib/launch";
+import {
+  LAUNCH_ISO,
+  LAUNCH_TS,
+  MEMBER_CAP,
+  MEMBERS_CLAIMED_BASELINE,
+  diffToLaunch,
+} from "@/lib/launch";
 
 export default defineTool({
   name: "get_launch_info",
