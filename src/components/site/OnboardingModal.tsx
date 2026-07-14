@@ -127,6 +127,13 @@ export function OnboardingModal() {
     if (step === 4) {
       return form.consent ? null : "You must accept the Membership Agreement to continue";
     }
+    if (step === 5) {
+      const expected = `${form.firstName} ${form.lastName}`.trim().toLowerCase();
+      const typed = form.typedSignature.trim().toLowerCase();
+      if (!typed) return "Please type your full name to sign";
+      if (typed !== expected) return "Your signature must match your full name exactly";
+      return null;
+    }
     return null;
   }
 
