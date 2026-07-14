@@ -151,11 +151,31 @@ export function OnboardingModal() {
     }
   }
 
-  function next() {
+  async function next() {
     const err = validateStep();
     if (err) {
       setError(err);
       return;
+    }
+    if (step === 5) {
+      // Digital signature — record before advancing to the welcome screen.
+      setSigning(true);
+      try {
+        await createSignatureRecord({
+          fullName: `${form.firstName} ${form.lastName}`.trim(),
+          typedSignature: form.typedSignature.trim(),
+          acceptanceStatements: [
+            "I am 18 years or older and legally competent.",
+            "I delegate my private cultivation rights to LOUDMOUF™ under the Mandate framework.",
+            "I will consume only in private, in accordance with SA law.",
+            `I accept Membership Agreement version ${MEMBERSHIP_AGREEMENT_VERSION}.`,
+          ],
+        });
+      } catch {
+        // Non-fatal — local copy is stored regardless.
+      } finally {
+        setSigning(false);
+      }
     }
     if (step < STEP_TITLES.length - 1) setStep(step + 1);
   }
