@@ -22,6 +22,7 @@ interface FormState {
   said: string;
   tier: "standard" | "premium" | "";
   consent: boolean;
+  typedSignature: string;
 }
 
 const TIERS: Array<{
