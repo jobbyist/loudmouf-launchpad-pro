@@ -562,9 +562,22 @@ export function OnboardingModal() {
               <Button
                 type="button"
                 onClick={next}
+                disabled={signing}
                 className="bg-white text-black hover:bg-white/90 uppercase text-xs tracking-widest font-semibold px-6"
               >
-                Continue <ArrowRight className="h-4 w-4 ml-1" />
+                {signing ? (
+                  <>
+                    <Loader2 className="h-4 w-4 mr-1 animate-spin" /> Signing…
+                  </>
+                ) : step === 5 ? (
+                  <>
+                    Sign & continue <ArrowRight className="h-4 w-4 ml-1" />
+                  </>
+                ) : (
+                  <>
+                    Continue <ArrowRight className="h-4 w-4 ml-1" />
+                  </>
+                )}
               </Button>
             ) : (
               <Button
