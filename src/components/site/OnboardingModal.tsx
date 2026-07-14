@@ -485,6 +485,52 @@ export function OnboardingModal() {
                 )}
 
                 {step === 5 && (
+                  <div className="space-y-3 text-sm text-white/70">
+                    <p>
+                      Type your full legal name below to sign the LOUDMOUF™ Membership Agreement.
+                      This creates a legally-defensible acceptance record.
+                    </p>
+                    <div className="rounded-xl border border-white/10 bg-white/5 p-3 space-y-1 text-[11px] text-white/60 uppercase tracking-widest">
+                      <div className="flex justify-between">
+                        <span>Agreement version</span>
+                        <span className="text-white">{MEMBERSHIP_AGREEMENT_VERSION}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Signed at</span>
+                        <span className="text-white normal-case tracking-normal">
+                          {new Date().toLocaleString("en-ZA")}
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Captures</span>
+                        <span className="text-white normal-case tracking-normal">
+                          IP · timestamp · SHA-256 hash
+                        </span>
+                      </div>
+                    </div>
+                    <div>
+                      <Label
+                        htmlFor="sig"
+                        className="text-xs uppercase tracking-widest text-white/60"
+                      >
+                        Typed signature
+                      </Label>
+                      <Input
+                        id="sig"
+                        value={form.typedSignature}
+                        onChange={(e) => update("typedSignature", e.target.value)}
+                        placeholder={`${form.firstName} ${form.lastName}`.trim() || "Your full name"}
+                        className="mt-1 bg-white/5 border-white/10 text-white font-display text-2xl italic"
+                        autoComplete="off"
+                      />
+                      <p className="mt-1.5 text-[10px] text-white/40 uppercase tracking-widest">
+                        Must match your first + last name exactly
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {step === 6 && (
                   <div className="text-center py-8">
                     <div className="mx-auto grid h-16 w-16 place-items-center rounded-full gradient-loud">
                       <Check className="h-8 w-8 text-black" />
@@ -497,7 +543,7 @@ export function OnboardingModal() {
                   </div>
                 )}
 
-                {error && step !== 5 && <p className="text-xs text-loud-pink">{error}</p>}
+                {error && step !== 6 && <p className="text-xs text-loud-pink">{error}</p>}
               </motion.div>
             </AnimatePresence>
           </div>
