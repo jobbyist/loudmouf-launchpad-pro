@@ -71,7 +71,9 @@ export function OnboardingModal() {
     said: "",
     tier: "",
     consent: false,
+    typedSignature: "",
   });
+  const [signing, setSigning] = useState(false);
   const [verifying, setVerifying] = useState(false);
   const [saidInfo, setSaidInfo] = useState<SAIDInfo | null>(null);
   const [error, setError] = useState<string | null>(null);
