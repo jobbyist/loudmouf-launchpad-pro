@@ -10,6 +10,8 @@ import { useUIStore } from "@/stores/uiStore";
 import { verifySAID, type SAIDInfo } from "@/lib/verifynow";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { createSignatureRecord } from "@/lib/signature";
+import { MEMBERSHIP_AGREEMENT_VERSION } from "@/lib/launch";
 import { z } from "zod";
 
 interface FormState {
