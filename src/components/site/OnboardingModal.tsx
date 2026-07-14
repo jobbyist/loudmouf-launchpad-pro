@@ -55,6 +55,7 @@ const STEP_TITLES = [
   "Verify your identity",
   "Choose your tier",
   "Membership agreement",
+  "Digital signature",
   "You're in",
 ];
 
