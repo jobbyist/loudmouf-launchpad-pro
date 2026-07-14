@@ -14,7 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      member_signatures: {
+        Row: {
+          acceptance_statements: Json
+          accepted_at: string
+          agreement_version: string
+          created_at: string
+          full_name: string
+          id: string
+          ip_address: string | null
+          signature_hash: string
+          typed_signature: string
+          user_agent: string | null
+        }
+        Insert: {
+          acceptance_statements?: Json
+          accepted_at: string
+          agreement_version: string
+          created_at?: string
+          full_name: string
+          id?: string
+          ip_address?: string | null
+          signature_hash: string
+          typed_signature: string
+          user_agent?: string | null
+        }
+        Update: {
+          acceptance_statements?: Json
+          accepted_at?: string
+          agreement_version?: string
+          created_at?: string
+          full_name?: string
+          id?: string
+          ip_address?: string | null
+          signature_hash?: string
+          typed_signature?: string
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
