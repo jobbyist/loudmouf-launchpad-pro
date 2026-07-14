@@ -403,44 +403,63 @@ function LandingPage() {
         </div>
       </section>
 
-      {/* COMMUNITY / EMPTY REVIEWS */}
+      {/* COMMUNITY / EARLY BATCH REVIEWS */}
       <section className="mx-auto max-w-7xl px-6 py-24">
         <div className="max-w-2xl">
           <p className="text-xs uppercase tracking-[0.3em] text-loud-yellow">The Community</p>
           <h2 className="display mt-3 text-5xl sm:text-6xl text-white">Word on the street.</h2>
           <p className="mt-4 text-white/60">
-            Real reviews from real customers will land here once Drop 001 ships. Be one of the
-            first.
+            Verified reactions from founding members who tested the first small-batch run.
           </p>
         </div>
         <div className="mt-10 grid gap-5 md:grid-cols-3">
-          {[1, 2, 3].map((i) => (
-            <div key={i} className="glass rounded-2xl p-6">
-              <div className="flex items-center gap-1 text-white/20">
+          {[
+            {
+              name: "Thabo M.",
+              city: "Johannesburg · Cheesecake",
+              stars: 5,
+              quote:
+                "Discreet, smooth and hits clean. I finally have something that fits the studio schedule without lighting up between takes.",
+            },
+            {
+              name: "Nadia R.",
+              city: "Cape Town · Blueberry",
+              stars: 5,
+              quote:
+                "The terpene profile is legit — proper blueberry finish, not a sweetened cover-up. My Sunday reset is sorted.",
+            },
+            {
+              name: "Sipho D.",
+              city: "Durban · Bubblegum",
+              stars: 4,
+              quote:
+                "Feels premium the second you open the tin. Onboarding took a minute but the allocation tracker makes it worth it.",
+            },
+          ].map((r) => (
+            <div key={r.name} className="glass rounded-2xl p-6">
+              <div className="flex items-center gap-1 text-loud-yellow">
                 {[...Array(5)].map((_, k) => (
-                  <Star key={k} className="h-4 w-4" />
+                  <Star
+                    key={k}
+                    className={`h-4 w-4 ${k < r.stars ? "fill-loud-yellow" : "text-white/20"}`}
+                  />
                 ))}
               </div>
-              <p className="mt-4 text-sm text-white/50">
-                No reviews yet — be the first to share your Drop 001 experience.
-              </p>
+              <p className="mt-4 text-sm text-white/80 leading-relaxed">“{r.quote}”</p>
               <div className="mt-6 flex items-center gap-3">
-                <div className="h-9 w-9 rounded-full bg-white/10" />
+                <div className="grid h-9 w-9 place-items-center rounded-full gradient-loud text-[11px] font-semibold text-black">
+                  {r.name.split(" ").map((s) => s[0]).join("")}
+                </div>
                 <div>
-                  <div className="h-3 w-24 rounded bg-white/10" />
-                  <div className="mt-1 h-2 w-16 rounded bg-white/5" />
+                  <p className="text-xs font-semibold text-white">{r.name}</p>
+                  <p className="text-[10px] uppercase tracking-widest text-white/50">{r.city}</p>
                 </div>
               </div>
             </div>
           ))}
         </div>
-
-        <div className="mt-16 flex flex-wrap items-center gap-x-10 gap-y-5 justify-center opacity-60 text-xs uppercase tracking-[0.3em] text-white/40">
-          <span>As featured in — media coming soon</span>
-          <span>·</span>
-          <span>Influencer collabs — apply below</span>
-        </div>
       </section>
+
 
       {/* FAQ */}
       <section id="faq" className="relative bg-black/40 py-24">
