@@ -10,6 +10,8 @@ import { useUIStore } from "@/stores/uiStore";
 import { verifySAID, type SAIDInfo } from "@/lib/verifynow";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { createSignatureRecord } from "@/lib/signature";
+import { MEMBERSHIP_AGREEMENT_VERSION } from "@/lib/launch";
 import { z } from "zod";
 
 interface FormState {
@@ -20,6 +22,7 @@ interface FormState {
   said: string;
   tier: "standard" | "premium" | "";
   consent: boolean;
+  typedSignature: string;
 }
 
 const TIERS: Array<{
@@ -52,6 +55,7 @@ const STEP_TITLES = [
   "Verify your identity",
   "Choose your tier",
   "Membership agreement",
+  "Digital signature",
   "You're in",
 ];
 
@@ -67,7 +71,9 @@ export function OnboardingModal() {
     said: "",
     tier: "",
     consent: false,
+    typedSignature: "",
   });
+  const [signing, setSigning] = useState(false);
   const [verifying, setVerifying] = useState(false);
   const [saidInfo, setSaidInfo] = useState<SAIDInfo | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -121,6 +127,13 @@ export function OnboardingModal() {
     if (step === 4) {
       return form.consent ? null : "You must accept the Membership Agreement to continue";
     }
+    if (step === 5) {
+      const expected = `${form.firstName} ${form.lastName}`.trim().toLowerCase();
+      const typed = form.typedSignature.trim().toLowerCase();
+      if (!typed) return "Please type your full name to sign";
+      if (typed !== expected) return "Your signature must match your full name exactly";
+      return null;
+    }
     return null;
   }
 
@@ -138,11 +151,31 @@ export function OnboardingModal() {
     }
   }
 
-  function next() {
+  async function next() {
     const err = validateStep();
     if (err) {
       setError(err);
       return;
+    }
+    if (step === 5) {
+      // Digital signature — record before advancing to the welcome screen.
+      setSigning(true);
+      try {
+        await createSignatureRecord({
+          fullName: `${form.firstName} ${form.lastName}`.trim(),
+          typedSignature: form.typedSignature.trim(),
+          acceptanceStatements: [
+            "I am 18 years or older and legally competent.",
+            "I delegate my private cultivation rights to LOUDMOUF™ under the Mandate framework.",
+            "I will consume only in private, in accordance with SA law.",
+            `I accept Membership Agreement version ${MEMBERSHIP_AGREEMENT_VERSION}.`,
+          ],
+        });
+      } catch {
+        // Non-fatal — local copy is stored regardless.
+      } finally {
+        setSigning(false);
+      }
     }
     if (step < STEP_TITLES.length - 1) setStep(step + 1);
   }
@@ -452,6 +485,52 @@ export function OnboardingModal() {
                 )}
 
                 {step === 5 && (
+                  <div className="space-y-3 text-sm text-white/70">
+                    <p>
+                      Type your full legal name below to sign the LOUDMOUF™ Membership Agreement.
+                      This creates a legally-defensible acceptance record.
+                    </p>
+                    <div className="rounded-xl border border-white/10 bg-white/5 p-3 space-y-1 text-[11px] text-white/60 uppercase tracking-widest">
+                      <div className="flex justify-between">
+                        <span>Agreement version</span>
+                        <span className="text-white">{MEMBERSHIP_AGREEMENT_VERSION}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Signed at</span>
+                        <span className="text-white normal-case tracking-normal">
+                          {new Date().toLocaleString("en-ZA")}
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Captures</span>
+                        <span className="text-white normal-case tracking-normal">
+                          IP · timestamp · SHA-256 hash
+                        </span>
+                      </div>
+                    </div>
+                    <div>
+                      <Label
+                        htmlFor="sig"
+                        className="text-xs uppercase tracking-widest text-white/60"
+                      >
+                        Typed signature
+                      </Label>
+                      <Input
+                        id="sig"
+                        value={form.typedSignature}
+                        onChange={(e) => update("typedSignature", e.target.value)}
+                        placeholder={`${form.firstName} ${form.lastName}`.trim() || "Your full name"}
+                        className="mt-1 bg-white/5 border-white/10 text-white font-display text-2xl italic"
+                        autoComplete="off"
+                      />
+                      <p className="mt-1.5 text-[10px] text-white/40 uppercase tracking-widest">
+                        Must match your first + last name exactly
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {step === 6 && (
                   <div className="text-center py-8">
                     <div className="mx-auto grid h-16 w-16 place-items-center rounded-full gradient-loud">
                       <Check className="h-8 w-8 text-black" />
@@ -464,7 +543,7 @@ export function OnboardingModal() {
                   </div>
                 )}
 
-                {error && step !== 5 && <p className="text-xs text-loud-pink">{error}</p>}
+                {error && step !== 6 && <p className="text-xs text-loud-pink">{error}</p>}
               </motion.div>
             </AnimatePresence>
           </div>
@@ -483,9 +562,22 @@ export function OnboardingModal() {
               <Button
                 type="button"
                 onClick={next}
+                disabled={signing}
                 className="bg-white text-black hover:bg-white/90 uppercase text-xs tracking-widest font-semibold px-6"
               >
-                Continue <ArrowRight className="h-4 w-4 ml-1" />
+                {signing ? (
+                  <>
+                    <Loader2 className="h-4 w-4 mr-1 animate-spin" /> Signing…
+                  </>
+                ) : step === 5 ? (
+                  <>
+                    Sign & continue <ArrowRight className="h-4 w-4 ml-1" />
+                  </>
+                ) : (
+                  <>
+                    Continue <ArrowRight className="h-4 w-4 ml-1" />
+                  </>
+                )}
               </Button>
             ) : (
               <Button

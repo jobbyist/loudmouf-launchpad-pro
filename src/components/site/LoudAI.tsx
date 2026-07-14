@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Sparkles, X, MessageCircle } from "lucide-react";
+import { Sparkles, X, MessageCircle, ChevronLeft, ChevronRight } from "lucide-react";
 
 const STARTERS = [
   "Explain Membership",
@@ -10,24 +10,64 @@ const STARTERS = [
   "Community Guidelines",
 ];
 
+const DISMISS_KEY = "loudmouf-loud-ai-dismissed";
+
 /**
- * Floating LOUD AI assistant.
- * Static shell for the Soft Launch — wire to Lovable AI Gateway (Gemini)
- * once the backend function `loud-ai-chat` is deployed. See PRODUCTION_STATUS_REPORT.
+ * LOUD AI — dismissible glassmorphic notch pinned to the middle-right edge.
+ * Click to expand a chat panel; the small "×" collapses it back to a notch;
+ * the notch's chevron hides it entirely for the session (persisted).
  */
 export function LoudAI() {
   const [open, setOpen] = useState(false);
+  const [hidden, setHidden] = useState(false);
+
+  useEffect(() => {
+    try {
+      if (window.sessionStorage.getItem(DISMISS_KEY) === "1") setHidden(true);
+    } catch {
+      // ignore
+    }
+  }, []);
+
+  function dismiss() {
+    setOpen(false);
+    setHidden(true);
+    try {
+      window.sessionStorage.setItem(DISMISS_KEY, "1");
+    } catch {
+      // ignore
+    }
+  }
+
+  if (hidden) {
+    return (
+      <button
+        onClick={() => {
+          setHidden(false);
+          try {
+            window.sessionStorage.removeItem(DISMISS_KEY);
+          } catch {
+            // ignore
+          }
+        }}
+        aria-label="Show LOUD AI"
+        className="fixed right-0 top-1/2 -translate-y-1/2 z-40 rounded-l-lg border border-r-0 border-white/10 bg-loud-ink/80 backdrop-blur-xl px-1.5 py-2 text-white/50 hover:text-white shadow-lg"
+      >
+        <ChevronLeft className="h-4 w-4" />
+      </button>
+    );
+  }
 
   return (
-    <div className="fixed bottom-28 right-4 sm:right-6 z-40">
+    <div className="fixed right-0 top-1/2 -translate-y-1/2 z-40 flex items-center">
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ opacity: 0, y: 12, scale: 0.96 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 12, scale: 0.96 }}
-            transition={{ duration: 0.2 }}
-            className="mb-3 w-[320px] rounded-2xl border border-white/10 bg-loud-ink/95 backdrop-blur-xl shadow-2xl overflow-hidden"
+            initial={{ opacity: 0, x: 20, scale: 0.96 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            exit={{ opacity: 0, x: 20, scale: 0.96 }}
+            transition={{ duration: 0.22 }}
+            className="mr-2 w-[320px] rounded-2xl border border-white/10 bg-loud-ink/95 backdrop-blur-xl shadow-2xl overflow-hidden"
             role="dialog"
             aria-label="LOUD AI Assistant"
           >
@@ -79,18 +119,33 @@ export function LoudAI() {
         )}
       </AnimatePresence>
 
-      <button
-        onClick={() => setOpen((v) => !v)}
-        aria-label="Open LOUD AI"
-        className="group relative inline-flex items-center gap-2 rounded-full px-4 py-3 text-xs font-semibold uppercase tracking-widest text-white shadow-2xl"
-      >
-        <span className="absolute inset-0 rounded-full gradient-loud opacity-90 animate-pulse" />
-        <span className="absolute inset-[2px] rounded-full bg-loud-ink/90 backdrop-blur-xl" />
-        <span className="relative flex items-center gap-2">
-          <MessageCircle className="h-4 w-4 text-loud-yellow" />
-          <span className="text-gradient-loud">LOUD AI</span>
-        </span>
-      </button>
+      {/* Notch */}
+      <div className="relative flex flex-col items-stretch">
+        <button
+          onClick={dismiss}
+          aria-label="Dismiss LOUD AI"
+          className="absolute -top-2 -left-2 grid h-5 w-5 place-items-center rounded-full border border-white/15 bg-loud-ink text-white/50 hover:text-white shadow"
+        >
+          <ChevronRight className="h-3 w-3" />
+        </button>
+        <button
+          onClick={() => setOpen((v) => !v)}
+          aria-label={open ? "Close LOUD AI" : "Open LOUD AI"}
+          aria-expanded={open}
+          className="group relative flex flex-col items-center gap-2 rounded-l-2xl border border-r-0 border-white/10 bg-loud-ink/80 backdrop-blur-xl px-2.5 py-4 shadow-2xl"
+        >
+          <span className="absolute inset-0 rounded-l-2xl gradient-loud opacity-20 group-hover:opacity-40 transition" />
+          <span className="relative flex flex-col items-center gap-2">
+            <MessageCircle className="h-4 w-4 text-loud-yellow" />
+            <span
+              className="text-[10px] font-semibold uppercase tracking-[0.28em] text-gradient-loud"
+              style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
+            >
+              LOUD AI
+            </span>
+          </span>
+        </button>
+      </div>
     </div>
   );
 }

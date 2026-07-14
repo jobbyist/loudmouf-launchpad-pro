@@ -1,10 +1,12 @@
 // Single source of truth for the Soft Launch countdown + member capacity.
 // Consumed by Countdown, EarlyAccessBar, membership sections and MCP.
-export const LAUNCH_ISO = "2026-08-11T20:00:00+02:00";
+export const LAUNCH_ISO = "2026-09-15T20:00:00+02:00";
 export const LAUNCH_TS = new Date(LAUNCH_ISO).getTime();
 
 export const MEMBER_CAP = 2000;
-export const MEMBERS_CLAIMED_BASELINE = 1674;
+export const MEMBERS_CLAIMED_BASELINE = 438;
+
+export const MEMBERSHIP_AGREEMENT_VERSION = "2026.09.v1";
 
 export function diffToLaunch(now: number = Date.now()) {
   const d = Math.max(0, LAUNCH_TS - now);

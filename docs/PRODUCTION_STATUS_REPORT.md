@@ -1,9 +1,17 @@
 # LOUDMOUF™ — Production Status Report
 
-**Sprint:** Soft Launch Readiness (48-hour credit-constrained sprint)
-**Date:** 2026-07-10
-**Target:** Controlled Soft Launch on / around 11 August 2026
-**Budget respected:** ≤ 10 Lovable credits
+**Sprint:** Soft Launch Readiness — follow-up backlog pass
+**Date:** 2026-07-14
+**Target:** Controlled Soft Launch on / around **15 September 2026**
+**Latest counter:** 438 / 2000 founding spots claimed
+
+## Follow-up (2026-07-14)
+- **Countdown & capacity resynced** — `LAUNCH_ISO = 2026-09-15T20:00 SAST`, `MEMBERS_CLAIMED_BASELINE = 438`. Homepage hero, `EarlyAccessBar`, Launch Summit preview and MCP all read the same source.
+- **LOUD AI notch** — refactored from bottom-right floating pill to a dismissible middle-right notch (`src/components/site/LoudAI.tsx`). Vertical label, `ChevronRight` collapses it to a slim edge tab persisted in `sessionStorage`.
+- **Reviews section** — Influencer-collabs / As-featured strip removed. Three verified early-batch tester reviews now render in `src/routes/index.tsx` (Thabo M. · Nadia R. · Sipho D.).
+- **Digital signature step** — new step 6 in `OnboardingModal` (typed signature must match full name). `src/lib/signature.ts` computes `SHA-256(name|signature|timestamp|version|ip)`, captures user-agent + client IP via `api.ipify.org`, persists to `localStorage`, and POSTs to `POST /api/public/record-signature` which writes to the new `public.member_signatures` table via `supabaseAdmin` (service-role only; RLS enabled, no anon/authenticated policies). Agreement version pinned via `MEMBERSHIP_AGREEMENT_VERSION = 2026.09.v1`.
+- **Shopify claim** — no in-tool claim endpoint is available from the Lovable side; the dev store `loudmouf-launchpad-buagl.myshopify.com` must be claimed manually by signing into the Shopify Partners dashboard within the 30-day window. Products + Storefront API are already wired.
+
 
 ---
 
