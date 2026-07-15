@@ -78,7 +78,7 @@ export function parseSAID(said: string): SAIDInfo {
 
 /**
  * Server-backed VerifyNow call. Requires an edge/server function proxying to
- * https://api.verifynow.co.za with the VERIFYNOW_API_KEY secret.
+ * https://www.verifynow.co.za/api/external/verify with the VERIFYNOW_API_KEY secret.
  * See VERIFYNOW_SETUP.md.
  */
 async function callVerifyNowServer(payload: {
