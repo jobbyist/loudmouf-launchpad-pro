@@ -242,7 +242,7 @@ function ArticlePage() {
 
       {/* Article Content */}
       <div className="prose prose-invert prose-lg max-w-none mb-12">
-        <div dangerouslySetInnerHTML={{ __html: article.summary }} />
+        <p className="whitespace-pre-wrap">{article.summary}</p>
       </div>
 
       {/* Comments Section */}

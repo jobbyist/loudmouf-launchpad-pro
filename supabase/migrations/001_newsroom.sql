@@ -101,7 +101,7 @@ CREATE POLICY "Users can delete their own bookmarks"
 -- RLS Policies for article_comments
 CREATE POLICY "Comments are viewable by everyone"
   ON article_comments FOR SELECT
-  USING (NOT is_flagged);
+  USING (NOT is_flagged AND is_moderated = true);
 
 CREATE POLICY "Authenticated users can post comments"
   ON article_comments FOR INSERT

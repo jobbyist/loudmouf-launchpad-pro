@@ -123,7 +123,13 @@ async function scrapeAndSaveArticle(source: { name: string; url: string }, supab
     const { error } = await supabase
       .from('articles')
       .insert({
-        ...article,
+        title: article.title,
+        summary: article.summary,
+        excerpt: article.excerpt,
+        content: article.content,
+        source_url: article.sourceUrl,
+        source_name: article.sourceName,
+        reading_time: article.readingTime,
         slug,
         thumbnail_url: `/images/newsroom/${slug}-thumbnail.png`,
       });

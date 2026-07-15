@@ -8,7 +8,6 @@ export type Database = {
   };
   public: {
     Tables: {
-<<<<<<< HEAD
       articles: {
         Row: {
           id: string
@@ -67,11 +66,8 @@ export type Database = {
         Update: Partial<Database['public']['Tables']['article_comments']['Insert']>
       }
     }
-=======
-      [_ in never]: never;
-    };
 >>>>>>> main
-    Views: {
+    }
       [_ in never]: never;
     };
     Functions: {
