@@ -26,14 +26,8 @@ export function Nav() {
 
   return (
     <>
-      <div className="fixed inset-x-0 top-0 z-50 h-8 flex items-center justify-center bg-black text-[11px] uppercase tracking-[0.25em] px-4 text-center">
-        <Link to="/launch" className="text-gradient-loud font-semibold hover:opacity-80">
-          Soft Launch · Reserve your seat at the LOUDMOUF™ Launch Summit · 18+ Members Only
-        </Link>
-      </div>
-
       <header
-        className={`fixed inset-x-0 top-8 z-50 transition-all duration-300 ${
+        className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
           scrolled ? "py-2" : "py-4"
         }`}
       >
