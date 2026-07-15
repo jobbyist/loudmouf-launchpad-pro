@@ -13,13 +13,33 @@ import { ShoppingBasket, Minus, Plus, Trash2, ExternalLink, Loader2 } from "luci
 import { useCartStore } from "@/stores/cartStore";
 import { useUIStore } from "@/stores/uiStore";
 import { incrementEarlyAccessClaimed } from "./EarlyAccessBar";
+import { membershipFeeFor } from "@/lib/launch";
+import { useEffect as useEffectReact, useState } from "react";
+
+function useMemberTier(): "standard" | "premium" | null {
+  const [tier, setTier] = useState<"standard" | "premium" | null>(null);
+  useEffectReact(() => {
+    try {
+      const raw = window.localStorage.getItem("loudmouf-member-profile");
+      if (!raw) return;
+      const parsed = JSON.parse(raw) as { tier?: string };
+      if (parsed.tier === "standard" || parsed.tier === "premium") setTier(parsed.tier);
+    } catch {
+      /* ignore */
+    }
+  }, []);
+  return tier;
+}
 
 export function CartDrawer() {
   const { cartOpen: open, setCartOpen: setOpen } = useUIStore();
   const { items, isLoading, isSyncing, updateQuantity, removeItem, getCheckoutUrl, syncCart } =
     useCartStore();
+  const memberTier = useMemberTier();
+  const membershipFee = membershipFeeFor(memberTier);
   const totalItems = items.reduce((s, i) => s + i.quantity, 0);
-  const totalPrice = items.reduce((s, i) => s + parseFloat(i.price.amount) * i.quantity, 0);
+  const itemsSubtotal = items.reduce((s, i) => s + parseFloat(i.price.amount) * i.quantity, 0);
+  const totalPrice = itemsSubtotal + membershipFee;
   const currency = items[0]?.price.currencyCode ?? "ZAR";
 
   useEffect(() => {
@@ -136,10 +156,34 @@ export function CartDrawer() {
                   </div>
                 ))}
               </div>
-              <div className="mt-4 space-y-4 border-t border-white/10 pt-4">
+              <div className="mt-4 space-y-3 border-t border-white/10 pt-4">
+                <div className="flex items-center justify-between text-sm text-white/60">
+                  <span>Items subtotal</span>
+                  <span className="tabular-nums">
+                    {currency === "ZAR" ? "R" : currency + " "}
+                    {itemsSubtotal.toFixed(2)}
+                  </span>
+                </div>
+                {membershipFee > 0 && (
+                  <div className="flex items-center justify-between text-sm text-loud-yellow">
+                    <span>
+                      {memberTier === "premium" ? "Premium" : "Standard"} Membership · monthly
+                    </span>
+                    <span className="tabular-nums">R{membershipFee.toFixed(2)}</span>
+                  </div>
+                )}
                 <div className="flex items-center justify-between text-sm text-white/60">
                   <span>Delivery</span>
-                  <span>R150 · 3–5 days · Delivery Partner</span>
+                  <span>R150 · 3–5 days</span>
+                </div>
+                <div className="flex items-center justify-between pt-1">
+                  <span className="text-sm uppercase tracking-widest text-white/60">
+                    Contribution Total
+                  </span>
+                  <span className="font-display text-2xl">
+                    {currency === "ZAR" ? "R" : currency + " "}
+                    {totalPrice.toFixed(2)}
+                  </span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-sm uppercase tracking-widest text-white/60">
