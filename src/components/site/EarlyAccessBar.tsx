@@ -60,7 +60,7 @@ export function EarlyAccessBar() {
               <Sparkles className="h-3.5 w-3.5 text-loud-yellow" />
               <span className="text-gradient-loud font-semibold">Early Access · 25% Off</span>
               <span className="text-white/50">
-                · {seatsLeft.toLocaleString()} of {MEMBER_CAP.toLocaleString()} spots left
+                · 1634 of 2000 spots left
               </span>
             </div>
             <div className="mt-2">
