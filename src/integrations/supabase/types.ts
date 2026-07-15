@@ -53,6 +53,63 @@ export type Database = {
         }
         Relationships: []
       }
+      articles: {
+        Row: {
+          id: string
+          title: string
+          slug: string
+          summary: string
+          excerpt: string
+          content: string
+          source_url: string
+          source_name: string
+          thumbnail_url: string | null
+          reading_time: number
+          published_at: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: Omit<Database['public']['Tables']['articles']['Row'], 'id' | 'created_at' | 'updated_at'>
+        Update: Partial<Database['public']['Tables']['articles']['Insert']>
+      }
+      article_likes: {
+        Row: {
+          id: string
+          article_id: string
+          user_id: string
+          created_at: string
+        }
+        Insert: Omit<Database['public']['Tables']['article_likes']['Row'], 'id' | 'created_at'>
+        Update: Partial<Database['public']['Tables']['article_likes']['Insert']>
+      }
+      article_bookmarks: {
+        Row: {
+          id: string
+          article_id: string
+          user_id: string
+          created_at: string
+        }
+        Insert: Omit<Database['public']['Tables']['article_bookmarks']['Row'], 'id' | 'created_at'>
+        Update: Partial<Database['public']['Tables']['article_bookmarks']['Insert']>
+      }
+      article_comments: {
+        Row: {
+          id: string
+          article_id: string
+          user_id: string
+          content: string
+          parent_id: string | null
+          is_moderated: boolean
+          is_flagged: boolean
+          created_at: string
+          updated_at: string
+        }
+        Insert: Omit<Database['public']['Tables']['article_comments']['Row'], 'id' | 'created_at' | 'updated_at'> & {
+          is_moderated?: boolean
+          is_flagged?: boolean
+        }
+        Update: Partial<Database['public']['Tables']['article_comments']['Insert']>
+      }
     }
     Views: {
       [_ in never]: never
