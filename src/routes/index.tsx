@@ -11,6 +11,8 @@ import { Logo } from "@/components/site/Logo";
 import { EarlyAccessBar } from "@/components/site/EarlyAccessBar";
 import { OnboardingModal } from "@/components/site/OnboardingModal";
 import { LoudAI } from "@/components/site/LoudAI";
+import { PrivateCardSection } from "@/components/site/PrivateCardSection";
+import { Newsroom } from "@/components/site/Newsroom";
 import {
   Accordion,
   AccordionContent,
@@ -247,15 +249,27 @@ function LandingPage() {
         </div>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {products.length === 0 ? (
-            <div className="col-span-full glass rounded-3xl p-12 text-center text-white/60">
-              No products found. Loading the drop…
-            </div>
-          ) : (
-            products.map((p, i) => <ProductCard key={p.node.id} product={p} index={i} />)
-          )}
+          {(() => {
+            const visible = products.filter(
+              (p) => !/member\s*card/i.test(p.node.title),
+            );
+            if (visible.length === 0) {
+              return (
+                <div className="col-span-full glass rounded-3xl p-12 text-center text-white/60">
+                  No products found. Loading the drop…
+                </div>
+              );
+            }
+            return visible.map((p, i) => (
+              <ProductCard key={p.node.id} product={p} index={i} />
+            ));
+          })()}
         </div>
       </section>
+
+      <PrivateCardSection />
+
+      <Newsroom />
 
       {/* WHY LOUDMOUF */}
       <section
