@@ -1,33 +1,50 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Sparkles, X, MessageCircle, ChevronLeft, ChevronRight } from "lucide-react";
+import { Sparkles, X, MessageCircle, ChevronLeft, ChevronRight, Send } from "lucide-react";
+import { useChat } from "@ai-sdk/react";
+import { DefaultChatTransport, type UIMessage } from "ai";
 
 const STARTERS = [
   "Explain Membership",
   "Compare Yield Profiles",
-  "Track My Allocation",
-  "Membership Benefits",
-  "Community Guidelines",
+  "How does verification work?",
+  "When is the launch?",
 ];
 
 const DISMISS_KEY = "loudmouf-loud-ai-dismissed";
 
-/**
- * LOUD AI — dismissible glassmorphic notch pinned to the middle-right edge.
- * Click to expand a chat panel; the small "×" collapses it back to a notch;
- * the notch's chevron hides it entirely for the session (persisted).
- */
+const transport = new DefaultChatTransport({ api: "/api/chat" });
+
+function messageText(m: UIMessage) {
+  return m.parts
+    .map((p) => (p.type === "text" ? p.text : ""))
+    .join("");
+}
+
 export function LoudAI() {
   const [open, setOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
+  const [input, setInput] = useState("");
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const { messages, sendMessage, status } = useChat({
+    id: "loud-ai",
+    transport,
+  });
 
   useEffect(() => {
     try {
       if (window.sessionStorage.getItem(DISMISS_KEY) === "1") setHidden(true);
     } catch {
-      // ignore
+      /* ignore */
     }
   }, []);
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [messages, open]);
 
   function dismiss() {
     setOpen(false);
@@ -35,9 +52,23 @@ export function LoudAI() {
     try {
       window.sessionStorage.setItem(DISMISS_KEY, "1");
     } catch {
-      // ignore
+      /* ignore */
     }
   }
+
+  async function submit(e: FormEvent) {
+    e.preventDefault();
+    const text = input.trim();
+    if (!text) return;
+    setInput("");
+    await sendMessage({ text });
+  }
+
+  async function sendStarter(text: string) {
+    await sendMessage({ text });
+  }
+
+  const busy = status === "submitted" || status === "streaming";
 
   if (hidden) {
     return (
@@ -47,7 +78,7 @@ export function LoudAI() {
           try {
             window.sessionStorage.removeItem(DISMISS_KEY);
           } catch {
-            // ignore
+            /* ignore */
           }
         }}
         aria-label="Show LOUD AI"
@@ -67,7 +98,7 @@ export function LoudAI() {
             animate={{ opacity: 1, x: 0, scale: 1 }}
             exit={{ opacity: 0, x: 20, scale: 0.96 }}
             transition={{ duration: 0.22 }}
-            className="mr-2 w-[320px] rounded-2xl border border-white/10 bg-loud-ink/95 backdrop-blur-xl shadow-2xl overflow-hidden"
+            className="mr-2 flex h-[520px] w-[340px] flex-col rounded-2xl border border-white/10 bg-loud-ink/95 backdrop-blur-xl shadow-2xl overflow-hidden"
             role="dialog"
             aria-label="LOUD AI Assistant"
           >
@@ -81,7 +112,7 @@ export function LoudAI() {
                   <div>
                     <p className="text-sm font-semibold text-white">LOUD AI</p>
                     <p className="text-[10px] uppercase tracking-widest text-white/50">
-                      Member Concierge
+                      Member Concierge · Gemini
                     </p>
                   </div>
                 </div>
@@ -94,27 +125,68 @@ export function LoudAI() {
                 </button>
               </div>
             </div>
-            <div className="p-4 space-y-2">
-              <p className="text-xs text-white/60">
-                Hi — I'm LOUD AI. Pick a starter or DM the collective concierge on WhatsApp.
-              </p>
-              <div className="flex flex-wrap gap-1.5 pt-1">
-                {STARTERS.map((s) => (
-                  <a
-                    key={s}
-                    href="https://wa.me/27680200749"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-[10px] uppercase tracking-widest rounded-full border border-white/15 bg-white/5 px-2.5 py-1.5 text-white/80 hover:border-loud-yellow/40 hover:text-loud-yellow transition"
+
+            <div
+              ref={scrollRef}
+              className="flex-1 space-y-3 overflow-y-auto px-4 py-4 text-sm"
+            >
+              {messages.length === 0 ? (
+                <div>
+                  <p className="text-white/70">
+                    Hi — I'm LOUD AI, your Collective concierge. Ask me anything, or start
+                    with one of these:
+                  </p>
+                  <div className="mt-3 flex flex-wrap gap-1.5">
+                    {STARTERS.map((s) => (
+                      <button
+                        key={s}
+                        onClick={() => sendStarter(s)}
+                        disabled={busy}
+                        className="text-[10px] uppercase tracking-widest rounded-full border border-white/15 bg-white/5 px-2.5 py-1.5 text-white/80 hover:border-loud-yellow/40 hover:text-loud-yellow transition disabled:opacity-50"
+                      >
+                        {s}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                messages.map((m) => (
+                  <div
+                    key={m.id}
+                    className={
+                      m.role === "user"
+                        ? "ml-auto max-w-[85%] rounded-2xl rounded-tr-sm bg-loud-yellow/90 text-black px-3 py-2"
+                        : "mr-auto max-w-[85%] rounded-2xl rounded-tl-sm bg-white/5 border border-white/10 text-white px-3 py-2"
+                    }
                   >
-                    {s}
-                  </a>
-                ))}
-              </div>
-              <p className="pt-2 text-[10px] uppercase tracking-widest text-white/40">
-                Full AI chat launches with Sprint 2 · Powered by Gemini
-              </p>
+                    <p className="whitespace-pre-wrap leading-relaxed">{messageText(m)}</p>
+                  </div>
+                ))
+              )}
+              {busy && (
+                <div className="mr-auto max-w-[85%] rounded-2xl rounded-tl-sm bg-white/5 border border-white/10 text-white/60 px-3 py-2 text-xs">
+                  LOUD AI is thinking…
+                </div>
+              )}
             </div>
+
+            <form onSubmit={submit} className="border-t border-white/10 p-3 flex gap-2">
+              <input
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Ask the Collective concierge…"
+                className="flex-1 rounded-full bg-white/5 border border-white/10 px-3 py-2 text-sm text-white placeholder:text-white/40 focus:outline-none focus:border-loud-yellow/40"
+                disabled={busy}
+              />
+              <button
+                type="submit"
+                disabled={busy || !input.trim()}
+                className="grid h-9 w-9 place-items-center rounded-full cta-gradient text-black disabled:opacity-40"
+                aria-label="Send message"
+              >
+                <Send className="h-4 w-4" />
+              </button>
+            </form>
           </motion.div>
         )}
       </AnimatePresence>

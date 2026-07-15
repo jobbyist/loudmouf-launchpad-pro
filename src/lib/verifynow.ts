@@ -86,16 +86,12 @@ async function callVerifyNowServer(payload: {
   firstName: string;
   lastName: string;
 }): Promise<SAIDInfo | null> {
-  const endpoint = import.meta.env.VITE_VERIFYNOW_ENDPOINT as string | undefined;
-  if (!endpoint) return null;
   try {
-    const res = await fetch(endpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-    if (!res.ok) return null;
-    return (await res.json()) as SAIDInfo;
+    const { verifySAIDServerFn } = await import("./verifynow.functions");
+    const result = await verifySAIDServerFn({ data: payload });
+    // If the server said "not configured", fall back to local parse.
+    if (!result.valid && /not configured/i.test(result.reason ?? "")) return null;
+    return result as SAIDInfo;
   } catch {
     return null;
   }

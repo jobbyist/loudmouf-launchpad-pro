@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import { Progress } from "@/components/ui/progress";
 import { Sparkles } from "lucide-react";
-import { diffToLaunch, MEMBER_CAP, MEMBERS_CLAIMED_BASELINE } from "@/lib/launch";
+import {
+  currentClaimed,
+  diffToLaunch,
+  MEMBER_CAP,
+  MEMBERS_CLAIMED_BASELINE,
+} from "@/lib/launch";
 
 const STORAGE_KEY = "loudmouf-early-access-claimed";
 
@@ -10,16 +15,16 @@ function useClaimed() {
   useEffect(() => {
     const read = () => {
       const raw = window.localStorage.getItem(STORAGE_KEY);
-      // If no value yet, or stored below the current baseline, use baseline.
       const stored = raw != null ? Number(raw) : MEMBERS_CLAIMED_BASELINE;
-      const v = Math.max(MEMBERS_CLAIMED_BASELINE, stored);
-      setClaimed(Math.min(MEMBER_CAP, v));
+      setClaimed(currentClaimed(stored));
     };
     read();
+    const id = setInterval(read, 60_000); // refresh past 5am SAST rollover
     const on = () => read();
     window.addEventListener("storage", on);
     window.addEventListener("loudmouf:early-access-claimed", on);
     return () => {
+      clearInterval(id);
       window.removeEventListener("storage", on);
       window.removeEventListener("loudmouf:early-access-claimed", on);
     };

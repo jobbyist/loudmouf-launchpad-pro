@@ -15,6 +15,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ShippingPolicyRouteImport } from './routes/shipping-policy'
 import { Route as RefundPolicyRouteImport } from './routes/refund-policy'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
+import { Route as NewsroomRouteImport } from './routes/newsroom'
 import { Route as MembershipRouteImport } from './routes/membership'
 import { Route as MemberDashboardRouteImport } from './routes/member-dashboard'
 import { Route as McpRouteImport } from './routes/mcp'
@@ -22,6 +23,8 @@ import { Route as LaunchRouteImport } from './routes/launch'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CommunityGuidelinesRouteImport } from './routes/community-guidelines'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as NewsroomSlugRouteImport } from './routes/newsroom.$slug'
+import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as ApiPublicRecordSignatureRouteImport } from './routes/api/public/record-signature'
@@ -55,6 +58,11 @@ const RefundPolicyRoute = RefundPolicyRouteImport.update({
 const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
   id: '/privacy-policy',
   path: '/privacy-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NewsroomRoute = NewsroomRouteImport.update({
+  id: '/newsroom',
+  path: '/newsroom',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MembershipRoute = MembershipRouteImport.update({
@@ -92,6 +100,16 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const NewsroomSlugRoute = NewsroomSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => NewsroomRoute,
+} as any)
+const ApiChatRoute = ApiChatRouteImport.update({
+  id: '/api/chat',
+  path: '/api/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const Char91DotwellKnownChar93OauthProtectedResourceRoute =
   Char91DotwellKnownChar93OauthProtectedResourceRouteImport.update({
     id: '/.well-known/oauth-protected-resource',
@@ -125,6 +143,7 @@ export interface FileRoutesByFullPath {
   '/mcp': typeof McpRoute
   '/member-dashboard': typeof MemberDashboardRoute
   '/membership': typeof MembershipRoute
+  '/newsroom': typeof NewsroomRouteWithChildren
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/refund-policy': typeof RefundPolicyRoute
   '/shipping-policy': typeof ShippingPolicyRoute
@@ -133,6 +152,8 @@ export interface FileRoutesByFullPath {
   '/track-my-order': typeof TrackMyOrderRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/api/chat': typeof ApiChatRoute
+  '/newsroom/$slug': typeof NewsroomSlugRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/record-signature': typeof ApiPublicRecordSignatureRoute
 }
@@ -144,6 +165,7 @@ export interface FileRoutesByTo {
   '/mcp': typeof McpRoute
   '/member-dashboard': typeof MemberDashboardRoute
   '/membership': typeof MembershipRoute
+  '/newsroom': typeof NewsroomRouteWithChildren
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/refund-policy': typeof RefundPolicyRoute
   '/shipping-policy': typeof ShippingPolicyRoute
@@ -152,6 +174,8 @@ export interface FileRoutesByTo {
   '/track-my-order': typeof TrackMyOrderRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/api/chat': typeof ApiChatRoute
+  '/newsroom/$slug': typeof NewsroomSlugRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/record-signature': typeof ApiPublicRecordSignatureRoute
 }
@@ -164,6 +188,7 @@ export interface FileRoutesById {
   '/mcp': typeof McpRoute
   '/member-dashboard': typeof MemberDashboardRoute
   '/membership': typeof MembershipRoute
+  '/newsroom': typeof NewsroomRouteWithChildren
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/refund-policy': typeof RefundPolicyRoute
   '/shipping-policy': typeof ShippingPolicyRoute
@@ -172,6 +197,8 @@ export interface FileRoutesById {
   '/track-my-order': typeof TrackMyOrderRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/api/chat': typeof ApiChatRoute
+  '/newsroom/$slug': typeof NewsroomSlugRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/record-signature': typeof ApiPublicRecordSignatureRoute
 }
@@ -185,6 +212,7 @@ export interface FileRouteTypes {
     | '/mcp'
     | '/member-dashboard'
     | '/membership'
+    | '/newsroom'
     | '/privacy-policy'
     | '/refund-policy'
     | '/shipping-policy'
@@ -193,6 +221,8 @@ export interface FileRouteTypes {
     | '/track-my-order'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/api/chat'
+    | '/newsroom/$slug'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/record-signature'
   fileRoutesByTo: FileRoutesByTo
@@ -204,6 +234,7 @@ export interface FileRouteTypes {
     | '/mcp'
     | '/member-dashboard'
     | '/membership'
+    | '/newsroom'
     | '/privacy-policy'
     | '/refund-policy'
     | '/shipping-policy'
@@ -212,6 +243,8 @@ export interface FileRouteTypes {
     | '/track-my-order'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/api/chat'
+    | '/newsroom/$slug'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/record-signature'
   id:
@@ -223,6 +256,7 @@ export interface FileRouteTypes {
     | '/mcp'
     | '/member-dashboard'
     | '/membership'
+    | '/newsroom'
     | '/privacy-policy'
     | '/refund-policy'
     | '/shipping-policy'
@@ -231,6 +265,8 @@ export interface FileRouteTypes {
     | '/track-my-order'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/api/chat'
+    | '/newsroom/$slug'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/record-signature'
   fileRoutesById: FileRoutesById
@@ -243,6 +279,7 @@ export interface RootRouteChildren {
   McpRoute: typeof McpRoute
   MemberDashboardRoute: typeof MemberDashboardRoute
   MembershipRoute: typeof MembershipRoute
+  NewsroomRoute: typeof NewsroomRouteWithChildren
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   RefundPolicyRoute: typeof RefundPolicyRoute
   ShippingPolicyRoute: typeof ShippingPolicyRoute
@@ -251,6 +288,7 @@ export interface RootRouteChildren {
   TrackMyOrderRoute: typeof TrackMyOrderRoute
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  ApiChatRoute: typeof ApiChatRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
   ApiPublicRecordSignatureRoute: typeof ApiPublicRecordSignatureRoute
 }
@@ -297,6 +335,13 @@ declare module '@tanstack/react-router' {
       path: '/privacy-policy'
       fullPath: '/privacy-policy'
       preLoaderRoute: typeof PrivacyPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/newsroom': {
+      id: '/newsroom'
+      path: '/newsroom'
+      fullPath: '/newsroom'
+      preLoaderRoute: typeof NewsroomRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/membership': {
@@ -348,6 +393,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/newsroom/$slug': {
+      id: '/newsroom/$slug'
+      path: '/$slug'
+      fullPath: '/newsroom/$slug'
+      preLoaderRoute: typeof NewsroomSlugRouteImport
+      parentRoute: typeof NewsroomRoute
+    }
+    '/api/chat': {
+      id: '/api/chat'
+      path: '/api/chat'
+      fullPath: '/api/chat'
+      preLoaderRoute: typeof ApiChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/.well-known/oauth-protected-resource': {
       id: '/.well-known/oauth-protected-resource'
       path: '/.well-known/oauth-protected-resource'
@@ -379,6 +438,18 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface NewsroomRouteChildren {
+  NewsroomSlugRoute: typeof NewsroomSlugRoute
+}
+
+const NewsroomRouteChildren: NewsroomRouteChildren = {
+  NewsroomSlugRoute: NewsroomSlugRoute,
+}
+
+const NewsroomRouteWithChildren = NewsroomRoute._addFileChildren(
+  NewsroomRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CommunityGuidelinesRoute: CommunityGuidelinesRoute,
@@ -387,6 +458,7 @@ const rootRouteChildren: RootRouteChildren = {
   McpRoute: McpRoute,
   MemberDashboardRoute: MemberDashboardRoute,
   MembershipRoute: MembershipRoute,
+  NewsroomRoute: NewsroomRouteWithChildren,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   RefundPolicyRoute: RefundPolicyRoute,
   ShippingPolicyRoute: ShippingPolicyRoute,
@@ -396,6 +468,7 @@ const rootRouteChildren: RootRouteChildren = {
   Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
+  ApiChatRoute: ApiChatRoute,
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
   ApiPublicRecordSignatureRoute: ApiPublicRecordSignatureRoute,
 }
