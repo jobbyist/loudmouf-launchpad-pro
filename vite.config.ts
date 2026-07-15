@@ -15,5 +15,9 @@ export default defineConfig({
   },
   vite: {
     plugins: [mcpPlugin()],
+    build: {
+      // Vercel preview compatibility
+      target: 'esnext',
+    },
   },
 });
