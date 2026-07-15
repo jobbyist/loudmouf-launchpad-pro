@@ -11,42 +11,37 @@ export const verifySAIDServerFn = createServerFn({ method: "POST" })
   .inputValidator((data: unknown) => InputSchema.parse(data))
   .handler(async ({ data }) => {
     const key = process.env.VERIFYNOW_API_KEY;
-    const base = process.env.VERIFYNOW_BASE_URL ?? "https://api.verifynow.co.za/v1";
     if (!key) {
       return { valid: false as const, reason: "VerifyNow not configured on server." };
     }
     try {
-      const res = await fetch(`${base}/said/verify`, {
+      const idempotencyKey = crypto.randomUUID ? crypto.randomUUID() : `idemp-${Date.now()}`;
+      const res = await fetch(`https://www.verifynow.co.za/api/external/verify`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "X-API-Key": key,
-          Authorization: `Bearer ${key}`,
+          "x-api-key": key,
+          "Idempotency-Key": idempotencyKey,
         },
         body: JSON.stringify({
+          reportType: "said_verification",
           idNumber: data.said,
-          firstName: data.firstName,
-          lastName: data.lastName,
+          mode: process.env.NODE_ENV === 'production' ? 'production' : 'sandbox',
         }),
       });
       if (!res.ok) {
-        return { valid: false as const, reason: `VerifyNow ${res.status}` };
+        const errorText = await res.text();
+        return { valid: false as const, reason: `VerifyNow ${res.status}: ${errorText}` };
       }
-      const raw = (await res.json()) as {
-        verified?: boolean;
-        dateOfBirth?: string;
-        age?: number;
-        gender?: string;
-        citizenship?: string;
-        message?: string;
-      };
+      const raw = (await res.json()) as any;
+      const verification = raw.results?.said_verification?.realTimeResults?.Verification || {};
       return {
-        valid: !!raw.verified,
-        dob: raw.dateOfBirth,
-        age: raw.age,
-        gender: raw.gender?.toLowerCase() as "male" | "female" | undefined,
-        citizenship: (raw.citizenship as "SA" | "PR" | undefined) ?? undefined,
-        reason: raw.message,
+        valid: raw.success && verification.Status === 'ID Number Valid' || false,
+        dob: verification.Dob,
+        age: verification.Age,
+        gender: (verification.Gender || '').toLowerCase() as "male" | "female" | undefined,
+        citizenship: verification.Citizenship?.includes('South African') ? 'SA' : 'PR',
+        reason: raw.results?.said_verification?.realTimeResults?.Status,
       };
     } catch (e) {
       return {
