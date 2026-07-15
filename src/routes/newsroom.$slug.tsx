@@ -158,7 +158,7 @@ function ArticlePage() {
           </div>
 
           <div className="prose prose-invert prose-lg mt-10 max-w-none text-white/80">
-            {paragraphs.map((p, i) => (
+            {paragraphs.map((p: string, i: number) => (
               <p key={i} className="leading-relaxed">
                 {p}
               </p>
