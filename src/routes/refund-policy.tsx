@@ -60,7 +60,7 @@ export const Route = createFileRoute("/refund-policy")({
           <a href="https://wa.me/27680200749">+27 68 020 0749</a> within 7 days of delivery with
           your order number and clear photos of the issue.
         </li>
-        <li>We'll confirm approval and arrange collection via The Courier Guy where applicable.</li>
+        <li>We'll confirm approval and arrange collection via The our delivery partner where applicable.</li>
         <li>
           Once inspected, an approved return will be refunded to the original payment method within
           10 working days, or exchanged for a replacement of equal value.

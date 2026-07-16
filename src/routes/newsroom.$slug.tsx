@@ -3,16 +3,50 @@ import { useEffect, useState, type FormEvent } from "react";
 import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
 import { getArticleBySlug } from "@/lib/news";
+import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ArrowLeft, ExternalLink, Heart, MessageCircle } from "lucide-react";
+import { toast } from "sonner";
+
+interface DbArticle {
+  id: string;
+  slug: string;
+  title: string;
+  source: string;
+  source_url: string;
+  cover: string | null;
+  excerpt: string | null;
+  summary_md: string;
+  published_at: string;
+}
 
 export const Route = createFileRoute("/newsroom/$slug")({
-  loader: ({ params }) => {
-    const article = getArticleBySlug(params.slug);
-    if (!article) throw notFound();
-    return { article };
+  loader: async ({ params }) => {
+    // Try Supabase first via server function
+    const { getArticle } = await import("@/lib/news.functions");
+    const dbArticle = await getArticle({ data: { slug: params.slug } });
+    if (dbArticle) {
+      return {
+        article: {
+          id: dbArticle.id,
+          slug: dbArticle.slug,
+          title: dbArticle.title,
+          source: dbArticle.source,
+          sourceUrl: dbArticle.source_url,
+          cover: dbArticle.cover ?? "",
+          excerpt: dbArticle.excerpt ?? "",
+          summary: dbArticle.summary_md,
+          publishedAt: dbArticle.published_at,
+        },
+      };
+    }
+    const seed = getArticleBySlug(params.slug);
+    if (!seed) throw notFound();
+    return {
+      article: { id: seed.slug, ...seed },
+    };
   },
   head: ({ loaderData }) =>
     loaderData
@@ -42,68 +76,100 @@ export const Route = createFileRoute("/newsroom/$slug")({
   component: ArticlePage,
 });
 
-interface Comment {
+interface CommentRow {
   id: string;
-  name: string;
+  author_name: string;
   body: string;
-  createdAt: string;
+  created_at: string;
 }
 
 function ArticlePage() {
   const { article } = Route.useLoaderData();
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
-  const [comments, setComments] = useState<Comment[]>([]);
+  const [comments, setComments] = useState<CommentRow[]>([]);
   const [name, setName] = useState("");
   const [body, setBody] = useState("");
-  const slug = article.slug;
+  const [userId, setUserId] = useState<string | null>(null);
+  const articleId = article.id;
 
   useEffect(() => {
-    try {
-      setLikeCount(Number(localStorage.getItem(`loudmouf-news-likes-${slug}`) ?? 0) || 0);
-      setLiked(localStorage.getItem(`loudmouf-news-liked-${slug}`) === "1");
-      const raw = localStorage.getItem(`loudmouf-news-comments-${slug}`);
-      setComments(raw ? (JSON.parse(raw) as Comment[]) : []);
-    } catch {
-      /* ignore */
-    }
-  }, [slug]);
+    (async () => {
+      const { data: userRes } = await supabase.auth.getUser();
+      setUserId(userRes.user?.id ?? null);
+      const [likesRes, commentsRes, myLikeRes] = await Promise.all([
+        supabase
+          .from("article_likes")
+          .select("*", { count: "exact", head: true })
+          .eq("article_id", articleId),
+        supabase
+          .from("article_comments")
+          .select("id, author_name, body, created_at")
+          .eq("article_id", articleId)
+          .eq("status", "approved")
+          .order("created_at", { ascending: false })
+          .limit(50),
+        userRes.user
+          ? supabase
+              .from("article_likes")
+              .select("article_id")
+              .eq("article_id", articleId)
+              .eq("user_id", userRes.user.id)
+              .maybeSingle()
+          : Promise.resolve({ data: null }),
+      ]);
+      setLikeCount(likesRes.count ?? 0);
+      setComments((commentsRes.data ?? []) as CommentRow[]);
+      setLiked(!!myLikeRes.data);
+    })();
+  }, [articleId]);
 
-  function toggleLike() {
-    const next = !liked;
-    const c = Math.max(0, likeCount + (next ? 1 : -1));
-    setLiked(next);
-    setLikeCount(c);
-    try {
-      localStorage.setItem(`loudmouf-news-likes-${slug}`, String(c));
-      localStorage.setItem(`loudmouf-news-liked-${slug}`, next ? "1" : "0");
-    } catch {
-      /* ignore */
+  async function toggleLike() {
+    if (!userId) {
+      toast.error("Sign in to like articles");
+      return;
+    }
+    if (liked) {
+      await supabase
+        .from("article_likes")
+        .delete()
+        .eq("article_id", articleId)
+        .eq("user_id", userId);
+      setLiked(false);
+      setLikeCount((c) => Math.max(0, c - 1));
+    } else {
+      await supabase.from("article_likes").insert({ article_id: articleId, user_id: userId });
+      setLiked(true);
+      setLikeCount((c) => c + 1);
     }
   }
 
-  function submitComment(e: FormEvent) {
+  async function submitComment(e: FormEvent) {
     e.preventDefault();
+    if (!userId) {
+      toast.error("Sign in to comment");
+      return;
+    }
     const trimmedName = name.trim().slice(0, 60);
     const trimmedBody = body.trim().slice(0, 1000);
     if (!trimmedName || !trimmedBody) return;
-    const next: Comment[] = [
-      ...comments,
-      {
-        id: crypto.randomUUID(),
-        name: trimmedName,
-        body: trimmedBody,
-        createdAt: new Date().toISOString(),
-      },
-    ];
-    setComments(next);
-    setBody("");
-    try {
-      localStorage.setItem(`loudmouf-news-comments-${slug}`, JSON.stringify(next));
-    } catch {
-      /* ignore */
+    const { error } = await supabase.from("article_comments").insert({
+      article_id: articleId,
+      user_id: userId,
+      author_name: trimmedName,
+      body: trimmedBody,
+      status: "pending",
+    });
+    if (error) {
+      toast.error(error.message);
+    } else {
+      toast.success("Comment submitted", {
+        description: "It will appear once a moderator approves it.",
+      });
+      setBody("");
     }
   }
+
 
   const paragraphs = article.summary.split(/\n+/).filter(Boolean);
 
@@ -214,9 +280,9 @@ function ArticlePage() {
                     className="rounded-2xl border border-white/10 bg-white/[0.03] p-4"
                   >
                     <div className="flex items-baseline justify-between">
-                      <p className="text-sm font-semibold text-white">{c.name}</p>
+                      <p className="text-sm font-semibold text-white">{c.author_name}</p>
                       <span className="text-[10px] uppercase tracking-widest text-white/40">
-                        {new Date(c.createdAt).toLocaleString("en-ZA")}
+                        {new Date(c.created_at).toLocaleString("en-ZA")}
                       </span>
                     </div>
                     <p className="mt-2 text-sm text-white/80 whitespace-pre-wrap">{c.body}</p>
