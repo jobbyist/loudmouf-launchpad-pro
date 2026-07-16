@@ -1,8 +1,8 @@
-import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { ArrowRight, ExternalLink, Heart, MessageCircle, Calendar } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { getSeededArticles } from "@/lib/news";
+import { useUIStore } from "@/stores/uiStore";
 
 interface ArticleRow {
   id: string;
@@ -17,6 +17,7 @@ interface ArticleRow {
 
 export function Newsroom() {
   const [articles, setArticles] = useState<ArticleRow[]>([]);
+  const openArticleModal = useUIStore((s) => s.openArticleModal);
 
   useEffect(() => {
     (async () => {
@@ -61,18 +62,17 @@ export function Newsroom() {
             grows, regulates and consumes.
           </p>
         </div>
-        {/* View All button removed as per request */}
       </div>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {articles.slice(0, 6).map((a) => (
-          <ArticleCard key={a.id} a={a} />
+          <ArticleCard key={a.id} a={a} onRead={() => openArticleModal(a.slug)} />
         ))}
       </div>
     </section>
   );
 }
 
-function ArticleCard({ a }: { a: ArticleRow }) {
+function ArticleCard({ a, onRead }: { a: ArticleRow; onRead: () => void }) {
   const [likeCount, setLikeCount] = useState(0);
   const [commentCount, setCommentCount] = useState(0);
 
@@ -99,8 +99,7 @@ function ArticleCard({ a }: { a: ArticleRow }) {
     : '';
 
   return (
-    <article className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-md hover:border-loud-yellow/40 transition">
-      {/* Article image thumbnail removed as per request */}
+    <article className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-md hover:border-loud-yellow/40 transition cursor-pointer" onClick={onRead}>
       <div className="p-5">
         <div className="flex items-center justify-between">
           <p className="text-[10px] uppercase tracking-[0.28em] text-loud-yellow">{a.source}</p>
@@ -111,13 +110,7 @@ function ArticleCard({ a }: { a: ArticleRow }) {
           )}
         </div>
         <h3 className="mt-2 font-display text-xl leading-snug text-white line-clamp-2">
-          <Link
-            to="/newsroom/$slug"
-            params={{ slug: a.slug }}
-            className="hover:text-loud-yellow transition"
-          >
-            {a.title}
-          </Link>
+          {a.title}
         </h3>
         <p className="mt-2 text-sm text-white/60 line-clamp-3">{a.excerpt}</p>
         <div className="mt-4 flex items-center justify-between text-xs text-white/60">
@@ -125,30 +118,25 @@ function ArticleCard({ a }: { a: ArticleRow }) {
             <span className="inline-flex items-center gap-1.5">
               <Heart className="h-4 w-4" /> {likeCount}
             </span>
-            <Link
-              to="/newsroom/$slug"
-              params={{ slug: a.slug }}
-              hash="comments"
-              className="inline-flex items-center gap-1.5 hover:text-loud-yellow"
-            >
+            <span className="inline-flex items-center gap-1.5">
               <MessageCircle className="h-4 w-4" /> {commentCount}
-            </Link>
+            </span>
             <a
               href={a.source_url}
               target="_blank"
               rel="noreferrer noopener"
               className="inline-flex items-center gap-1.5 hover:text-white"
+              onClick={(e) => e.stopPropagation()}
             >
               <ExternalLink className="h-3 w-3" /> Source
             </a>
           </div>
-          <Link
-            to="/newsroom/$slug"
-            params={{ slug: a.slug }}
+          <button
+            onClick={(e) => { e.stopPropagation(); onRead(); }}
             className="inline-flex items-center gap-1 uppercase tracking-widest text-[10px] text-loud-yellow hover:text-white"
           >
             Read <ArrowRight className="h-3 w-3" />
-          </Link>
+          </button>
         </div>
       </div>
     </article>
