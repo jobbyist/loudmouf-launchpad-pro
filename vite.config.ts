@@ -11,6 +11,9 @@ export default defineConfig({
   },
   vite: {
     plugins: [mcpPlugin()],
+    resolve: {
+      tsconfigPaths: true,  // Replace deprecated vite-tsconfig-paths plugin
+    },
     build: {
       target: "esnext",         // Vercel preview compatibility (your existing config)
     },
