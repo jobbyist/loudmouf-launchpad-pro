@@ -275,7 +275,7 @@ export function ArticleModal() {
               </div>
             )}
           </section>
-        </div>
+        </div>) : null}
       </DialogContent>
     </Dialog>
   );
