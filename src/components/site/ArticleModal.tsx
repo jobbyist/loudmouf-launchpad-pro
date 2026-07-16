@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ExternalLink, Heart, MessageCircle, Calendar } from "lucide-react";
+import { ArrowLeft, ExternalLink, Heart, MessageCircle, Calendar, Share2 } from "lucide-react";
 import { useUIStore } from "@/stores/uiStore";
 import { getArticleBySlug } from "@/lib/news";
 import { supabase } from "@/integrations/supabase/client";
-import { Link } from "@tanstack/react-router";
+import { useNavigate, useLocation } from "@tanstack/react-router";
 import { toast } from "sonner";
 
 interface Article {
@@ -28,7 +28,9 @@ interface CommentRow {
 }
 
 export function ArticleModal() {
-  const { articleModalOpen, currentArticleSlug, closeArticleModal } = useUIStore();
+  const { articleModalOpen, currentArticleSlug, closeArticleModal, openArticleModal } = useUIStore();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [article, setArticle] = useState<Article | null>(null);
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
@@ -37,11 +39,31 @@ export function ArticleModal() {
   const [body, setBody] = useState("");
   const [userId, setUserId] = useState<string | null>(null);
 
+  // URL Sync: Open modal if /newsroom/$slug visited
   useEffect(() => {
-    if (!currentArticleSlug || !articleModalOpen) return;
+    const match = location.pathname.match(/^\/newsroom\/(.+)$/);
+    if (match && match[1]) {
+      const slug = match[1];
+      openArticleModal(slug);
+    }
+  }, [location.pathname, openArticleModal]);
+
+  // Sync URL when modal opens/closes
+  useEffect(() => {
+    if (currentArticleSlug && articleModalOpen) {
+      navigate({ to: `/newsroom/${currentArticleSlug}` });
+    } else if (!articleModalOpen && location.pathname.startsWith('/newsroom/') && !location.pathname.endsWith('/newsroom')) {
+      navigate({ to: '/newsroom' });
+    }
+  }, [articleModalOpen, currentArticleSlug, navigate, location.pathname]);
+
+  useEffect(() => {
+    if (!currentArticleSlug || !articleModalOpen) {
+      setArticle(null);
+      return;
+    }
 
     const loadArticle = async () => {
-      // Try DB first
       try {
         const { getArticle } = await import("@/lib/news.functions");
         const dbArticle = await getArticle({ data: { slug: currentArticleSlug } });
@@ -63,7 +85,6 @@ export function ArticleModal() {
         console.error("DB article load failed", e);
       }
 
-      // Fallback to seed
       const seed = getArticleBySlug(currentArticleSlug);
       if (seed) {
         setArticle({ id: seed.slug, ...seed });
@@ -73,6 +94,7 @@ export function ArticleModal() {
     loadArticle();
   }, [currentArticleSlug, articleModalOpen]);
 
+  // ... (rest of interactions same as before)
   useEffect(() => {
     if (!article || !articleModalOpen) return;
 
@@ -129,8 +151,17 @@ export function ArticleModal() {
     } else {
       toast.success("Comment submitted for moderation");
       setBody("");
-      // Reload comments
-      // ... (simplified)
+    }
+  };
+
+  const handleShare = async () => {
+    if (!article) return;
+    const url = `${window.location.origin}/newsroom/${article.slug}`;
+    try {
+      await navigator.share({ title: article.title, text: article.excerpt, url });
+    } catch {
+      await navigator.clipboard.writeText(url);
+      toast.success("Link copied to clipboard");
     }
   };
 
@@ -143,12 +174,17 @@ export function ArticleModal() {
     <Dialog open={articleModalOpen} onOpenChange={(open) => !open && closeArticleModal()}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-loud-ink border-white/10 p-0">
         <div className="p-6">
-          <button
-            onClick={closeArticleModal}
-            className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-white/50 hover:text-loud-yellow mb-6"
-          >
-            <ArrowLeft className="h-3 w-3" /> Back to Newsroom
-          </button>
+          <div className="flex justify-between items-start mb-6">
+            <button
+              onClick={closeArticleModal}
+              className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-white/50 hover:text-loud-yellow"
+            >
+              <ArrowLeft className="h-3 w-3" /> Back to Newsroom
+            </button>
+            <Button variant="ghost" size="sm" onClick={handleShare} className="text-white/70 hover:text-white">
+              <Share2 className="h-4 w-4 mr-1" /> Share
+            </Button>
+          </div>
 
           <div className="flex items-center gap-2 text-[11px] uppercase tracking-[0.3em] text-loud-yellow">
             {article.source} {publishDate && `· ${publishDate}`}
@@ -160,7 +196,7 @@ export function ArticleModal() {
 
           <p className="mt-4 text-lg text-white/70">{article.excerpt}</p>
 
-          <div className="mt-6 flex gap-3">
+          <div className="mt-6 flex gap-3 flex-wrap">
             <a
               href={article.sourceUrl}
               target="_blank"
@@ -193,7 +229,6 @@ export function ArticleModal() {
             Summary curated by LOUDMOUF™ · original reporting © {article.source}.
           </p>
 
-          {/* Comments section similar to full page */}
           <section className="mt-16 border-t border-white/10 pt-10">
             <h2 className="text-3xl text-white flex items-center gap-3">
               <MessageCircle className="h-6 w-6 text-loud-yellow" /> Discussion
@@ -214,7 +249,6 @@ export function ArticleModal() {
               />
               <Button type="submit" className="cta-gradient">Post Comment</Button>
             </form>
-            {/* comments list */}
             {comments.length > 0 && (
               <div className="mt-8 space-y-4">
                 {comments.map(c => (
