@@ -199,7 +199,7 @@ export function Footer() {
 
       <div className="border-t border-white/10">
         <div className="mx-auto max-w-7xl px-6 py-6 flex flex-col md:flex-row items-center justify-between gap-3 text-[11px] uppercase tracking-widest text-white/40">
-          <p>© 2026 LOUDMOUF™ · Gravitas Industries (Pty) Ltd · CK 2024/596436/07</p>
+          <p>© 2026 LOUDMOUF™ · CK 2024/596436/07</p>
           <p className="text-gradient-loud font-semibold">
             18+ Private Members Only · Keep out of reach of children
           </p>

@@ -34,8 +34,7 @@ export const Route = createFileRoute("/terms")({
       <h2>1. About Us</h2>
       <p>
         LOUDMOUF™ is a registered trademark owned and operated by{" "}
-        <strong>Gravitas Industries (Pty) Ltd</strong> (registration number 2024/596436/07) trading
-        as LOUDPACK™, a South African company.
+        <strong>LOUDPACK™</strong> (registration number 2024/596436/07), a South African company.
       </p>
 
       <h2>2. Age Restriction (18+)</h2>
@@ -74,8 +73,7 @@ export const Route = createFileRoute("/terms")({
 
       <h2>7. Intellectual Property</h2>
       <p>
-        LOUDMOUF™ and LOUDPACK™ are trademarks of Gravitas Industries (Pty) Ltd. All site content,
-        branding, photography and copy are protected. You may not copy, reproduce or distribute any
+        LOUDMOUF™ and LOUDPACK™ are protected trademarks. All site content, branding, photography and copy are protected. You may not copy, reproduce or distribute any
         content without written permission.
       </p>
 

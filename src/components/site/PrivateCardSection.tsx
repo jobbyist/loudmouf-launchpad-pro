@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, Sparkles, ShieldCheck } from "lucide-react";
-import { Logo } from "./Logo";
 
 export function PrivateCardSection() {
   return (

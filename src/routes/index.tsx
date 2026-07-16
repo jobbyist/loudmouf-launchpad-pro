@@ -611,7 +611,7 @@ function LandingPage() {
       </section>
 
       {/* PODCAST */}
-      <section className="relative mx-auto max-w-6xl px-6 py-20">
+      <section className="relative mx-auto max-w-6xl px-6 py-28 sm:py-36">
         <div className="rounded-3xl border border-white/10 bg-black/60 p-8 sm:p-12">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>

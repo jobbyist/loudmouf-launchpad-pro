@@ -29,9 +29,8 @@ export const Route = createFileRoute("/privacy-policy")({
         </em>
       </p>
       <p>
-        This Privacy Policy explains how Gravitas Industries (Pty) Ltd (CK No: 2024/596436/07),
-        trading as LOUDPACK™ ("we", "us", "our"), the owner of the LOUDMOUF™ trademark, collects,
-        uses, stores and protects your personal information when you visit{" "}
+        This Privacy Policy explains how LOUDPACK™ ("we", "us", "our"), the owner of the 
+        LOUDMOUF™ trademark, collects, uses, stores and protects your personal information when you visit{" "}
         <a href="https://loudmouf.co.za">loudmouf.co.za</a> or purchase LOUDMOUF™ products. We
         comply with the Protection of Personal Information Act, 2013 (POPIA).
       </p>
