@@ -92,7 +92,7 @@ export const Route = createFileRoute("/api/public/hooks/shopify-orders")({
               status: "received",
               financial_status: order.financial_status ?? null,
               fulfillment_status: order.fulfillment_status ?? null,
-              raw: order as unknown as Record<string, unknown>,
+              raw: order as never,
             },
             { onConflict: "shopify_order_id" },
           );

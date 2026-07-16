@@ -32,7 +32,7 @@ export async function trackEvent(
       user_id: userData.user?.id ?? null,
       session_id: getSessionId(),
       path: path.slice(0, 500),
-      properties,
+      properties: properties as never,
     });
   } catch {
     /* analytics failures are non-fatal */

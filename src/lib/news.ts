@@ -57,6 +57,11 @@ export function getAllArticles(): NewsArticle[] {
   return ARTICLES;
 }
 
+export function getSeededArticles(): NewsArticle[] {
+  return ARTICLES;
+}
+
 export function getArticleBySlug(slug: string): NewsArticle | undefined {
   return ARTICLES.find((a) => a.slug === slug);
 }
+
