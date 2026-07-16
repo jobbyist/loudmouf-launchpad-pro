@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ArrowRight, ExternalLink, Heart, MessageCircle } from "lucide-react";
+import { ArrowRight, ExternalLink, Heart, MessageCircle, Calendar } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { getSeededArticles } from "@/lib/news";
 
@@ -12,6 +12,7 @@ interface ArticleRow {
   source_url: string;
   cover: string | null;
   excerpt: string | null;
+  published_at?: string;
 }
 
 export function Newsroom() {
@@ -21,7 +22,7 @@ export function Newsroom() {
     (async () => {
       const { data } = await supabase
         .from("newsroom_articles")
-        .select("id, slug, title, source, source_url, cover, excerpt")
+        .select("id, slug, title, source, source_url, cover, excerpt, published_at")
         .eq("status", "published")
         .order("published_at", { ascending: false })
         .limit(6);
@@ -60,12 +61,7 @@ export function Newsroom() {
             grows, regulates and consumes.
           </p>
         </div>
-        <Link
-          to="/newsroom"
-          className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-5 py-3 text-xs uppercase tracking-widest text-white hover:border-loud-yellow/40 hover:text-loud-yellow transition"
-        >
-          View All Articles <ArrowRight className="h-3 w-3" />
-        </Link>
+        {/* View All button removed as per request */}
       </div>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {articles.slice(0, 6).map((a) => (
@@ -98,24 +94,22 @@ function ArticleCard({ a }: { a: ArticleRow }) {
     })();
   }, [a.id]);
 
+  const publishDate = a.published_at 
+    ? new Date(a.published_at).toLocaleDateString('en-ZA', { year: 'numeric', month: 'short', day: 'numeric' }) 
+    : '';
+
   return (
     <article className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-md hover:border-loud-yellow/40 transition">
-      <Link
-        to="/newsroom/$slug"
-        params={{ slug: a.slug }}
-        className="block aspect-[16/10] overflow-hidden bg-loud-ink"
-      >
-        {a.cover && (
-          <img
-            src={a.cover}
-            alt=""
-            className="h-full w-full object-cover group-hover:scale-105 transition duration-500"
-            loading="lazy"
-          />
-        )}
-      </Link>
+      {/* Article image thumbnail removed as per request */}
       <div className="p-5">
-        <p className="text-[10px] uppercase tracking-[0.28em] text-loud-yellow">{a.source}</p>
+        <div className="flex items-center justify-between">
+          <p className="text-[10px] uppercase tracking-[0.28em] text-loud-yellow">{a.source}</p>
+          {publishDate && (
+            <p className="text-[10px] text-white/50 flex items-center gap-1">
+              <Calendar className="h-3 w-3" /> {publishDate}
+            </p>
+          )}
+        </div>
         <h3 className="mt-2 font-display text-xl leading-snug text-white line-clamp-2">
           <Link
             to="/newsroom/$slug"
