@@ -32,6 +32,7 @@ function readVerified(): boolean {
 export const useUIStore = create<UIStore>((set) => ({
   cartOpen: false,
   onboardingOpen: false,
+  memberVerified: readVerified(),
   articleModalOpen: false,
   currentArticleSlug: null,
   openArticleModal: (slug) => set({ articleModalOpen: true, currentArticleSlug: slug }),

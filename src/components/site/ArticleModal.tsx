@@ -246,12 +246,16 @@ export function ArticleModal() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Your name"
+                required
+                maxLength={60}
                 className="w-full bg-white/5 border border-white/10 p-3 text-white rounded-xl"
               />
               <textarea
                 value={body}
                 onChange={(e) => setBody(e.target.value)}
                 placeholder="Share your thoughts..."
+                required
+                maxLength={1000}
                 rows={4}
                 className="w-full bg-white/5 border border-white/10 p-3 text-white rounded-xl resize-y"
               />
