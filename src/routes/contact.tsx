@@ -42,7 +42,7 @@ export const Route = createFileRoute("/contact")({
           <MapPin className="h-5 w-5 text-loud-yellow" />
           <h3 className="mt-4 font-display uppercase text-xl text-white">Head Office</h3>
           <p className="text-sm text-white/70 mt-1">
-            Gravitas Industries (Pty) Ltd t/a LOUDPACK™ · CK 2024/596436/07 · South Africa
+            LOUDPACK™ · CK 2024/596436/07 · South Africa
           </p>
         </div>
       </div>
