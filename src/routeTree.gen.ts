@@ -14,6 +14,7 @@ import { Route as TermsRouteImport } from './routes/terms'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ShippingPolicyRouteImport } from './routes/shipping-policy'
 import { Route as RefundPolicyRouteImport } from './routes/refund-policy'
+import { Route as ReferralsRouteImport } from './routes/referrals'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as NewsroomRouteImport } from './routes/newsroom'
 import { Route as MembershipRouteImport } from './routes/membership'
@@ -21,6 +22,8 @@ import { Route as McpRouteImport } from './routes/mcp'
 import { Route as LaunchRouteImport } from './routes/launch'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CommunityGuidelinesRouteImport } from './routes/community-guidelines'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as NewsroomSlugRouteImport } from './routes/newsroom.$slug'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
@@ -29,6 +32,8 @@ import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } fr
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as ApiPublicRecordSignatureRouteImport } from './routes/api/public/record-signature'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
+import { Route as ApiPublicHooksShopifyOrdersRouteImport } from './routes/api/public/hooks/shopify-orders'
+import { Route as ApiPublicHooksScrapeArticlesRouteImport } from './routes/api/public/hooks/scrape-articles'
 
 const TrackMyOrderRoute = TrackMyOrderRouteImport.update({
   id: '/track-my-order',
@@ -53,6 +58,11 @@ const ShippingPolicyRoute = ShippingPolicyRouteImport.update({
 const RefundPolicyRoute = RefundPolicyRouteImport.update({
   id: '/refund-policy',
   path: '/refund-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReferralsRoute = ReferralsRouteImport.update({
+  id: '/referrals',
+  path: '/referrals',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
@@ -90,6 +100,15 @@ const CommunityGuidelinesRoute = CommunityGuidelinesRouteImport.update({
   path: '/community-guidelines',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -107,9 +126,9 @@ const ApiChatRoute = ApiChatRouteImport.update({
 } as any)
 const AuthenticatedMemberDashboardRoute =
   AuthenticatedMemberDashboardRouteImport.update({
-    id: '/_authenticated/member-dashboard',
+    id: '/member-dashboard',
     path: '/member-dashboard',
-    getParentRoute: () => rootRouteImport,
+    getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const Char91DotwellKnownChar93OauthProtectedResourceRoute =
   Char91DotwellKnownChar93OauthProtectedResourceRouteImport.update({
@@ -135,9 +154,22 @@ const Char91DotmcpChar93InvokeToolToolRoute =
     path: '/.mcp/invoke-tool/$tool',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicHooksShopifyOrdersRoute =
+  ApiPublicHooksShopifyOrdersRouteImport.update({
+    id: '/api/public/hooks/shopify-orders',
+    path: '/api/public/hooks/shopify-orders',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicHooksScrapeArticlesRoute =
+  ApiPublicHooksScrapeArticlesRouteImport.update({
+    id: '/api/public/hooks/scrape-articles',
+    path: '/api/public/hooks/scrape-articles',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/community-guidelines': typeof CommunityGuidelinesRoute
   '/contact': typeof ContactRoute
   '/launch': typeof LaunchRoute
@@ -145,6 +177,7 @@ export interface FileRoutesByFullPath {
   '/membership': typeof MembershipRoute
   '/newsroom': typeof NewsroomRouteWithChildren
   '/privacy-policy': typeof PrivacyPolicyRoute
+  '/referrals': typeof ReferralsRoute
   '/refund-policy': typeof RefundPolicyRoute
   '/shipping-policy': typeof ShippingPolicyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -157,9 +190,12 @@ export interface FileRoutesByFullPath {
   '/newsroom/$slug': typeof NewsroomSlugRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/record-signature': typeof ApiPublicRecordSignatureRoute
+  '/api/public/hooks/scrape-articles': typeof ApiPublicHooksScrapeArticlesRoute
+  '/api/public/hooks/shopify-orders': typeof ApiPublicHooksShopifyOrdersRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/community-guidelines': typeof CommunityGuidelinesRoute
   '/contact': typeof ContactRoute
   '/launch': typeof LaunchRoute
@@ -167,6 +203,7 @@ export interface FileRoutesByTo {
   '/membership': typeof MembershipRoute
   '/newsroom': typeof NewsroomRouteWithChildren
   '/privacy-policy': typeof PrivacyPolicyRoute
+  '/referrals': typeof ReferralsRoute
   '/refund-policy': typeof RefundPolicyRoute
   '/shipping-policy': typeof ShippingPolicyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -179,10 +216,14 @@ export interface FileRoutesByTo {
   '/newsroom/$slug': typeof NewsroomSlugRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/record-signature': typeof ApiPublicRecordSignatureRoute
+  '/api/public/hooks/scrape-articles': typeof ApiPublicHooksScrapeArticlesRoute
+  '/api/public/hooks/shopify-orders': typeof ApiPublicHooksShopifyOrdersRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
   '/community-guidelines': typeof CommunityGuidelinesRoute
   '/contact': typeof ContactRoute
   '/launch': typeof LaunchRoute
@@ -190,6 +231,7 @@ export interface FileRoutesById {
   '/membership': typeof MembershipRoute
   '/newsroom': typeof NewsroomRouteWithChildren
   '/privacy-policy': typeof PrivacyPolicyRoute
+  '/referrals': typeof ReferralsRoute
   '/refund-policy': typeof RefundPolicyRoute
   '/shipping-policy': typeof ShippingPolicyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -202,11 +244,14 @@ export interface FileRoutesById {
   '/newsroom/$slug': typeof NewsroomSlugRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/record-signature': typeof ApiPublicRecordSignatureRoute
+  '/api/public/hooks/scrape-articles': typeof ApiPublicHooksScrapeArticlesRoute
+  '/api/public/hooks/shopify-orders': typeof ApiPublicHooksShopifyOrdersRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/auth'
     | '/community-guidelines'
     | '/contact'
     | '/launch'
@@ -214,6 +259,7 @@ export interface FileRouteTypes {
     | '/membership'
     | '/newsroom'
     | '/privacy-policy'
+    | '/referrals'
     | '/refund-policy'
     | '/shipping-policy'
     | '/sitemap.xml'
@@ -226,9 +272,12 @@ export interface FileRouteTypes {
     | '/newsroom/$slug'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/record-signature'
+    | '/api/public/hooks/scrape-articles'
+    | '/api/public/hooks/shopify-orders'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/auth'
     | '/community-guidelines'
     | '/contact'
     | '/launch'
@@ -236,6 +285,7 @@ export interface FileRouteTypes {
     | '/membership'
     | '/newsroom'
     | '/privacy-policy'
+    | '/referrals'
     | '/refund-policy'
     | '/shipping-policy'
     | '/sitemap.xml'
@@ -248,9 +298,13 @@ export interface FileRouteTypes {
     | '/newsroom/$slug'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/record-signature'
+    | '/api/public/hooks/scrape-articles'
+    | '/api/public/hooks/shopify-orders'
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
+    | '/auth'
     | '/community-guidelines'
     | '/contact'
     | '/launch'
@@ -258,6 +312,7 @@ export interface FileRouteTypes {
     | '/membership'
     | '/newsroom'
     | '/privacy-policy'
+    | '/referrals'
     | '/refund-policy'
     | '/shipping-policy'
     | '/sitemap.xml'
@@ -270,10 +325,14 @@ export interface FileRouteTypes {
     | '/newsroom/$slug'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/record-signature'
+    | '/api/public/hooks/scrape-articles'
+    | '/api/public/hooks/shopify-orders'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
   CommunityGuidelinesRoute: typeof CommunityGuidelinesRoute
   ContactRoute: typeof ContactRoute
   LaunchRoute: typeof LaunchRoute
@@ -281,6 +340,7 @@ export interface RootRouteChildren {
   MembershipRoute: typeof MembershipRoute
   NewsroomRoute: typeof NewsroomRouteWithChildren
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
+  ReferralsRoute: typeof ReferralsRoute
   RefundPolicyRoute: typeof RefundPolicyRoute
   ShippingPolicyRoute: typeof ShippingPolicyRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -288,10 +348,11 @@ export interface RootRouteChildren {
   TrackMyOrderRoute: typeof TrackMyOrderRoute
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
-  AuthenticatedMemberDashboardRoute: typeof AuthenticatedMemberDashboardRoute
   ApiChatRoute: typeof ApiChatRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
   ApiPublicRecordSignatureRoute: typeof ApiPublicRecordSignatureRoute
+  ApiPublicHooksScrapeArticlesRoute: typeof ApiPublicHooksScrapeArticlesRoute
+  ApiPublicHooksShopifyOrdersRoute: typeof ApiPublicHooksShopifyOrdersRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -329,6 +390,13 @@ declare module '@tanstack/react-router' {
       path: '/refund-policy'
       fullPath: '/refund-policy'
       preLoaderRoute: typeof RefundPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/referrals': {
+      id: '/referrals'
+      path: '/referrals'
+      fullPath: '/referrals'
+      preLoaderRoute: typeof ReferralsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy-policy': {
@@ -380,6 +448,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CommunityGuidelinesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -406,7 +488,7 @@ declare module '@tanstack/react-router' {
       path: '/member-dashboard'
       fullPath: '/member-dashboard'
       preLoaderRoute: typeof AuthenticatedMemberDashboardRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/.well-known/oauth-protected-resource': {
       id: '/.well-known/oauth-protected-resource'
@@ -436,8 +518,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char91DotmcpChar93InvokeToolToolRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/hooks/shopify-orders': {
+      id: '/api/public/hooks/shopify-orders'
+      path: '/api/public/hooks/shopify-orders'
+      fullPath: '/api/public/hooks/shopify-orders'
+      preLoaderRoute: typeof ApiPublicHooksShopifyOrdersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/hooks/scrape-articles': {
+      id: '/api/public/hooks/scrape-articles'
+      path: '/api/public/hooks/scrape-articles'
+      fullPath: '/api/public/hooks/scrape-articles'
+      preLoaderRoute: typeof ApiPublicHooksScrapeArticlesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
+
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedMemberDashboardRoute: typeof AuthenticatedMemberDashboardRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedMemberDashboardRoute: AuthenticatedMemberDashboardRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
 interface NewsroomRouteChildren {
   NewsroomSlugRoute: typeof NewsroomSlugRoute
@@ -453,6 +560,8 @@ const NewsroomRouteWithChildren = NewsroomRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
   CommunityGuidelinesRoute: CommunityGuidelinesRoute,
   ContactRoute: ContactRoute,
   LaunchRoute: LaunchRoute,
@@ -460,6 +569,7 @@ const rootRouteChildren: RootRouteChildren = {
   MembershipRoute: MembershipRoute,
   NewsroomRoute: NewsroomRouteWithChildren,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
+  ReferralsRoute: ReferralsRoute,
   RefundPolicyRoute: RefundPolicyRoute,
   ShippingPolicyRoute: ShippingPolicyRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
@@ -468,10 +578,11 @@ const rootRouteChildren: RootRouteChildren = {
   Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
-  AuthenticatedMemberDashboardRoute: AuthenticatedMemberDashboardRoute,
   ApiChatRoute: ApiChatRoute,
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
   ApiPublicRecordSignatureRoute: ApiPublicRecordSignatureRoute,
+  ApiPublicHooksScrapeArticlesRoute: ApiPublicHooksScrapeArticlesRoute,
+  ApiPublicHooksShopifyOrdersRoute: ApiPublicHooksShopifyOrdersRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
