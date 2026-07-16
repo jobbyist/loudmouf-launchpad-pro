@@ -14,6 +14,100 @@ export type Database = {
   }
   public: {
     Tables: {
+      analytics_events: {
+        Row: {
+          created_at: string
+          event_name: string
+          id: string
+          path: string | null
+          properties: Json
+          session_id: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          event_name: string
+          id?: string
+          path?: string | null
+          properties?: Json
+          session_id?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          event_name?: string
+          id?: string
+          path?: string | null
+          properties?: Json
+          session_id?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      article_comments: {
+        Row: {
+          article_id: string
+          author_name: string
+          body: string
+          created_at: string
+          id: string
+          status: string
+          user_id: string | null
+        }
+        Insert: {
+          article_id: string
+          author_name: string
+          body: string
+          created_at?: string
+          id?: string
+          status?: string
+          user_id?: string | null
+        }
+        Update: {
+          article_id?: string
+          author_name?: string
+          body?: string
+          created_at?: string
+          id?: string
+          status?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "article_comments_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "newsroom_articles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      article_likes: {
+        Row: {
+          article_id: string
+          created_at: string
+          user_id: string
+        }
+        Insert: {
+          article_id: string
+          created_at?: string
+          user_id: string
+        }
+        Update: {
+          article_id?: string
+          created_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "article_likes_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "newsroom_articles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       member_signatures: {
         Row: {
           acceptance_statements: Json
@@ -26,6 +120,7 @@ export type Database = {
           signature_hash: string
           typed_signature: string
           user_agent: string | null
+          user_id: string | null
         }
         Insert: {
           acceptance_statements?: Json
@@ -38,6 +133,7 @@ export type Database = {
           signature_hash: string
           typed_signature: string
           user_agent?: string | null
+          user_id?: string | null
         }
         Update: {
           acceptance_statements?: Json
@@ -50,6 +146,232 @@ export type Database = {
           signature_hash?: string
           typed_signature?: string
           user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      newsroom_articles: {
+        Row: {
+          cover: string | null
+          created_at: string
+          excerpt: string | null
+          id: string
+          published_at: string
+          slug: string
+          source: string
+          source_url: string
+          status: string
+          summary_md: string
+          title: string
+          word_count: number | null
+        }
+        Insert: {
+          cover?: string | null
+          created_at?: string
+          excerpt?: string | null
+          id?: string
+          published_at?: string
+          slug: string
+          source: string
+          source_url: string
+          status?: string
+          summary_md: string
+          title: string
+          word_count?: number | null
+        }
+        Update: {
+          cover?: string | null
+          created_at?: string
+          excerpt?: string | null
+          id?: string
+          published_at?: string
+          slug?: string
+          source?: string
+          source_url?: string
+          status?: string
+          summary_md?: string
+          title?: string
+          word_count?: number | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string | null
+          first_name: string | null
+          id: string
+          last_name: string | null
+          phone: string | null
+          referral_code: string | null
+          referred_by: string | null
+          tier: string | null
+          updated_at: string
+          verified_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          first_name?: string | null
+          id: string
+          last_name?: string | null
+          phone?: string | null
+          referral_code?: string | null
+          referred_by?: string | null
+          tier?: string | null
+          updated_at?: string
+          verified_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+          phone?: string | null
+          referral_code?: string | null
+          referred_by?: string | null
+          tier?: string | null
+          updated_at?: string
+          verified_at?: string | null
+        }
+        Relationships: []
+      }
+      referral_attributions: {
+        Row: {
+          commission_cents: number
+          created_at: string
+          event_type: string
+          id: string
+          referred_email: string | null
+          referred_user_id: string | null
+          referrer_user_id: string
+          shopify_order_id: string | null
+          source: string | null
+          status: string
+        }
+        Insert: {
+          commission_cents?: number
+          created_at?: string
+          event_type: string
+          id?: string
+          referred_email?: string | null
+          referred_user_id?: string | null
+          referrer_user_id: string
+          shopify_order_id?: string | null
+          source?: string | null
+          status?: string
+        }
+        Update: {
+          commission_cents?: number
+          created_at?: string
+          event_type?: string
+          id?: string
+          referred_email?: string | null
+          referred_user_id?: string | null
+          referrer_user_id?: string
+          shopify_order_id?: string | null
+          source?: string | null
+          status?: string
+        }
+        Relationships: []
+      }
+      said_verifications: {
+        Row: {
+          created_at: string
+          id: string
+          id_number_hash: string
+          id_number_last4: string
+          raw_response: Json | null
+          user_id: string
+          verified: boolean
+          verifynow_ref: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          id_number_hash: string
+          id_number_last4: string
+          raw_response?: Json | null
+          user_id: string
+          verified?: boolean
+          verifynow_ref?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          id_number_hash?: string
+          id_number_last4?: string
+          raw_response?: Json | null
+          user_id?: string
+          verified?: boolean
+          verifynow_ref?: string | null
+        }
+        Relationships: []
+      }
+      shopify_orders: {
+        Row: {
+          created_at: string
+          currency: string | null
+          email: string | null
+          financial_status: string | null
+          fulfillment_status: string | null
+          id: string
+          raw: Json | null
+          shopify_order_id: string
+          status: string | null
+          tier: string | null
+          total_cents: number | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          currency?: string | null
+          email?: string | null
+          financial_status?: string | null
+          fulfillment_status?: string | null
+          id?: string
+          raw?: Json | null
+          shopify_order_id: string
+          status?: string | null
+          tier?: string | null
+          total_cents?: number | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          currency?: string | null
+          email?: string | null
+          financial_status?: string | null
+          fulfillment_status?: string | null
+          id?: string
+          raw?: Json | null
+          shopify_order_id?: string
+          status?: string | null
+          tier?: string | null
+          total_cents?: number | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
         }
         Relationships: []
       }
@@ -58,10 +380,16 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "moderator" | "member"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -188,6 +516,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "moderator", "member"],
+    },
   },
 } as const
