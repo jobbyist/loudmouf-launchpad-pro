@@ -124,14 +124,22 @@ export function ArticleModal() {
     }
     const articleId = article.id;
     if (liked) {
-      await supabase.from("article_likes").delete().eq("article_id", articleId).eq("user_id", userId);
-      setLiked(false);
-      setLikeCount((c) => Math.max(0, c - 1));
-    } else {
-      await supabase.from("article_likes").insert({ article_id: articleId, user_id: userId });
-      setLiked(true);
-      setLikeCount((c) => c + 1);
+    const { error: deleteError } = await supabase.from("article_likes").delete().eq("article_id", articleId).eq("user_id", userId);
+    if (deleteError) {
+      toast.error("Failed to unlike article");
+      return;
     }
+    setLiked(false);
+    setLikeCount((c) => Math.max(0, c - 1));
+  } else {
+    const { error: insertError } = await supabase.from("article_likes").insert({ article_id: articleId, user_id: userId });
+    if (insertError) {
+      toast.error("Failed to like article");
+      return;
+    }
+    setLiked(true);
+    setLikeCount((c) => c + 1);
+  }
   };
 
   const submitComment = async (e: React.FormEvent) => {
