@@ -11,10 +11,10 @@ export const Route = createFileRoute("/track-my-order")({
       { title: "Track My Order — LOUDMOUF™" },
       {
         name: "description",
-        content: "Track your LOUDMOUF™ order via The Courier Guy waybill or your order number.",
+        content: "Track your LOUDMOUF™ order via The our delivery partner waybill or your order number.",
       },
       { property: "og:title", content: "Track My Order — LOUDMOUF™" },
-      { property: "og:description", content: "Track your LOUDMOUF™ order with The Courier Guy." },
+      { property: "og:description", content: "Track your LOUDMOUF™ order with The our delivery partner." },
     ],
   }),
   component: TrackOrder,
@@ -26,7 +26,7 @@ function TrackOrder() {
   return (
     <SiteShell title="Track My Order" kicker="Shipping Status">
       <p>
-        Every LOUDMOUF™ order ships with The Courier Guy. Enter your waybill number below to jump
+        Every LOUDMOUF™ order ships with The our delivery partner. Enter your waybill number below to jump
         straight to live tracking, or check the confirmation email we sent with your order.
       </p>
 

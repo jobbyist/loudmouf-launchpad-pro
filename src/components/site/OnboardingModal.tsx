@@ -186,7 +186,6 @@ export function OnboardingModal() {
 
   function finish() {
     setMemberVerified(true);
-    // Persist an obfuscated summary so we can pre-fill Shopify checkout later.
     try {
       window.localStorage.setItem(
         "loudmouf-member-profile",
@@ -204,11 +203,16 @@ export function OnboardingModal() {
       // ignore
     }
     toast.success("Welcome to the Collective", {
-      description: "Your membership is active. Continuing to your cart.",
+      description: "Your membership is active.",
     });
     closeOnboarding();
-    // Small delay so the dialog exit animation finishes before the drawer slides in.
-    setTimeout(() => openCart(), 250);
+    setTimeout(() => {
+      if (typeof window !== "undefined") {
+        window.location.hash = "#product";
+        const el = document.getElementById("product");
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 250);
   }
 
   return (
@@ -585,7 +589,7 @@ export function OnboardingModal() {
                 onClick={finish}
                 className="cta-gradient text-black hover:opacity-90 uppercase text-xs tracking-widest font-semibold px-6"
               >
-                Go to my cart <ArrowRight className="h-4 w-4 ml-1" />
+                Reserve Your Share <ArrowRight className="h-4 w-4 ml-1" />
               </Button>
             )}
           </div>
