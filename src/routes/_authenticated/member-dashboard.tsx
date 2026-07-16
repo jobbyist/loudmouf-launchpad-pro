@@ -16,7 +16,7 @@ import {
   Wallet,
 } from "lucide-react";
 
-export const Route = createFileRoute("/member-dashboard")({
+export const Route = createFileRoute("/_authenticated/member-dashboard")({
   head: () => ({
     meta: [
       { title: "Member Dashboard — LOUDMOUF™" },

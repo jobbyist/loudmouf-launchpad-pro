@@ -17,7 +17,6 @@ import { Route as RefundPolicyRouteImport } from './routes/refund-policy'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as NewsroomRouteImport } from './routes/newsroom'
 import { Route as MembershipRouteImport } from './routes/membership'
-import { Route as MemberDashboardRouteImport } from './routes/member-dashboard'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as LaunchRouteImport } from './routes/launch'
 import { Route as ContactRouteImport } from './routes/contact'
@@ -25,6 +24,7 @@ import { Route as CommunityGuidelinesRouteImport } from './routes/community-guid
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as NewsroomSlugRouteImport } from './routes/newsroom.$slug'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as AuthenticatedMemberDashboardRouteImport } from './routes/_authenticated/member-dashboard'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as ApiPublicRecordSignatureRouteImport } from './routes/api/public/record-signature'
@@ -70,11 +70,6 @@ const MembershipRoute = MembershipRouteImport.update({
   path: '/membership',
   getParentRoute: () => rootRouteImport,
 } as any)
-const MemberDashboardRoute = MemberDashboardRouteImport.update({
-  id: '/member-dashboard',
-  path: '/member-dashboard',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const McpRoute = McpRouteImport.update({
   id: '/mcp',
   path: '/mcp',
@@ -110,6 +105,12 @@ const ApiChatRoute = ApiChatRouteImport.update({
   path: '/api/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedMemberDashboardRoute =
+  AuthenticatedMemberDashboardRouteImport.update({
+    id: '/_authenticated/member-dashboard',
+    path: '/member-dashboard',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const Char91DotwellKnownChar93OauthProtectedResourceRoute =
   Char91DotwellKnownChar93OauthProtectedResourceRouteImport.update({
     id: '/.well-known/oauth-protected-resource',
@@ -141,7 +142,6 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/launch': typeof LaunchRoute
   '/mcp': typeof McpRoute
-  '/member-dashboard': typeof MemberDashboardRoute
   '/membership': typeof MembershipRoute
   '/newsroom': typeof NewsroomRouteWithChildren
   '/privacy-policy': typeof PrivacyPolicyRoute
@@ -152,6 +152,7 @@ export interface FileRoutesByFullPath {
   '/track-my-order': typeof TrackMyOrderRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/member-dashboard': typeof AuthenticatedMemberDashboardRoute
   '/api/chat': typeof ApiChatRoute
   '/newsroom/$slug': typeof NewsroomSlugRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -163,7 +164,6 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/launch': typeof LaunchRoute
   '/mcp': typeof McpRoute
-  '/member-dashboard': typeof MemberDashboardRoute
   '/membership': typeof MembershipRoute
   '/newsroom': typeof NewsroomRouteWithChildren
   '/privacy-policy': typeof PrivacyPolicyRoute
@@ -174,6 +174,7 @@ export interface FileRoutesByTo {
   '/track-my-order': typeof TrackMyOrderRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/member-dashboard': typeof AuthenticatedMemberDashboardRoute
   '/api/chat': typeof ApiChatRoute
   '/newsroom/$slug': typeof NewsroomSlugRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -186,7 +187,6 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/launch': typeof LaunchRoute
   '/mcp': typeof McpRoute
-  '/member-dashboard': typeof MemberDashboardRoute
   '/membership': typeof MembershipRoute
   '/newsroom': typeof NewsroomRouteWithChildren
   '/privacy-policy': typeof PrivacyPolicyRoute
@@ -197,6 +197,7 @@ export interface FileRoutesById {
   '/track-my-order': typeof TrackMyOrderRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/_authenticated/member-dashboard': typeof AuthenticatedMemberDashboardRoute
   '/api/chat': typeof ApiChatRoute
   '/newsroom/$slug': typeof NewsroomSlugRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -210,7 +211,6 @@ export interface FileRouteTypes {
     | '/contact'
     | '/launch'
     | '/mcp'
-    | '/member-dashboard'
     | '/membership'
     | '/newsroom'
     | '/privacy-policy'
@@ -221,6 +221,7 @@ export interface FileRouteTypes {
     | '/track-my-order'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/member-dashboard'
     | '/api/chat'
     | '/newsroom/$slug'
     | '/.mcp/invoke-tool/$tool'
@@ -232,7 +233,6 @@ export interface FileRouteTypes {
     | '/contact'
     | '/launch'
     | '/mcp'
-    | '/member-dashboard'
     | '/membership'
     | '/newsroom'
     | '/privacy-policy'
@@ -243,6 +243,7 @@ export interface FileRouteTypes {
     | '/track-my-order'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/member-dashboard'
     | '/api/chat'
     | '/newsroom/$slug'
     | '/.mcp/invoke-tool/$tool'
@@ -254,7 +255,6 @@ export interface FileRouteTypes {
     | '/contact'
     | '/launch'
     | '/mcp'
-    | '/member-dashboard'
     | '/membership'
     | '/newsroom'
     | '/privacy-policy'
@@ -265,6 +265,7 @@ export interface FileRouteTypes {
     | '/track-my-order'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/_authenticated/member-dashboard'
     | '/api/chat'
     | '/newsroom/$slug'
     | '/.mcp/invoke-tool/$tool'
@@ -277,7 +278,6 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   LaunchRoute: typeof LaunchRoute
   McpRoute: typeof McpRoute
-  MemberDashboardRoute: typeof MemberDashboardRoute
   MembershipRoute: typeof MembershipRoute
   NewsroomRoute: typeof NewsroomRouteWithChildren
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
@@ -288,6 +288,7 @@ export interface RootRouteChildren {
   TrackMyOrderRoute: typeof TrackMyOrderRoute
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  AuthenticatedMemberDashboardRoute: typeof AuthenticatedMemberDashboardRoute
   ApiChatRoute: typeof ApiChatRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
   ApiPublicRecordSignatureRoute: typeof ApiPublicRecordSignatureRoute
@@ -351,13 +352,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MembershipRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/member-dashboard': {
-      id: '/member-dashboard'
-      path: '/member-dashboard'
-      fullPath: '/member-dashboard'
-      preLoaderRoute: typeof MemberDashboardRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/mcp': {
       id: '/mcp'
       path: '/mcp'
@@ -405,6 +399,13 @@ declare module '@tanstack/react-router' {
       path: '/api/chat'
       fullPath: '/api/chat'
       preLoaderRoute: typeof ApiChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/member-dashboard': {
+      id: '/_authenticated/member-dashboard'
+      path: '/member-dashboard'
+      fullPath: '/member-dashboard'
+      preLoaderRoute: typeof AuthenticatedMemberDashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/.well-known/oauth-protected-resource': {
@@ -456,7 +457,6 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   LaunchRoute: LaunchRoute,
   McpRoute: McpRoute,
-  MemberDashboardRoute: MemberDashboardRoute,
   MembershipRoute: MembershipRoute,
   NewsroomRoute: NewsroomRouteWithChildren,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
@@ -468,6 +468,7 @@ const rootRouteChildren: RootRouteChildren = {
   Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
+  AuthenticatedMemberDashboardRoute: AuthenticatedMemberDashboardRoute,
   ApiChatRoute: ApiChatRoute,
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
   ApiPublicRecordSignatureRoute: ApiPublicRecordSignatureRoute,
