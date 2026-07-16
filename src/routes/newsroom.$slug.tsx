@@ -280,9 +280,9 @@ function ArticlePage() {
                     className="rounded-2xl border border-white/10 bg-white/[0.03] p-4"
                   >
                     <div className="flex items-baseline justify-between">
-                      <p className="text-sm font-semibold text-white">{c.name}</p>
+                      <p className="text-sm font-semibold text-white">{c.author_name}</p>
                       <span className="text-[10px] uppercase tracking-widest text-white/40">
-                        {new Date(c.createdAt).toLocaleString("en-ZA")}
+                        {new Date(c.created_at).toLocaleString("en-ZA")}
                       </span>
                     </div>
                     <p className="mt-2 text-sm text-white/80 whitespace-pre-wrap">{c.body}</p>
