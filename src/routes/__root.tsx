@@ -14,6 +14,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Toaster } from "@/components/ui/sonner";
 import { useCartSync } from "@/hooks/useCartSync";
+import { ArticleModal } from "@/components/site/ArticleModal";
 
 function NotFoundComponent() {
   return (
@@ -128,6 +129,7 @@ function RootShell({ children }: { children: ReactNode }) {
         {children}
         <Scripts />
         <Analytics />
+        <ArticleModal />
       </body>
     </html>
   );

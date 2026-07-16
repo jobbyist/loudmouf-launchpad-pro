@@ -3,6 +3,10 @@ import { create } from "zustand";
 interface UIStore {
   cartOpen: boolean;
   onboardingOpen: boolean;
+  articleModalOpen: boolean;
+  currentArticleSlug: string | null;
+  openArticleModal: (slug: string) => void;
+  closeArticleModal: () => void;
   openCart: () => void;
   closeCart: () => void;
   setCartOpen: (v: boolean) => void;
@@ -29,6 +33,10 @@ export const useUIStore = create<UIStore>((set) => ({
   cartOpen: false,
   onboardingOpen: false,
   memberVerified: readVerified(),
+  articleModalOpen: false,
+  currentArticleSlug: null,
+  openArticleModal: (slug) => set({ articleModalOpen: true, currentArticleSlug: slug }),
+  closeArticleModal: () => set({ articleModalOpen: false, currentArticleSlug: null }),
   openCart: () => set({ cartOpen: true }),
   closeCart: () => set({ cartOpen: false }),
   setCartOpen: (v) => set({ cartOpen: v }),
