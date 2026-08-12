@@ -55,14 +55,6 @@ export function PrivateCardSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          animate={{ 
-            y: [0, -10, 0],
-          }}
-          transition={{ 
-            duration: 3,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
           className="relative"
         >
           <div className="absolute -inset-10 gradient-loud opacity-25 blur-3xl rounded-full" />
