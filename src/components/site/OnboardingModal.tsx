@@ -203,13 +203,16 @@ export function OnboardingModal() {
       // ignore
     }
     toast.success("Welcome to the Collective", {
-      description: "Your membership is active. Redirecting to cart for payment.",
+      description: "Your membership is active.",
     });
     closeOnboarding();
-    // Redirect to cart for Paystack payment as per requirements
     setTimeout(() => {
-      openCart();
-    }, 500);
+      if (typeof window !== "undefined") {
+        window.location.hash = "#product";
+        const el = document.getElementById("product");
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 250);
   }
 
   return (

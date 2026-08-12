@@ -59,25 +59,12 @@ function LaunchPage() {
     }
     setSubmitting(true);
     try {
-      // Submit to Formbackend
-      await fetch("https://api.formbackend.com/f/YOUR_FORM_ID", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...parsed.data,
-          timestamp: new Date().toISOString(),
-        }),
-      });
-      
-      // Also save locally for backup
       const existing = JSON.parse(window.localStorage.getItem("loudmouf-rsvps") || "[]");
       existing.push({ ...parsed.data, ts: Date.now() });
       window.localStorage.setItem("loudmouf-rsvps", JSON.stringify(existing));
-      
+      await new Promise((r) => setTimeout(r, 500));
       setDone(true);
       toast.success("You're on the list. We'll be in touch.");
-    } catch (err) {
-      toast.error("Something went wrong. Please try again.");
     } finally {
       setSubmitting(false);
     }
@@ -109,16 +96,8 @@ function LaunchPage() {
 
           <div className="mt-10 grid gap-4 sm:grid-cols-3">
             {[
-              { 
-                icon: Calendar, 
-                label: "Dates", 
-                value: "Friday 18 Dec · Sandton",
-              },
-              { 
-                icon: MapPin, 
-                label: "Locations", 
-                value: "Private venues",
-              },
+              { icon: Calendar, label: "Date", value: "Saturday · 15 Aug 2026" },
+              { icon: MapPin, label: "Location", value: "Cape Town · Address on RSVP" },
               { icon: Music, label: "Programme", value: "Live set · Tasting · Community" },
             ].map((c) => (
               <div key={c.label} className="glass rounded-2xl p-5">
@@ -126,7 +105,7 @@ function LaunchPage() {
                 <p className="mt-3 text-[11px] uppercase tracking-widest text-white/50">
                   {c.label}
                 </p>
-                <p className="mt-1 text-sm text-white whitespace-pre-line">{c.value}</p>
+                <p className="mt-1 text-sm text-white">{c.value}</p>
               </div>
             ))}
           </div>

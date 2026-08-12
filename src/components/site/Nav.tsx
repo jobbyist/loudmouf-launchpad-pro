@@ -38,9 +38,7 @@ export function Nav() {
           }`}
         >
           <Link to="/" className="flex items-center">
-            <img src="https://cdn.shopify.com/s/files/1/0779/5369/5849/files/loudmouf-logo.png" 
-                 alt="LOUDMOUF" 
-                 className="h-8 sm:h-10 w-auto object-contain" />
+            <Logo size="md" />
           </Link>
 
           <nav className="hidden md:flex items-center gap-7 text-[12px] uppercase tracking-[0.18em] text-white/80">

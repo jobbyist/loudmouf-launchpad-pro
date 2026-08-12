@@ -76,7 +76,7 @@ function LandingPage() {
 
       {/* HERO */}
       <section id="home" className="relative pt-40 pb-24 sm:pt-48 sm:pb-32">
-        {/* Background elements */}
+        {/* Floating brand X motifs */}
         <div className="pointer-events-none absolute inset-0 grid-noise" />
         <FloatingX className="top-24 left-[8%] text-loud-yellow/30 rotate-12" />
         <FloatingX className="top-64 right-[10%] text-loud-pink/40 -rotate-6" delay={0.6} />
@@ -144,7 +144,7 @@ function LandingPage() {
             </motion.div>
 
             {/* Countdown */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.7 }}
@@ -157,8 +157,8 @@ function LandingPage() {
             </motion.div>
 
             {/* Trust row */}
-            <div className="mt-10 flex flex-wrap items-center gap-6 text-[11px] uppercase tracking-widest text-white/50 bg-white/5 border border-white/10 rounded-2xl p-4">
-              <div className="flex items-center gap-2 hover:text-loud-yellow/70 transition-colors">
+            <div className="mt-10 flex flex-wrap items-center gap-6 text-[11px] uppercase tracking-widest text-white/50">
+              <div className="flex items-center gap-2">
                 <Leaf className="h-4 w-4 text-loud-yellow" /> Lab Tested
               </div>
               <div className="flex items-center gap-2">
@@ -182,16 +182,15 @@ function LandingPage() {
           >
             <div className="absolute -inset-10 gradient-loud opacity-30 blur-3xl rounded-full" />
             <div className="relative overflow-hidden rounded-3xl border border-white/10 aspect-square glow-purple">
-              <video 
+              <video
                 autoPlay
                 muted
                 loop
                 playsInline
-                controls={false}
+                poster={heroPoster.url}
                 className="h-full w-full object-cover"
-                style={{ pointerEvents: 'none' }}
               >
-                <source src="https://github.com/user-attachments/assets/3bb01709-18a9-45b4-a3d4-8a6263f1a211" type="video/mp4" />
+                <source src={heroVideo.url} type="video/mp4" />
               </video>
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
               <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-[10px] uppercase tracking-widest text-white/70">
@@ -233,7 +232,7 @@ function LandingPage() {
       </section>
 
       {/* PRODUCT SHOWCASE */}
-      <section id="product" className="relative mx-auto max-w-7xl px-6 py-28 sm:py-36">
+      <section id="product" className="relative mx-auto max-w-7xl px-6 py-24 sm:py-32">
         <div className="flex flex-wrap items-end justify-between gap-6 mb-14">
           <div>
             <p className="text-xs uppercase tracking-[0.3em] text-loud-yellow">The Flavours</p>
@@ -274,7 +273,7 @@ function LandingPage() {
 
       {/* WHY LOUDMOUF */}
       <section
-        id="why" 
+        id="why"
         className="relative bg-gradient-to-b from-transparent via-loud-pink/10 to-transparent py-24 sm:py-32"
       >
         <div className="mx-auto max-w-7xl px-6">
@@ -317,7 +316,7 @@ function LandingPage() {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08 }}
                 className="glass rounded-2xl p-6 hover:border-loud-yellow/40 hover:-translate-y-1 transition"
-              > 
+              >
                 <div className="grid h-11 w-11 place-items-center rounded-xl bg-loud-yellow/15 text-loud-yellow">
                   <f.icon className="h-5 w-5" />
                 </div>
@@ -330,7 +329,7 @@ function LandingPage() {
       </section>
 
       {/* HOW IT WORKS */}
-      <section className="relative mx-auto max-w-7xl px-6 py-28 sm:py-36">
+      <section className="relative mx-auto max-w-7xl px-6 py-24 sm:py-32">
         <div className="max-w-2xl">
           <p className="text-xs uppercase tracking-[0.3em] text-loud-yellow">How It Works</p>
           <h2 className="display mt-3 text-5xl sm:text-6xl text-white">
@@ -381,7 +380,7 @@ function LandingPage() {
       </section>
 
       {/* BRAND STORY */}
-      <section className="relative overflow-hidden py-24 sm:py-32">
+      <section className="relative overflow-hidden">
         <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 grid gap-14 lg:grid-cols-2 items-center">
           <motion.div
             initial={{ opacity: 0, x: -40 }}
@@ -391,7 +390,7 @@ function LandingPage() {
             className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-white/10"
           >
             <img
-              src="https://github.com/user-attachments/assets/582ea2f8-9c06-43de-9ff2-ea44976b0a69"
+              src={storyImg.url}
               alt="LOUDMOUF brand story"
               className="h-full w-full object-cover"
             />
@@ -419,7 +418,7 @@ function LandingPage() {
       </section>
 
       {/* COMMUNITY / EARLY BATCH REVIEWS */}
-      <section className="mx-auto max-w-7xl px-6 py-28 sm:py-32">
+      <section className="mx-auto max-w-7xl px-6 py-24">
         <div className="max-w-2xl">
           <p className="text-xs uppercase tracking-[0.3em] text-loud-yellow">The Community</p>
           <h2 className="display mt-3 text-5xl sm:text-6xl text-white">Word on the street.</h2>
@@ -476,8 +475,9 @@ function LandingPage() {
       </section>
 
 
+      {/* FAQ */}
       <section id="faq" className="relative bg-black/40 py-24">
-        <div className="mx-auto max-w-3xl px-6">
+        <div className="mx-auto max-w-4xl px-6">
           <div className="text-center">
             <p className="text-xs uppercase tracking-[0.3em] text-loud-yellow">FAQ</p>
             <h2 className="display mt-3 text-5xl sm:text-6xl text-white">Questions?</h2>
@@ -526,7 +526,7 @@ function LandingPage() {
       </section>
 
       {/* MEMBERSHIP */}
-      <section id="membership" className="relative overflow-hidden py-28 sm:py-36">
+      <section id="membership" className="relative overflow-hidden py-24 sm:py-32">
         <div className="absolute inset-0 gradient-loud opacity-10" />
         <div className="relative mx-auto max-w-6xl px-6">
           <div className="max-w-2xl">
@@ -585,7 +585,7 @@ function LandingPage() {
       </section>
 
       {/* LAUNCH SUMMIT */}
-      <section className="relative mx-auto max-w-6xl px-6 py-24 sm:py-28">
+      <section className="relative mx-auto max-w-6xl px-6 py-20">
         <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-8 sm:p-12 grid gap-8 lg:grid-cols-[1.2fr_1fr] items-center overflow-hidden relative">
           <div className="absolute -right-16 -top-16 h-64 w-64 rounded-full gradient-loud opacity-20 blur-3xl" />
           <div className="relative">
@@ -611,7 +611,7 @@ function LandingPage() {
       </section>
 
       {/* PODCAST */}
-      <section className="relative mx-auto max-w-6xl px-6 py-28 sm:py-36">
+      <section className="relative mx-auto max-w-6xl px-6 py-20">
         <div className="rounded-3xl border border-white/10 bg-black/60 p-8 sm:p-12">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
@@ -642,7 +642,7 @@ function LandingPage() {
       </section>
 
       {/* TRUST BADGES */}
-      <section className="relative mx-auto max-w-6xl px-6 pb-28 sm:pb-32">
+      <section className="relative mx-auto max-w-6xl px-6 pb-24">
         <div className="flex flex-wrap items-center justify-center gap-3 text-[10px] uppercase tracking-widest text-white/60">
           {[
             "18+ Members Only",
