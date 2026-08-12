@@ -29,7 +29,7 @@ export function AgeGate() {
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-md p-6">
-      <div className="glass max-w-md w-full rounded-3xl p-8 text-center">
+      <div className="glass max-w-md w-full rounded-3xl p-8 text-center shadow-2xl ring-2 ring-loud-yellow/20">
         <Logo className="text-3xl mx-auto" />
         <h2 className="display mt-6 text-3xl text-white">Are you 18 or older?</h2>
         <p className="mt-3 text-sm text-white/70">
