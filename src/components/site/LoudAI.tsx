@@ -154,7 +154,6 @@ export function LoudAI() {
       </AnimatePresence>
 
       {/* Notch */}
-        </button>
         <button
           onClick={() => setOpen((v) => !v)}
           aria-label={open ? "Close LOUD AI" : "Open LOUD AI"}
