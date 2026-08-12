@@ -154,24 +154,23 @@ export function LoudAI() {
       </AnimatePresence>
 
       {/* Notch */}
-        <button
-          onClick={() => setOpen((v) => !v)}
-          aria-label={open ? "Close LOUD AI" : "Open LOUD AI"}
-          aria-expanded={open}
-          className="group relative flex flex-col items-center gap-2 rounded-l-2xl border border-r-0 border-white/10 bg-loud-ink/80 backdrop-blur-xl px-2.5 py-4 shadow-2xl"
-        >
-          <span className="absolute inset-0 rounded-l-2xl gradient-loud opacity-20 group-hover:opacity-40 transition" />
-          <span className="relative flex flex-col items-center gap-2">
-            <MessageCircle className="h-4 w-4 text-loud-yellow" />
-            <span
-              className="text-[10px] font-semibold uppercase tracking-[0.28em] text-gradient-loud"
-              style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
-            >
-              LOUD AI
-            </span>
+      <button
+        onClick={() => setOpen((v) => !v)}
+        aria-label={open ? "Close LOUD AI" : "Open LOUD AI"}
+        aria-expanded={open}
+        className="group relative flex flex-col items-center gap-2 rounded-l-2xl border border-r-0 border-white/10 bg-loud-ink/80 backdrop-blur-xl px-2.5 py-4 shadow-2xl"
+      >
+        <span className="absolute inset-0 rounded-l-2xl gradient-loud opacity-20 group-hover:opacity-40 transition" />
+        <span className="relative flex flex-col items-center gap-2">
+          <MessageCircle className="h-4 w-4 text-loud-yellow" />
+          <span
+            className="text-[10px] font-semibold uppercase tracking-[0.28em] text-gradient-loud"
+            style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
+          >
+            LOUD AI
           </span>
-        </button>
-      </div>
+        </span>
+      </button>
     </div>
   );
 }

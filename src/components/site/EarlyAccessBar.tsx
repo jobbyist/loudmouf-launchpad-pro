@@ -39,9 +39,21 @@ function pad(n: number) {
 export function EarlyAccessBar() {
   const claimed = useClaimed();
   const [remaining, setRemaining] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-  const [mounted, setMounted] = useState(true);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+    const tick = () => setRemaining(diffToLaunch());
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  const spotsLeft = Math.max(0, MEMBER_CAP - claimed);
+  const pct = Math.min(100, (claimed / MEMBER_CAP) * 100);
+
+  return (
+    <div className="pointer-events-none fixed inset-x-0 bottom-0 z-50">
       <div className="pointer-events-auto mx-auto max-w-6xl m-3 rounded-2xl border border-white/10 bg-black/80 backdrop-blur-xl shadow-2xl overflow-hidden">
         <div className="grid gap-3 p-3 sm:p-4 md:grid-cols-[1fr_auto] md:items-center">
           <div className="min-w-0">
@@ -49,7 +61,7 @@ export function EarlyAccessBar() {
               <Sparkles className="h-3.5 w-3.5 text-loud-yellow" />
               <span className="text-gradient-loud font-semibold">Early Access · 25% Off</span>
               <span className="text-white/50">
-                · 1634 of 2000 spots left
+                · {spotsLeft} of {MEMBER_CAP} spots left
               </span>
             </div>
             <div className="mt-2">
