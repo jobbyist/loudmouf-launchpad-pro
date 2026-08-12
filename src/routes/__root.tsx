@@ -93,6 +93,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "LOUDMOUF" },
+      { property: "og:image", content: "https://github.com/user-attachments/assets/b56f020e-8060-417e-bf94-f217782066a5" },
       { property: "og:url", content: "https://loudmouf.co.za/" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@loudmoufza" },
@@ -102,6 +103,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "South Africa's Private Lifestyle Club for premium cannabis pouches. 18+ Members only.",
       },
+      { name: "twitter:image", content: "https://github.com/user-attachments/assets/b56f020e-8060-417e-bf94-f217782066a5" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -111,6 +113,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap",
       },
+      { rel: "icon", href: "https://github.com/user-attachments/assets/60d3b1e6-7ea0-4337-a555-c0a45137b4f9" },
     ],
   }),
   shellComponent: RootShell,
