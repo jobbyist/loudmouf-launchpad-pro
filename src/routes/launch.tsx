@@ -112,12 +112,12 @@ function LaunchPage() {
               { 
                 icon: Calendar, 
                 label: "Dates", 
-                value: "Friday 18 Dec · Sandton
+                value: "Friday 18 Dec · Sandton",
               },
               { 
                 icon: MapPin, 
                 label: "Locations", 
-                value: "Private venues
+                value: "Private venues",
               },
               { icon: Music, label: "Programme", value: "Live set · Tasting · Community" },
             ].map((c) => (
