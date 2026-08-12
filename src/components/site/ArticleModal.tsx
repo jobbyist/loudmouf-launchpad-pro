@@ -103,13 +103,12 @@ export function ArticleModal() {
       const { data: userRes } = await supabase.auth.getUser();
       setUserId(userRes.user?.id ?? null);
 
-      const [likesRes, commentsRes, myLikeRes] = await Promise.all([
-        supabase.from("article_likes").select("*", { count: "exact", head: true }).eq("article_id", articleId),
+      const [commentsRes, myLikeRes] = await Promise.all([
         supabase.from("article_comments").select("id, author_name, body, created_at").eq("article_id", articleId).eq("status", "approved").order("created_at", { ascending: false }).limit(20),
         userRes.user ? supabase.from("article_likes").select("article_id").eq("article_id", articleId).eq("user_id", userRes.user.id).maybeSingle() : Promise.resolve({ data: null }),
       ]);
 
-      setLikeCount(likesRes.count ?? 0);
+      setLikeCount((article as { like_count?: number }).like_count ?? 0);
       setComments((commentsRes.data ?? []) as CommentRow[]);
       setLiked(!!myLikeRes.data);
     };
