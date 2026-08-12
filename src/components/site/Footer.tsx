@@ -40,7 +40,9 @@ export function Footer() {
     <footer className="relative border-t border-white/10 bg-black pb-28">
       <div className="mx-auto max-w-7xl px-6 py-16 grid gap-10 lg:grid-cols-4">
         <div className="lg:col-span-1">
-          <Logo size="lg" />
+          <Link to="/" className="inline-block" aria-label="LOUDMOUF home">
+            <Logo size="lg" />
+          </Link>
           <p className="mt-4 max-w-xs text-sm text-white/60">
             A Private Lifestyle Club for members who want the experience without the smoke.
             Discreet. Potent. Community-first.

@@ -1,7 +1,12 @@
 import { motion } from "framer-motion";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, Sparkles, ShieldCheck } from "lucide-react";
-import { Logo } from "./Logo";
+
+/**
+ * Static CDN image asset only — not a Shopify API dependency.
+ */
+const MEMBER_CARD_IMAGE =
+  "https://cdn.shopify.com/s/files/1/0779/5369/5849/files/IMG-0816_77c7ece1-5a43-40d1-a893-1fe5f98a2528.png";
 
 export function PrivateCardSection() {
   return (
@@ -58,40 +63,17 @@ export function PrivateCardSection() {
           className="relative"
         >
           <div className="absolute -inset-10 gradient-loud opacity-25 blur-3xl rounded-full" />
-          <div className="relative rounded-[28px] border border-white/15 bg-gradient-to-br from-loud-pink/40 via-black/80 to-[color:var(--loud-blue-bright)]/40 p-6 aspect-[1.586/1] shadow-2xl overflow-hidden">
-            <div className="absolute inset-0 opacity-30 grid-noise pointer-events-none" />
-            <div className="relative flex flex-col justify-between h-full text-white">
-              <div className="flex items-start justify-between">
-                <Logo size="md" />
-                <span className="text-[10px] uppercase tracking-[0.3em] text-loud-yellow">
-                  Premium · 2026
-                </span>
-              </div>
-              <div>
-                <p className="text-[10px] uppercase tracking-[0.3em] text-white/50">
-                  Member Number
-                </p>
-                <p className="font-mono text-xl sm:text-2xl mt-1 tracking-widest tabular-nums">
-                  4207 · 0000 · 0234
-                </p>
-                <div className="mt-4 flex items-end justify-between">
-                  <div>
-                    <p className="text-[10px] uppercase tracking-[0.3em] text-white/50">
-                      Member Since
-                    </p>
-                    <p className="text-sm mt-1">09 / 26</p>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-[10px] uppercase tracking-[0.3em] text-white/50">
-                      Tier
-                    </p>
-                    <p className="text-sm mt-1 text-gradient-loud font-semibold">
-                      Premium · Loud
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div className="relative rounded-[28px] border border-white/15 shadow-2xl overflow-hidden bg-black/40">
+            <img
+              src={MEMBER_CARD_IMAGE}
+              alt="LOUDMOUF Premium Private Club Member Card illustrative preview"
+              className="w-full h-auto object-contain select-none"
+              draggable={false}
+              loading="lazy"
+              decoding="async"
+              width={800}
+              height={504}
+            />
           </div>
           <p className="mt-3 text-center text-[10px] uppercase tracking-widest text-white/40">
             Illustrative preview · your card details are unique
