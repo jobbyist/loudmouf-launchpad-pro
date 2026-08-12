@@ -59,9 +59,7 @@ export function EarlyAccessBar() {
             <div className="flex items-center gap-2 text-[10px] sm:text-[11px] uppercase tracking-[0.22em]">
               <Sparkles className="h-3.5 w-3.5 text-loud-yellow" />
               <span className="text-gradient-loud font-semibold">Early Access · 25% Off</span>
-              <span className="text-white/50">
-                · 1634 of 2000 spots left
-              </span>
+              <span className="text-white/50">· 1634 out of 2000 spots left</span>
             </div>
             <div className="mt-2">
               <Progress value={pct} className="h-1.5 bg-white/10" />
