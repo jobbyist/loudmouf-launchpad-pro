@@ -65,7 +65,7 @@ export function CartDrawer() {
       const profile = profileRaw ? JSON.parse(profileRaw) : {};
       const email = profile.email || 'member@loudmouf.co.za';
 
-      const init = await initializePaystackPayment(email, membershipFee, {
+      const init = await initializePaystackPayment(email, memberTier, {
         tier: memberTier,
         user_id: profile.email, // or supabase user
       });
