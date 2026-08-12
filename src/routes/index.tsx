@@ -187,10 +187,11 @@ function LandingPage() {
                 muted
                 loop
                 playsInline
-                poster={heroPoster.url}
+                controls={false}
                 className="h-full w-full object-cover"
+                style={{ pointerEvents: 'none' }}
               >
-                <source src={heroVideo.url} type="video/mp4" />
+                <source src="https://github.com/user-attachments/assets/3bb01709-18a9-45b4-a3d4-8a6263f1a211" type="video/mp4" />
               </video>
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
               <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-[10px] uppercase tracking-widest text-white/70">
@@ -390,7 +391,7 @@ function LandingPage() {
             className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-white/10"
           >
             <img
-              src={storyImg.url}
+              src="https://github.com/user-attachments/assets/582ea2f8-9c06-43de-9ff2-ea44976b0a69"
               alt="LOUDMOUF brand story"
               className="h-full w-full object-cover"
             />

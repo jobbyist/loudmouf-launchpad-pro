@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
-import { Logo } from "./Logo";
 import { Instagram, Facebook, Send, Apple, Smartphone, Music2 } from "lucide-react";
+import { useState, type FormEvent } from "react";
+import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
@@ -36,11 +37,47 @@ function StoreBadge({
 }
 
 export function Footer() {
+  const [emailSubmitting, setEmailSubmitting] = useState(false);
+
+  const handleNewsletterSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const fd = new FormData(e.currentTarget);
+    const email = fd.get("email") as string;
+    
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      toast.error("Please enter a valid email address");
+      return;
+    }
+
+    setEmailSubmitting(true);
+    try {
+      // Submit to Formbackend
+      await fetch("https://api.formbackend.com/f/YOUR_FORM_ID", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      
+      // TODO: Also save to Supabase newsletter_subscribers table
+      
+      toast.success("You're on the list!");
+      e.currentTarget.reset();
+    } catch (err) {
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setEmailSubmitting(false);
+    }
+  };
+
   return (
     <footer className="relative border-t border-white/10 bg-black pb-28">
       <div className="mx-auto max-w-7xl px-6 py-16 grid gap-10 lg:grid-cols-4">
         <div className="lg:col-span-1">
-          <Logo size="lg" />
+          <Link to="/" className="inline-block">
+            <img src="https://cdn.shopify.com/s/files/1/0779/5369/5849/files/loudmouf-logo.png" 
+                 alt="LOUDMOUF" 
+                 className="h-12 sm:h-16 w-auto object-contain" />
+          </Link>
           <p className="mt-4 max-w-xs text-sm text-white/60">
             A Private Lifestyle Club for members who want the experience without the smoke.
             Discreet. Potent. Community-first.
@@ -155,13 +192,15 @@ export function Footer() {
           <p className="mt-4 text-sm text-white/60">
             Founding-member updates, exclusive drops, community events.
           </p>
-          <form onSubmit={(e) => e.preventDefault()} className="mt-4 flex gap-2">
+          <form onSubmit={handleNewsletterSubmit} className="mt-4 flex gap-2">
             <Input
               type="email"
+              name="email"
               placeholder="you@loud.co"
+              required
               className="bg-white/5 border-white/10 text-white placeholder:text-white/40"
             />
-            <Button type="submit" className="cta-gradient text-black hover:opacity-90">
+            <Button type="submit" disabled={emailSubmitting} className="cta-gradient text-black hover:opacity-90">
               <Send className="h-4 w-4" />
             </Button>
           </form>
