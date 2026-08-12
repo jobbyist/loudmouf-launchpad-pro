@@ -156,6 +156,7 @@ export type Database = {
           created_at: string
           excerpt: string | null
           id: string
+          like_count: number
           published_at: string
           slug: string
           source: string
@@ -170,6 +171,7 @@ export type Database = {
           created_at?: string
           excerpt?: string | null
           id?: string
+          like_count?: number
           published_at?: string
           slug: string
           source: string
@@ -184,6 +186,7 @@ export type Database = {
           created_at?: string
           excerpt?: string | null
           id?: string
+          like_count?: number
           published_at?: string
           slug?: string
           source?: string
@@ -377,21 +380,7 @@ export type Database = {
       }
     }
     Views: {
-      article_like_counts: {
-        Row: {
-          article_id: string | null
-          like_count: number | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "article_likes_article_id_fkey"
-            columns: ["article_id"]
-            isOneToOne: false
-            referencedRelation: "newsroom_articles"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
+      [_ in never]: never
     }
     Functions: {
       has_role: {
