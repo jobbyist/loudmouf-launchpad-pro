@@ -377,7 +377,21 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      article_like_counts: {
+        Row: {
+          article_id: string | null
+          like_count: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "article_likes_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "newsroom_articles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       has_role: {
