@@ -44,14 +44,17 @@ export const Route = createFileRoute("/api/public/hooks/shopify-orders")({
       POST: async ({ request }) => {
         const raw = await request.text();
         const secret = process.env.SHOPIFY_WEBHOOK_SECRET;
-        if (secret) {
-          const sig = request.headers.get("x-shopify-hmac-sha256") ?? "";
-          const expected = createHmac("sha256", secret).update(raw, "utf8").digest("base64");
-          const a = Buffer.from(sig);
-          const b = Buffer.from(expected);
-          if (a.length !== b.length || !timingSafeEqual(a, b)) {
-            return new Response("Invalid signature", { status: 401 });
-          }
+        // Fail closed: never trust an unverified order payload.
+        if (!secret) {
+          console.error("SHOPIFY_WEBHOOK_SECRET not set — rejecting webhook");
+          return new Response("Server config error", { status: 500 });
+        }
+        const sig = request.headers.get("x-shopify-hmac-sha256") ?? "";
+        const expected = createHmac("sha256", secret).update(raw, "utf8").digest("base64");
+        const a = Buffer.from(sig);
+        const b = Buffer.from(expected);
+        if (a.length !== b.length || !timingSafeEqual(a, b)) {
+          return new Response("Invalid signature", { status: 401 });
         }
 
         let order: ShopifyOrder;
