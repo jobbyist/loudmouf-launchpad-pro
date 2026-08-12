@@ -31,9 +31,11 @@ import { Route as AuthenticatedMemberDashboardRouteImport } from './routes/_auth
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as ApiPublicRecordSignatureRouteImport } from './routes/api/public/record-signature'
+import { Route as ApiPaystackInitializeRouteImport } from './routes/api/paystack/initialize'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 import { Route as ApiPublicHooksShopifyOrdersRouteImport } from './routes/api/public/hooks/shopify-orders'
 import { Route as ApiPublicHooksScrapeArticlesRouteImport } from './routes/api/public/hooks/scrape-articles'
+import { Route as ApiPublicHooksPaystackRouteImport } from './routes/api/public/hooks/paystack'
 
 const TrackMyOrderRoute = TrackMyOrderRouteImport.update({
   id: '/track-my-order',
@@ -148,6 +150,11 @@ const ApiPublicRecordSignatureRoute =
     path: '/api/public/record-signature',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPaystackInitializeRoute = ApiPaystackInitializeRouteImport.update({
+  id: '/api/paystack/initialize',
+  path: '/api/paystack/initialize',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const Char91DotmcpChar93InvokeToolToolRoute =
   Char91DotmcpChar93InvokeToolToolRouteImport.update({
     id: '/.mcp/invoke-tool/$tool',
@@ -166,6 +173,11 @@ const ApiPublicHooksScrapeArticlesRoute =
     path: '/api/public/hooks/scrape-articles',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicHooksPaystackRoute = ApiPublicHooksPaystackRouteImport.update({
+  id: '/api/public/hooks/paystack',
+  path: '/api/public/hooks/paystack',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -189,7 +201,9 @@ export interface FileRoutesByFullPath {
   '/api/chat': typeof ApiChatRoute
   '/newsroom/$slug': typeof NewsroomSlugRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
+  '/api/paystack/initialize': typeof ApiPaystackInitializeRoute
   '/api/public/record-signature': typeof ApiPublicRecordSignatureRoute
+  '/api/public/hooks/paystack': typeof ApiPublicHooksPaystackRoute
   '/api/public/hooks/scrape-articles': typeof ApiPublicHooksScrapeArticlesRoute
   '/api/public/hooks/shopify-orders': typeof ApiPublicHooksShopifyOrdersRoute
 }
@@ -215,7 +229,9 @@ export interface FileRoutesByTo {
   '/api/chat': typeof ApiChatRoute
   '/newsroom/$slug': typeof NewsroomSlugRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
+  '/api/paystack/initialize': typeof ApiPaystackInitializeRoute
   '/api/public/record-signature': typeof ApiPublicRecordSignatureRoute
+  '/api/public/hooks/paystack': typeof ApiPublicHooksPaystackRoute
   '/api/public/hooks/scrape-articles': typeof ApiPublicHooksScrapeArticlesRoute
   '/api/public/hooks/shopify-orders': typeof ApiPublicHooksShopifyOrdersRoute
 }
@@ -243,7 +259,9 @@ export interface FileRoutesById {
   '/api/chat': typeof ApiChatRoute
   '/newsroom/$slug': typeof NewsroomSlugRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
+  '/api/paystack/initialize': typeof ApiPaystackInitializeRoute
   '/api/public/record-signature': typeof ApiPublicRecordSignatureRoute
+  '/api/public/hooks/paystack': typeof ApiPublicHooksPaystackRoute
   '/api/public/hooks/scrape-articles': typeof ApiPublicHooksScrapeArticlesRoute
   '/api/public/hooks/shopify-orders': typeof ApiPublicHooksShopifyOrdersRoute
 }
@@ -271,7 +289,9 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/newsroom/$slug'
     | '/.mcp/invoke-tool/$tool'
+    | '/api/paystack/initialize'
     | '/api/public/record-signature'
+    | '/api/public/hooks/paystack'
     | '/api/public/hooks/scrape-articles'
     | '/api/public/hooks/shopify-orders'
   fileRoutesByTo: FileRoutesByTo
@@ -297,7 +317,9 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/newsroom/$slug'
     | '/.mcp/invoke-tool/$tool'
+    | '/api/paystack/initialize'
     | '/api/public/record-signature'
+    | '/api/public/hooks/paystack'
     | '/api/public/hooks/scrape-articles'
     | '/api/public/hooks/shopify-orders'
   id:
@@ -324,7 +346,9 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/newsroom/$slug'
     | '/.mcp/invoke-tool/$tool'
+    | '/api/paystack/initialize'
     | '/api/public/record-signature'
+    | '/api/public/hooks/paystack'
     | '/api/public/hooks/scrape-articles'
     | '/api/public/hooks/shopify-orders'
   fileRoutesById: FileRoutesById
@@ -350,7 +374,9 @@ export interface RootRouteChildren {
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   ApiChatRoute: typeof ApiChatRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
+  ApiPaystackInitializeRoute: typeof ApiPaystackInitializeRoute
   ApiPublicRecordSignatureRoute: typeof ApiPublicRecordSignatureRoute
+  ApiPublicHooksPaystackRoute: typeof ApiPublicHooksPaystackRoute
   ApiPublicHooksScrapeArticlesRoute: typeof ApiPublicHooksScrapeArticlesRoute
   ApiPublicHooksShopifyOrdersRoute: typeof ApiPublicHooksShopifyOrdersRoute
 }
@@ -511,6 +537,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicRecordSignatureRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/paystack/initialize': {
+      id: '/api/paystack/initialize'
+      path: '/api/paystack/initialize'
+      fullPath: '/api/paystack/initialize'
+      preLoaderRoute: typeof ApiPaystackInitializeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/.mcp/invoke-tool/$tool': {
       id: '/.mcp/invoke-tool/$tool'
       path: '/.mcp/invoke-tool/$tool'
@@ -530,6 +563,13 @@ declare module '@tanstack/react-router' {
       path: '/api/public/hooks/scrape-articles'
       fullPath: '/api/public/hooks/scrape-articles'
       preLoaderRoute: typeof ApiPublicHooksScrapeArticlesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/hooks/paystack': {
+      id: '/api/public/hooks/paystack'
+      path: '/api/public/hooks/paystack'
+      fullPath: '/api/public/hooks/paystack'
+      preLoaderRoute: typeof ApiPublicHooksPaystackRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -580,7 +620,9 @@ const rootRouteChildren: RootRouteChildren = {
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
   ApiChatRoute: ApiChatRoute,
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
+  ApiPaystackInitializeRoute: ApiPaystackInitializeRoute,
   ApiPublicRecordSignatureRoute: ApiPublicRecordSignatureRoute,
+  ApiPublicHooksPaystackRoute: ApiPublicHooksPaystackRoute,
   ApiPublicHooksScrapeArticlesRoute: ApiPublicHooksScrapeArticlesRoute,
   ApiPublicHooksShopifyOrdersRoute: ApiPublicHooksShopifyOrdersRoute,
 }

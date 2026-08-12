@@ -4,13 +4,14 @@ export const Route = createFileRoute("/api/public/hooks/scrape-articles")({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        // Optional shared-secret; if SCRAPE_HOOK_SECRET is set, require it.
+        // Fail closed: the shared secret is mandatory.
         const secret = process.env.SCRAPE_HOOK_SECRET;
-        if (secret) {
-          const auth = request.headers.get("x-hook-secret");
-          if (auth !== secret) {
-            return new Response("Unauthorized", { status: 401 });
-          }
+        if (!secret) {
+          console.error("SCRAPE_HOOK_SECRET not set — rejecting request");
+          return new Response("Server config error", { status: 500 });
+        }
+        if (request.headers.get("x-hook-secret") !== secret) {
+          return new Response("Unauthorized", { status: 401 });
         }
         let body: { max?: number } = {};
         try {
@@ -24,10 +25,8 @@ export const Route = createFileRoute("/api/public/hooks/scrape-articles")({
           const result = await runNewsroomScrape(max);
           return Response.json({ ok: true, ...result });
         } catch (e) {
-          return Response.json(
-            { ok: false, error: (e as Error).message },
-            { status: 500 },
-          );
+          console.error("Newsroom scrape failed", e);
+          return Response.json({ ok: false, error: "Scrape failed" }, { status: 500 });
         }
       },
       GET: async () => Response.json({ ok: true, hint: "POST to trigger a scrape run" }),

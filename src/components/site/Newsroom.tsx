@@ -73,23 +73,16 @@ export function Newsroom() {
 }
 
 function ArticleCard({ a, onRead }: { a: ArticleRow; onRead: () => void }) {
-  const [likeCount, setLikeCount] = useState(0);
+  const likeCount = (a as { like_count?: number }).like_count ?? 0;
   const [commentCount, setCommentCount] = useState(0);
 
   useEffect(() => {
     (async () => {
-      const [{ count: likes }, { count: comments }] = await Promise.all([
-        supabase
-          .from("article_likes")
-          .select("*", { count: "exact", head: true })
-          .eq("article_id", a.id),
-        supabase
-          .from("article_comments")
-          .select("*", { count: "exact", head: true })
-          .eq("article_id", a.id)
-          .eq("status", "approved"),
-      ]);
-      setLikeCount(likes ?? 0);
+      const { count: comments } = await supabase
+        .from("article_comments")
+        .select("*", { count: "exact", head: true })
+        .eq("article_id", a.id)
+        .eq("status", "approved");
       setCommentCount(comments ?? 0);
     })();
   }, [a.id]);

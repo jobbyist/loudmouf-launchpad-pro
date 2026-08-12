@@ -156,6 +156,7 @@ export type Database = {
           created_at: string
           excerpt: string | null
           id: string
+          like_count: number
           published_at: string
           slug: string
           source: string
@@ -170,6 +171,7 @@ export type Database = {
           created_at?: string
           excerpt?: string | null
           id?: string
+          like_count?: number
           published_at?: string
           slug: string
           source: string
@@ -184,6 +186,7 @@ export type Database = {
           created_at?: string
           excerpt?: string | null
           id?: string
+          like_count?: number
           published_at?: string
           slug?: string
           source?: string
