@@ -307,7 +307,7 @@ function LandingPage() {
               {
                 icon: Truck,
                 title: "Discreet Delivery",
-                copy: "Fast, discreet Courier Guy delivery straight to your door.",
+                copy: "Fast, discreet our delivery partner delivery straight to your door.",
               },
             ].map((f, i) => (
               <motion.div
@@ -345,7 +345,7 @@ function LandingPage() {
             {
               n: "01",
               icon: Package,
-              t: "Pre-Order",
+              t: "Reserve",
               c: "Reserve your tin from Drop 001 with secure checkout via Shopify.",
             },
             {
@@ -358,7 +358,7 @@ function LandingPage() {
               n: "03",
               icon: Truck,
               t: "Delivery",
-              c: "The Courier Guy delivers discreetly in 3–5 working days across SA.",
+              c: "The our delivery partner delivers discreetly in 3–5 working days across SA.",
             },
           ].map((s, i) => (
             <motion.div
@@ -490,15 +490,15 @@ function LandingPage() {
               },
               {
                 q: "When does Drop 001 ship?",
-                a: "Pre-orders open now. First production run ships within 4 weeks of the campaign closing. You'll get tracking via SMS and email as soon as your order dispatches.",
+                a: "Reserves open now. First production run ships within 4 weeks of the campaign closing. You'll get tracking via SMS and email as soon as your order dispatches.",
               },
               {
                 q: "Where do you deliver?",
-                a: "Anywhere in South Africa via The Courier Guy. Standard delivery is 3–5 working days for a flat R150 fee. Free delivery on orders over R800.",
+                a: "Anywhere in South Africa via The our delivery partner. Standard delivery is 3–5 working days for a flat R150 fee. Free delivery on orders over R800.",
               },
               {
                 q: "How do I track my order?",
-                a: "Head to the Track My Order page or check your account dashboard. Every order ships with a Courier Guy waybill number.",
+                a: "Head to the Track My Order page or check your account dashboard. Every order ships with a our delivery partner waybill number.",
               },
               {
                 q: "What's your return policy?",
@@ -610,7 +610,7 @@ function LandingPage() {
       </section>
 
       {/* PODCAST */}
-      <section className="relative mx-auto max-w-6xl px-6 py-24 sm:py-28">
+      <section className="relative mx-auto max-w-6xl px-6 py-28 sm:py-36">
         <div className="rounded-3xl border border-white/10 bg-black/60 p-8 sm:p-12">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>

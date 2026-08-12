@@ -15,6 +15,7 @@ import { useUIStore } from "@/stores/uiStore";
 import { incrementEarlyAccessClaimed } from "./EarlyAccessBar";
 import { membershipFeeFor } from "@/lib/launch";
 import { useEffect as useEffectReact, useState } from "react";
+import { initializePaystackPayment } from "@/lib/paystack";
 
 function useMemberTier(): "standard" | "premium" | null {
   const [tier, setTier] = useState<"standard" | "premium" | null>(null);
@@ -41,6 +42,7 @@ export function CartDrawer() {
   const itemsSubtotal = items.reduce((s, i) => s + parseFloat(i.price.amount) * i.quantity, 0);
   const totalPrice = itemsSubtotal + membershipFee;
   const currency = items[0]?.price.currencyCode ?? "ZAR";
+  const [paying, setPaying] = useState(false);
 
   useEffect(() => {
     if (open) syncCart();
@@ -52,6 +54,32 @@ export function CartDrawer() {
       incrementEarlyAccessClaimed(totalItems);
       window.open(url, "_blank");
       setOpen(false);
+    }
+  };
+
+  const handleMembershipPayment = async () => {
+    if (!memberTier) return;
+    setPaying(true);
+    try {
+      const profileRaw = localStorage.getItem("loudmouf-member-profile");
+      const profile = profileRaw ? JSON.parse(profileRaw) : {};
+      const email = profile.email || 'member@loudmouf.co.za';
+
+      const init = await initializePaystackPayment(email, membershipFee, {
+        tier: memberTier,
+        user_id: profile.email, // or supabase user
+      });
+
+      if (init.status && init.data?.authorization_url) {
+        window.location.href = init.data.authorization_url;
+      } else {
+        alert('Payment initialization failed');
+      }
+    } catch (e) {
+      console.error(e);
+      alert('Error processing payment');
+    } finally {
+      setPaying(false);
     }
   };
 
@@ -194,22 +222,37 @@ export function CartDrawer() {
                     {totalPrice.toFixed(2)}
                   </span>
                 </div>
-                <Button
-                  onClick={checkout}
-                  size="lg"
-                  disabled={items.length === 0 || isLoading || isSyncing}
-                  className="cta-gradient w-full text-black hover:opacity-90 font-semibold uppercase tracking-widest"
-                >
-                  {isLoading || isSyncing ? (
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                  ) : (
-                    <>
-                      <ExternalLink className="h-4 w-4 mr-2" /> Confirm Contribution
-                    </>
-                  )}
-                </Button>
+                {membershipFee > 0 ? (
+                  <Button
+                    onClick={handleMembershipPayment}
+                    size="lg"
+                    disabled={paying}
+                    className="cta-gradient w-full text-black hover:opacity-90 font-semibold uppercase tracking-widest"
+                  >
+                    {paying ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <>Pay Membership with Paystack</>
+                    )}
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={checkout}
+                    size="lg"
+                    disabled={items.length === 0 || isLoading || isSyncing}
+                    className="cta-gradient w-full text-black hover:opacity-90 font-semibold uppercase tracking-widest"
+                  >
+                    {isLoading || isSyncing ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <>
+                        <ExternalLink className="h-4 w-4 mr-2" /> Confirm Contribution
+                      </>
+                    )}
+                  </Button>
+                )}
                 <p className="text-[10px] text-center uppercase tracking-widest text-white/40">
-                  Secure member portal · Visa · Mastercard · Apple Pay · EFT
+                  Secure · Paystack · Visa · Mastercard · etc.
                 </p>
               </div>
             </>

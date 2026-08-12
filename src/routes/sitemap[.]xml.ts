@@ -16,6 +16,11 @@ export const Route = createFileRoute("/sitemap.xml")({
       GET: async () => {
         const entries: SitemapEntry[] = [
           { path: "/", changefreq: "weekly", priority: "1.0" },
+          { path: "/membership", changefreq: "weekly", priority: "0.9" },
+          { path: "/newsroom", changefreq: "daily", priority: "0.9" },
+          { path: "/referrals", changefreq: "monthly", priority: "0.7" },
+          { path: "/launch", changefreq: "weekly", priority: "0.7" },
+          { path: "/community-guidelines", changefreq: "yearly", priority: "0.5" },
           { path: "/track-my-order", changefreq: "monthly", priority: "0.6" },
           { path: "/shipping-policy", changefreq: "yearly", priority: "0.4" },
           { path: "/refund-policy", changefreq: "yearly", priority: "0.4" },
@@ -23,6 +28,32 @@ export const Route = createFileRoute("/sitemap.xml")({
           { path: "/terms", changefreq: "yearly", priority: "0.4" },
           { path: "/contact", changefreq: "yearly", priority: "0.4" },
         ];
+
+        // Add published newsroom articles.
+        try {
+          const { createClient } = await import("@supabase/supabase-js");
+          const supa = createClient(
+            process.env.SUPABASE_URL!,
+            process.env.SUPABASE_PUBLISHABLE_KEY!,
+            { auth: { persistSession: false } },
+          );
+          const { data } = await supa
+            .from("newsroom_articles")
+            .select("slug, published_at")
+            .eq("status", "published")
+            .order("published_at", { ascending: false })
+            .limit(500);
+          for (const a of data ?? []) {
+            entries.push({
+              path: `/newsroom/${a.slug}`,
+              lastmod: a.published_at,
+              changefreq: "weekly",
+              priority: "0.6",
+            });
+          }
+        } catch {
+          /* skip dynamic entries if DB unreachable */
+        }
 
         const urls = entries.map((e) =>
           [

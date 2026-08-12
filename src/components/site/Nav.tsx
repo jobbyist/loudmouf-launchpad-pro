@@ -8,8 +8,9 @@ const links = [
   { label: "Home", href: "/#home", type: "hash" as const },
   { label: "Yield Profiles", href: "/#product", type: "hash" as const },
   { label: "Membership", href: "/membership", type: "route" as const },
+  { label: "Newsroom", href: "/newsroom", type: "route" as const },
   { label: "Dashboard", href: "/member-dashboard", type: "route" as const },
-  { label: "Launch Summit", href: "/launch", type: "route" as const },
+  { label: "Referrals", href: "/referrals", type: "route" as const },
   { label: "Community", href: "/community-guidelines", type: "route" as const },
 ];
 

@@ -8,12 +8,12 @@ export const Route = createFileRoute("/shipping-policy")({
       {
         name: "description",
         content:
-          "LOUDMOUF™ ships across South Africa via The Courier Guy — 3–5 working days for R150. Free over R800.",
+          "LOUDMOUF™ ships across South Africa via The our delivery partner — 3–5 working days for R150. Free over R800.",
       },
       { property: "og:title", content: "Shipping Policy — LOUDMOUF™" },
       {
         property: "og:description",
-        content: "3–5 day discreet Courier Guy delivery across South Africa.",
+        content: "3–5 day discreet our delivery partner delivery across South Africa.",
       },
     ],
   }),
@@ -33,7 +33,7 @@ export const Route = createFileRoute("/shipping-policy")({
       <h2>1. Where We Ship</h2>
       <p>
         We deliver to all major addresses across the <strong>Republic of South Africa</strong> via{" "}
-        <strong>The Courier Guy</strong>. We do not currently ship internationally.
+        <strong>The our delivery partner</strong>. We do not currently ship internationally.
       </p>
 
       <h2>2. Delivery Times</h2>
@@ -42,7 +42,7 @@ export const Route = createFileRoute("/shipping-policy")({
           <strong>Standard delivery:</strong> 3–5 working days after dispatch.
         </li>
         <li>
-          Pre-order and Drop 001 items ship within 4 weeks of the campaign closing — you'll receive
+          Reserve and Drop 001 items ship within 4 weeks of the campaign closing — you'll receive
           a dispatch email as soon as your tin leaves our facility.
         </li>
       </ul>
@@ -62,14 +62,14 @@ export const Route = createFileRoute("/shipping-policy")({
 
       <h2>5. Tracking</h2>
       <p>
-        As soon as your order dispatches, you'll receive a tracking link and Courier Guy waybill
+        As soon as your order dispatches, you'll receive a tracking link and our delivery partner waybill
         number via email and SMS. You can also track your order any time on our{" "}
         <a href="/track-my-order">Track My Order</a> page.
       </p>
 
       <h2>6. Age Verification on Delivery</h2>
       <p>
-        The Courier Guy may request proof of age (18+) on delivery. Please ensure a valid ID is
+        The our delivery partner may request proof of age (18+) on delivery. Please ensure a valid ID is
         available at the delivery address.
       </p>
 
