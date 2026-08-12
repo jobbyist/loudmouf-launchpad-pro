@@ -60,7 +60,7 @@ export function Nav() {
           <div className="flex items-center gap-2">
             <Link
               to="/membership"
-              className="cta-gradient hidden sm:inline-flex items-center rounded-full px-4 py-2 text-[11px] font-semibold uppercase tracking-widest text-black shadow-md"
+              className="cta-gradient inline-flex items-center rounded-full px-4 py-2 text-[11px] font-semibold uppercase tracking-widest text-black shadow-md"
             >
               Become a Member
             </Link>

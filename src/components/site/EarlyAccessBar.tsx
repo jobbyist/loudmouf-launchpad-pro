@@ -39,20 +39,9 @@ function pad(n: number) {
 export function EarlyAccessBar() {
   const claimed = useClaimed();
   const [remaining, setRemaining] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-  const [mounted, setMounted] = useState(false);
+  const [mounted, setMounted] = useState(true);
 
   useEffect(() => {
-    setMounted(true);
-    setRemaining(diffToLaunch());
-    const id = setInterval(() => setRemaining(diffToLaunch()), 1000);
-    return () => clearInterval(id);
-  }, []);
-
-  const seatsLeft = MEMBER_CAP - claimed;
-  const pct = (claimed / MEMBER_CAP) * 100;
-
-  return (
-    <div className="fixed inset-x-0 bottom-0 z-40 pointer-events-none">
       <div className="pointer-events-auto mx-auto max-w-6xl m-3 rounded-2xl border border-white/10 bg-black/80 backdrop-blur-xl shadow-2xl overflow-hidden">
         <div className="grid gap-3 p-3 sm:p-4 md:grid-cols-[1fr_auto] md:items-center">
           <div className="min-w-0">

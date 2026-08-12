@@ -157,7 +157,7 @@ function LandingPage() {
             </motion.div>
 
             {/* Trust row */}
-            <div className="mt-10 flex flex-wrap items-center gap-6 text-[11px] uppercase tracking-widest text-white/50">
+            <div className="mt-10 flex flex-wrap items-center gap-6 text-[11px] uppercase tracking-widest text-white/50 bg-white/5 border border-white/10 rounded-2xl p-4">
               <div className="flex items-center gap-2 hover:text-loud-yellow/70 transition-colors">
                 <Leaf className="h-4 w-4 text-loud-yellow" /> Lab Tested
               </div>

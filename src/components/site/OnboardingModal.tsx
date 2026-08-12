@@ -215,7 +215,7 @@ export function OnboardingModal() {
   return (
     <Dialog open={onboardingOpen} onOpenChange={setOnboardingOpen}>
       <DialogContent className="max-w-xl bg-loud-ink border-white/10 p-0 overflow-hidden">
-        <div className="relative">
+      <DialogContent className="max-w-xl bg-loud-ink border-white/10 p-0 overflow-hidden shadow-2xl ring-2 ring-loud-yellow/10">
           <div className="absolute inset-0 pointer-events-none gradient-loud opacity-10" />
 
           <div className="relative px-6 pt-6 pb-4 border-b border-white/10">

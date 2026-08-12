@@ -34,7 +34,6 @@ function messageText(m: UIMessage) {
 
 export function LoudAI() {
   const [open, setOpen] = useState(false);
-  const [hidden, setHidden] = useState(false);
   const [input, setInput] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -44,28 +43,10 @@ export function LoudAI() {
   });
 
   useEffect(() => {
-    try {
-      if (window.sessionStorage.getItem(DISMISS_KEY) === "1") setHidden(true);
-    } catch {
-      /* ignore */
-    }
-  }, []);
-
-  useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
   }, [messages, open]);
-
-  function dismiss() {
-    setOpen(false);
-    setHidden(true);
-    try {
-      window.sessionStorage.setItem(DISMISS_KEY, "1");
-    } catch {
-      /* ignore */
-    }
-  }
 
   async function submit(e: FormEvent) {
     e.preventDefault();
@@ -80,25 +61,6 @@ export function LoudAI() {
   }
 
   const busy = status === "submitted" || status === "streaming";
-
-  if (hidden) {
-    return (
-      <button
-        onClick={() => {
-          setHidden(false);
-          try {
-            window.sessionStorage.removeItem(DISMISS_KEY);
-          } catch {
-            /* ignore */
-          }
-        }}
-        aria-label="Show LOUD AI"
-        className="fixed right-0 top-1/2 -translate-y-1/2 z-40 rounded-l-lg border border-r-0 border-white/10 bg-loud-ink/80 backdrop-blur-xl px-1.5 py-2 text-white/50 hover:text-white shadow-lg"
-      >
-        <ChevronLeft className="h-4 w-4" />
-      </button>
-    );
-  }
 
   return (
     <div className="fixed right-0 top-1/2 -translate-y-1/2 z-40 flex items-center">
@@ -203,13 +165,6 @@ export function LoudAI() {
       </AnimatePresence>
 
       {/* Notch */}
-      <div className="relative flex flex-col items-stretch">
-        <button
-          onClick={dismiss}
-          aria-label="Dismiss LOUD AI"
-          className="absolute -top-2 -left-2 grid h-5 w-5 place-items-center rounded-full border border-white/15 bg-loud-ink text-white/50 hover:text-white shadow"
-        >
-          <ChevronRight className="h-3 w-3" />
         </button>
         <button
           onClick={() => setOpen((v) => !v)}

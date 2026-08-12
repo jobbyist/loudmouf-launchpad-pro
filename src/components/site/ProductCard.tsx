@@ -25,7 +25,7 @@ export function ProductCard({ product, index }: { product: ShopifyProduct; index
         transition={{ duration: 0.6, delay: index * 0.08 }}
         className={cn(
           "group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-md",
-          "hover:border-white/20 hover:-translate-y-1 transition-all duration-500",
+          "hover:border-white/20 hover:-translate-y-1 transition-all duration-500 shadow-xl ring-1 ring-white/5",
         )}
       >
         <div
