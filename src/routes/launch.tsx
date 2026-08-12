@@ -59,7 +59,6 @@ function LaunchPage() {
     }
     setSubmitting(true);
     try {
-      const existing = JSON.parse(window.localStorage.getItem("loudmouf-rsvps") || "[]");
       // Submit to Formbackend
       await fetch("https://api.formbackend.com/f/YOUR_FORM_ID", {
         method: "POST",
@@ -75,11 +74,12 @@ function LaunchPage() {
       existing.push({ ...parsed.data, ts: Date.now() });
       window.localStorage.setItem("loudmouf-rsvps", JSON.stringify(existing));
       
+      setDone(true);
       toast.success("You're on the list. We'll be in touch.");
-    } finally {
     } catch (err) {
       toast.error("Something went wrong. Please try again.");
     } finally {
+      setSubmitting(false);
     }
   };
 

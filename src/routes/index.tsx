@@ -477,7 +477,6 @@ function LandingPage() {
 
 
       <section id="faq" className="relative bg-black/40 py-24">
-      <section id="faq" className="relative bg-black/40 py-28 sm:py-36">
           <div className="text-center">
             <p className="text-xs uppercase tracking-[0.3em] text-loud-yellow">FAQ</p>
             <h2 className="display mt-3 text-5xl sm:text-6xl text-white">Questions?</h2>
