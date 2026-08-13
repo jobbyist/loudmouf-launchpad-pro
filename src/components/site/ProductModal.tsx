@@ -157,11 +157,6 @@ export function ProductModal({
                   className="h-full w-full object-cover"
                 />
               )}
-              <img
-                src={trueGrade.url}
-                alt="True Grade Quality"
-                className="absolute bottom-3 right-3 h-16 w-16 opacity-90"
-              />
             </div>
             {images.length > 1 && (
               <div className="mt-4 grid grid-cols-5 gap-2">

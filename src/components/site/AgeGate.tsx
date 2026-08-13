@@ -33,14 +33,13 @@ export function AgeGate() {
         <Logo className="text-3xl mx-auto" />
         <h2 className="display mt-6 text-3xl text-white">Are you 18 or older?</h2>
         <p className="mt-3 text-sm text-white/70">
-          LOUDMOUF™ is an 18+ cannabis product. By entering you confirm you are of legal age in your
+          LOUDMOUF™ is an 18+ members-only platform. By entering you confirm you are of legal age in your
           jurisdiction.
         </p>
-        <div className="mt-6 flex flex-col sm:flex-row gap-3">
+        <div className="mt-6 flex gap-3">
           <Button
-            size="lg"
             onClick={accept}
-            className="flex-1 bg-loud-yellow text-black hover:bg-loud-yellow/90 font-semibold"
+            className="flex-1 bg-loud-yellow text-black hover:bg-loud-yellow/90 font-semibold rounded-md px-5 py-3 text-sm"
           >
             Yes, I'm 18+
           </Button>
