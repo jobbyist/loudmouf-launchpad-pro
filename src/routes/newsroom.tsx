@@ -30,7 +30,7 @@ function NewsroomPage() {
     <div className="min-h-screen bg-background text-foreground">
       <Nav />
       <main className="pt-32">
-        <Newsroom />
+        <Newsroom limit={20} />
       </main>
       <Footer />
     </div>
