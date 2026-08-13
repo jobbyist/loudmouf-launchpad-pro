@@ -6,7 +6,7 @@ import { ArrowRight, Sparkles, ShieldCheck } from "lucide-react";
  * Static CDN image asset only — not a Shopify API dependency.
  */
 const MEMBER_CARD_IMAGE =
-  "https://cdn.shopify.com/s/files/1/0779/5369/5849/files/IMG-0816_77c7ece1-5a43-40d1-a893-1fe5f98a2528.png";
+  "https://github.com/user-attachments/assets/f7c25d2f-743a-47b0-95ad-da6ff3146fb1";
 
 export function PrivateCardSection() {
   return (
@@ -64,6 +64,7 @@ export function PrivateCardSection() {
         >
           <div className="absolute -inset-10 gradient-loud opacity-25 blur-3xl rounded-full" />
           <div className="relative rounded-[28px] border border-white/15 shadow-2xl overflow-hidden bg-black/40">
+          className="relative"
             <img
               src={MEMBER_CARD_IMAGE}
               alt="LOUDMOUF Premium Private Club Member Card illustrative preview"
