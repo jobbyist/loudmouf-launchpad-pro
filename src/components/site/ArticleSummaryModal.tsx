@@ -1,2 +1,2 @@
-export { ArticleSummaryModal } from './ArticleSummaryModal.impl';
-export type { ArticleForModal } from './ArticleSummaryModal.impl';
+export { ArticleSummaryModal } from "./ArticleSummaryModal.impl";
+export type { ArticleForModal } from "./ArticleSummaryModal.impl";
