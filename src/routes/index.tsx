@@ -390,9 +390,9 @@ function LandingPage() {
             className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-white/10"
           >
             <img
-              src={storyImg.url}
+              src="https://cdn.shopify.com/s/files/1/0779/5369/5849/files/lmbanner.png"
               alt="LOUDMOUF brand story"
-              className="h-full w-full object-cover"
+              className="h-auto w-full max-w-[1200px] object-cover"
             />
           </motion.div>
           <div>
