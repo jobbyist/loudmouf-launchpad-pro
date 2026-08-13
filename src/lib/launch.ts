@@ -3,7 +3,7 @@
 export const LAUNCH_ISO = "2026-09-15T20:00:00+02:00";
 export const LAUNCH_TS = new Date(LAUNCH_ISO).getTime();
 
-export const MEMBER_CAP = 2000;
+export const MEMBER_CAP = 2500;
 // User-facing "spots left" starts at 234 → claimed baseline = 2000 - 234 = 1766.
 export const MEMBERS_CLAIMED_BASELINE = 1766;
 
@@ -73,7 +73,9 @@ export const MEMBERSHIP_PLANS = [
     benefits: [
       "LOUDMOUF™ Rewards Card",
       "Loyalty Points & Cashback Rewards",
+      "Free and discreet nationwide delivery",
       "Priority Yield Processing",
+      "Access to dedicated member portal",
       "Priority Merchandise Drops",
       "Priority Event Access",
       "Enhanced Allocation Insights",

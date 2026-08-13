@@ -7,6 +7,7 @@ import { EarlyAccessBar } from "@/components/site/EarlyAccessBar";
 import { OnboardingModal } from "@/components/site/OnboardingModal";
 import { LoudAI } from "@/components/site/LoudAI";
 import { Check, Sparkles, Star } from "lucide-react";
+import { NotificationBar } from "@/components/site/NotificationBar";
 import { cn } from "@/lib/utils";
 import {
   MEMBERSHIP_PLANS,
@@ -41,6 +42,7 @@ function MembershipPage() {
 
   return (
     <div className="relative min-h-screen overflow-x-clip bg-background text-foreground">
+      <NotificationBar />
       <Nav />
 
       <section className="relative pt-36 pb-12 sm:pt-44">

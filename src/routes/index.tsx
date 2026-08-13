@@ -13,6 +13,7 @@ import { OnboardingModal } from "@/components/site/OnboardingModal";
 import { LoudAI } from "@/components/site/LoudAI";
 import { PrivateCardSection } from "@/components/site/PrivateCardSection";
 import { Newsroom } from "@/components/site/Newsroom";
+import { NotificationBar } from "@/components/site/NotificationBar";
 import {
   Accordion,
   AccordionContent,
@@ -72,6 +73,7 @@ function LandingPage() {
   return (
     <div className="relative min-h-screen overflow-x-clip bg-background text-foreground">
       <AgeGate />
+      <NotificationBar />
       <Nav />
       <section id="home" className="relative pt-40 pb-24 sm:pt-48 sm:pb-32">
         <div className="pointer-events-none absolute inset-0 grid-noise" />
@@ -197,7 +199,7 @@ function LandingPage() {
       <section className="relative overflow-hidden">
         <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 grid gap-14 lg:grid-cols-2 items-center">
           <motion.div initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-white/10">
-            <img src="https://cdn.shopify.com/s/files/1/0779/5369/5849/files/lmbanner.png" alt="LOUDMOUF brand story" className="h-auto w-full max-w-[1200px] object-cover" />
+            <img src="https://cdn.shopify.com/s/files/1/0779/5369/5849/files/lmbanner.png" alt="LOUDMOUF brand story" className="h-full w-full object-cover" />
           </motion.div>
           <div>
             <p className="text-xs uppercase tracking-[0.3em] text-loud-yellow">The Movement</p>
@@ -244,10 +246,12 @@ function LandingPage() {
             {[
               { q: "What exactly are LOUDMOUF™ pouches?", a: "LOUDMOUF™ are premium smoke-free cannabis pouches. Discreet, odourless and designed to deliver a clean, potent experience without lighting up." },
               { q: "When does Drop 001 ship?", a: "Reserves open now. First production run ships within 4 weeks of the campaign closing. You'll get tracking via SMS and email as soon as your order dispatches." },
-              { q: "Where do you deliver?", a: "Anywhere in South Africa via our reliable and discreet delivery partner. Standard delivery time is 3–5 working days for a flat R99 fee. Free delivery for premium members." },
-              { q: "How do I track my order?", a: "Head to the Track My Order page or check your account dashboard. Every order ships with a our delivery partner waybill number." },
-              { q: "What's your return policy?", a: "Returns and exchanges are valid for 7 days after fulfilment if the product is defective, damaged or the wrong item was delivered. Gift cards and sale items excluded." },
+              { q: "Where do you deliver?", a: "Anywhere in South Africa via our reliable and discreet delivery partner. Standard delivery time is 3–5 working days for a flat R99 fee. Premium members enjoy free nationwide delivery." },
               { q: "Is this legal in South Africa?", a: "LOUDMOUF™ is sold in compliance with South African cannabis regulations for adult personal use. Strictly 18+ only." },
+              { q: "What payment methods do you accept?", a: "We accept all major credit and debit cards (Visa, Mastercard), Apple Pay, and direct bank transfer (EFT). All payments are processed securely through our payment gateway." },
+              { q: "How does the membership work?", a: "Choose between Standard (R99/month) or Premium (R149/month) membership. Your monthly membership fee gives you access to the Collective, and you request yield allocations separately at R350 per tin." },
+              { q: "What if I'm not satisfied with my order?", a: "We offer a 7-day return window for defective, damaged, or incorrect items. Contact us at hi@loudmouf.co.za and we'll make it right. Please note that opened or used products cannot be returned unless defective." },
+              { q: "How discreet is the packaging?", a: "Every order arrives in plain, unbranded outer packaging with no visible LOUDMOUF™ branding. Your privacy is our priority." },
             ].map((item, i) => (
               <AccordionItem key={i} value={`item-${i}`} className="glass rounded-2xl border-white/10 px-6">
                 <AccordionTrigger className="text-left text-white hover:no-underline uppercase tracking-wider text-sm">{item.q}</AccordionTrigger>
