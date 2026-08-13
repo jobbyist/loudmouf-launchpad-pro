@@ -86,17 +86,23 @@ export type Database = {
         Row: {
           article_id: string
           created_at: string
-          user_id: string
+          guest_id: string | null
+          id: string
+          user_id: string | null
         }
         Insert: {
           article_id: string
           created_at?: string
-          user_id: string
+          guest_id?: string | null
+          id?: string
+          user_id?: string | null
         }
         Update: {
           article_id?: string
           created_at?: string
-          user_id?: string
+          guest_id?: string | null
+          id?: string
+          user_id?: string | null
         }
         Relationships: [
           {
@@ -256,7 +262,7 @@ export type Database = {
         Insert: {
           commission_cents?: number
           created_at?: string
-          event_type: string
+          event_type?: string
           id?: string
           referred_email?: string | null
           referred_user_id?: string | null
@@ -349,7 +355,7 @@ export type Database = {
           fulfillment_status?: string | null
           id?: string
           raw?: Json | null
-          shopify_order_id?: string
+          shopify_order_id?: string | null
           status?: string | null
           tier?: string | null
           total_cents?: number | null

@@ -301,7 +301,7 @@ function LandingPage() {
               <h2 className="display mt-3 text-4xl sm:text-5xl text-white">Now streaming.</h2>
               <p className="mt-3 max-w-lg text-white/60 text-sm">Conversations with the artists, cultivators and creatives shaping the LOUDMOUF™ Collective. Season One coming soon.</p>
             </div>
-            <span className="rounded-full glass px-3 py-1.5 text-[10px] uppercase tracking-widest text-gradient-loud font-semibold">Season One · Coming Soon</span>
+            <span className="rounded-full glass px-3 py-1.5 text-[10px] uppercase tracking-widest text-white font-bold">SEASON ONE · COMING SOON</span>
           </div>
           <div className="mt-6 flex flex-wrap gap-2">{["Spotify", "Apple Podcasts", "YouTube", "Substack", "TikTok"].map((p) => (<span key={p} className="rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-[11px] uppercase tracking-widest text-white/80">{p}</span>))}</div>
         </div>
