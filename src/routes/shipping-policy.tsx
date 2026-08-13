@@ -8,7 +8,7 @@ export const Route = createFileRoute("/shipping-policy")({
       {
         name: "description",
         content:
-          "LOUDMOUF™ ships across South Africa via The our delivery partner — 3–5 working days for R150. Free over R800.",
+          "LOUDMOUF™ ships across South Africa via our reliable and discreet delivery partner — 3–5 working days for R99. Free delivery for premium members.",
       },
       { property: "og:title", content: "Shipping Policy — LOUDMOUF™" },
       {
@@ -33,7 +33,7 @@ export const Route = createFileRoute("/shipping-policy")({
       <h2>1. Where We Ship</h2>
       <p>
         We deliver to all major addresses across the <strong>Republic of South Africa</strong> via{" "}
-        <strong>The our delivery partner</strong>. We do not currently ship internationally.
+        <strong>our reliable and discreet delivery partner</strong>. We do not currently ship internationally.
       </p>
 
       <h2>2. Delivery Times</h2>
@@ -50,10 +50,10 @@ export const Route = createFileRoute("/shipping-policy")({
       <h2>3. Delivery Fees</h2>
       <ul>
         <li>
-          Flat courier fee: <strong>R150</strong> per order.
+          Flat courier fee: <strong>R99</strong> per order.
         </li>
         <li>
-          <strong>Free delivery</strong> on all orders over <strong>R800</strong>.
+          <strong>Free delivery</strong> for premium members.
         </li>
       </ul>
 
@@ -69,7 +69,7 @@ export const Route = createFileRoute("/shipping-policy")({
 
       <h2>6. Age Verification on Delivery</h2>
       <p>
-        The our delivery partner may request proof of age (18+) on delivery. Please ensure a valid ID is
+        Our delivery partner may request proof of age (18+) on delivery. Please ensure a valid ID is
         available at the delivery address.
       </p>
 
