@@ -39,7 +39,6 @@ export const Route = createFileRoute("/contact")({
           <p className="text-sm text-white/70 mt-1">+27 68 020 0749</p>
         </a>
         <div className="glass rounded-2xl p-6 sm:col-span-2">
-          <MapPin className="h-5 w-5 text-loud-yellow" />
           <h3 className="mt-4 font-display uppercase text-xl text-white">Head Office</h3>
           <p className="text-sm text-white/70 mt-1">
             Gravitas Industries (Pty) Ltd t/a LOUDPACK™ · CK 2024/596436/07 · South Africa

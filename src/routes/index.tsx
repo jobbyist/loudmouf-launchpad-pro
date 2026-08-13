@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
+import { useState } from "react";
 import { fetchProducts } from "@/lib/shopify";
 import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
@@ -21,6 +22,12 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
   ArrowRight,
   ShieldCheck,
   Leaf,
@@ -32,6 +39,7 @@ import {
   Check,
   Mic,
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import heroPoster from "@/assets/hero-poster.png.asset.json";
 import heroVideo from "@/assets/hero.mp4.asset.json";
 import storyImg from "@/assets/story.png.asset.json";
@@ -69,6 +77,7 @@ function LandingPage() {
     queryFn: () => fetchProducts(6),
     staleTime: 60_000,
   });
+  const [bigMoodModalOpen, setBigMoodModalOpen] = useState(false);
 
   return (
     <div className="relative min-h-screen overflow-x-clip bg-background text-foreground">
@@ -165,7 +174,7 @@ function LandingPage() {
               { icon: Leaf, title: "Premium Cannabis", copy: "High-quality cannabis pouches crafted for maximum effect." },
               { icon: ShieldCheck, title: "Discreet & Convenient", copy: "Smoke-free and odourless. Take it anywhere, anytime." },
               { icon: FlaskConical, title: "Lab Tested", copy: "Every batch is lab tested for purity, potency and safety." },
-              { icon: Truck, title: "Discreet Delivery", copy: "Fast, discreet our delivery partner delivery straight to your door." },
+              { icon: Truck, title: "Discreet Delivery", copy: "Fast, discreet and affordable delivery straight to your doorstep." },
             ].map((f, i) => (
               <motion.div key={f.title} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }} className="glass rounded-2xl p-6 hover:border-loud-yellow/40 hover:-translate-y-1 transition">
                 <div className="grid h-11 w-11 place-items-center rounded-xl bg-loud-yellow/15 text-loud-yellow"><f.icon className="h-5 w-5" /></div>
@@ -199,7 +208,7 @@ function LandingPage() {
       <section className="relative overflow-hidden">
         <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 grid gap-14 lg:grid-cols-2 items-center">
           <motion.div initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-white/10">
-            <img src="https://cdn.shopify.com/s/files/1/0779/5369/5849/files/lmbanner.png" alt="LOUDMOUF brand story" className="h-full w-full object-cover" />
+            <img src="https://github.com/user-attachments/assets/6d4f2607-0cc4-4cd6-9757-5ee6f987fae9" alt="LOUDMOUF brand story" className="h-full w-full object-cover" />
           </motion.div>
           <div>
             <p className="text-xs uppercase tracking-[0.3em] text-loud-yellow">The Movement</p>
@@ -298,16 +307,177 @@ function LandingPage() {
         </div>
       </section>
       <section className="relative mx-auto max-w-6xl px-6 py-20">
-        <div className="rounded-3xl border border-white/10 bg-black/60 p-8 sm:p-12">
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-loud-yellow flex items-center gap-2"><Mic className="h-3.5 w-3.5" /> The Big Mood Series</p>
-              <h2 className="display mt-3 text-4xl sm:text-5xl text-white">Now streaming.</h2>
-              <p className="mt-3 max-w-lg text-white/60 text-sm">Conversations with the artists, cultivators and creatives shaping the LOUDMOUF™ Collective. Season One coming soon.</p>
+        <div className="relative rounded-3xl p-[2px] bg-gradient-to-r from-loud-yellow via-loud-pink to-loud-blue animate-gradient-x">
+          <div className="rounded-3xl bg-black/60 p-8 sm:p-12">
+            <div className="flex flex-wrap items-end justify-between gap-4">
+              <div>
+                <p className="text-xs uppercase tracking-[0.3em] text-loud-yellow flex items-center gap-2"><Mic className="h-3.5 w-3.5" /> The Big Mood Series</p>
+                <h2 className="display mt-3 text-4xl sm:text-5xl text-white">Now streaming.</h2>
+                <p className="mt-3 max-w-lg text-white/60 text-sm">Conversations with the artists, cultivators and creatives shaping the LOUDMOUF™ Collective. Season One coming soon.</p>
+              </div>
+              <span className="rounded-full glass px-3 py-1.5 text-[10px] uppercase tracking-widest text-white font-bold">SEASON ONE · COMING SOON</span>
             </div>
-            <span className="rounded-full glass px-3 py-1.5 text-[10px] uppercase tracking-widest text-white font-bold">SEASON ONE · COMING SOON</span>
+            <div className="mt-6 flex flex-wrap gap-2">{["Spotify", "Apple Podcasts", "YouTube", "Substack", "TikTok"].map((p) => (<span key={p} className="rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-[11px] uppercase tracking-widest text-white/80">{p}</span>))}</div>
+            <div className="mt-6">
+              <Button onClick={() => setBigMoodModalOpen(true)} className="cta-gradient text-black font-semibold uppercase tracking-widest hover:opacity-90">
+                View The Program
+              </Button>
+            </div>
           </div>
-          <div className="mt-6 flex flex-wrap gap-2">{["Spotify", "Apple Podcasts", "YouTube", "Substack", "TikTok"].map((p) => (<span key={p} className="rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-[11px] uppercase tracking-widest text-white/80">{p}</span>))}</div>
+        </div>
+
+        <Dialog open={bigMoodModalOpen} onOpenChange={setBigMoodModalOpen}>
+          <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto bg-loud-ink border-white/10">
+            <DialogHeader>
+              <div className="flex justify-center mb-4">
+                <img src="https://github.com/user-attachments/assets/9590cef8-0e82-45c6-8e2f-88e1a818dbf4" alt="The Big Mood Series" className="h-16 w-auto" />
+              </div>
+              <DialogTitle className="text-center text-white text-2xl font-display uppercase">The Big Mood Series</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-6 text-white/80">
+              <p className="text-center leading-relaxed">
+                We dive into the trends, the people, the business, the plant and everything in between. From local changemakers to global disruptors — we spark conversations that matter.
+              </p>
+              <p className="text-center font-semibold text-white">
+                Big guests. Bigger insights. All in The Big Mood.
+              </p>
+
+              <div className="space-y-6 mt-8">
+                <h3 className="text-xl font-display uppercase text-loud-yellow text-center">Season 1 Episodes</h3>
+                
+                <div className="glass rounded-2xl p-6 space-y-3">
+                  <div className="flex items-start gap-3">
+                    <span className="text-loud-yellow font-display text-xl">01</span>
+                    <div>
+                      <h4 className="font-semibold text-white text-lg">The Green Rush</h4>
+                      <p className="text-sm text-loud-yellow/80 mb-2">Building the Future of Cannabis in SA</p>
+                      <p className="text-sm text-white/70">
+                        South Africa's cannabis economy is being built right now. We map the players, the money and the openings nobody's talking about yet.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="glass rounded-2xl p-6 space-y-3">
+                  <div className="flex items-start gap-3">
+                    <span className="text-loud-yellow font-display text-xl">02</span>
+                    <div>
+                      <h4 className="font-semibold text-white text-lg">High Culture</h4>
+                      <p className="text-sm text-loud-yellow/80 mb-2">Weed, Art & The New Creative Economy</p>
+                      <p className="text-sm text-white/70">
+                        From studio sessions to gallery walls — how cannabis is quietly funding and fuelling a new wave of South African creativity.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="glass rounded-2xl p-6 space-y-3">
+                  <div className="flex items-start gap-3">
+                    <span className="text-loud-yellow font-display text-xl">03</span>
+                    <div>
+                      <h4 className="font-semibold text-white text-lg">From Plug to CEO</h4>
+                      <p className="text-sm text-loud-yellow/80 mb-2">Stories of the New Cannabis Wave</p>
+                      <p className="text-sm text-white/70">
+                        The people who moved from informal supply to registered enterprise, and what it actually took to make that jump legit.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="glass rounded-2xl p-6 space-y-3">
+                  <div className="flex items-start gap-3">
+                    <span className="text-loud-yellow font-display text-xl">04</span>
+                    <div>
+                      <h4 className="font-semibold text-white text-lg">Women In Weed</h4>
+                      <p className="text-sm text-loud-yellow/80 mb-2">Leading Loud & Proud</p>
+                      <p className="text-sm text-white/70">
+                        The founders, growers and educators leading South Africa's cannabis industry — and why the room is finally starting to look different.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="glass rounded-2xl p-6 space-y-3">
+                  <div className="flex items-start gap-3">
+                    <span className="text-loud-yellow font-display text-xl">05</span>
+                    <div>
+                      <h4 className="font-semibold text-white text-lg">The Science of High</h4>
+                      <p className="text-sm text-loud-yellow/80 mb-2">Terpenes, Entourage & You</p>
+                      <p className="text-sm text-white/70">
+                        A plain-English breakdown of terpenes and the entourage effect — the science behind why every strain hits differently.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="glass rounded-2xl p-6 space-y-3">
+                  <div className="flex items-start gap-3">
+                    <span className="text-loud-yellow font-display text-xl">06</span>
+                    <div>
+                      <h4 className="font-semibold text-white text-lg">Smoking Mirrors</h4>
+                      <p className="text-sm text-loud-yellow/80 mb-2">Busting Cannabis Myths in 2025</p>
+                      <p className="text-sm text-white/70">
+                        We put the internet's favourite weed myths on trial — what's true, what's outdated, and what was never real to begin with.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="glass rounded-2xl p-6 space-y-3">
+                  <div className="flex items-start gap-3">
+                    <span className="text-loud-yellow font-display text-xl">07</span>
+                    <div>
+                      <h4 className="font-semibold text-white text-lg">Legalize It Right</h4>
+                      <p className="text-sm text-loud-yellow/80 mb-2">Policy, Politics & Progress</p>
+                      <p className="text-sm text-white/70">
+                        Where South African cannabis law actually stands today, what's still stuck in Parliament, and who's fighting to move it.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="glass rounded-2xl p-6 space-y-3">
+                  <div className="flex items-start gap-3">
+                    <span className="text-loud-yellow font-display text-xl">08</span>
+                    <div>
+                      <h4 className="font-semibold text-white text-lg">Weed & Wellness</h4>
+                      <p className="text-sm text-loud-yellow/80 mb-2">Healing Beyond The High</p>
+                      <p className="text-sm text-white/70">
+                        Sleep, pain, anxiety, focus — the wellness use cases driving a quieter, more clinical side of cannabis culture.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="glass rounded-2xl p-6 space-y-3">
+                  <div className="flex items-start gap-3">
+                    <span className="text-loud-yellow font-display text-xl">09</span>
+                    <div>
+                      <h4 className="font-semibold text-white text-lg">Global Loud Pack</h4>
+                      <p className="text-sm text-loud-yellow/80 mb-2">What the World Can Learn from SA</p>
+                      <p className="text-sm text-white/70">
+                        South Africa versus the world — how local cannabis culture compares, and where it's actually setting the pace.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="glass rounded-2xl p-6 space-y-3">
+                  <div className="flex items-start gap-3">
+                    <span className="text-loud-yellow font-display text-xl">10</span>
+                    <div>
+                      <h4 className="font-semibold text-white text-lg">Next Gen Stoners</h4>
+                      <p className="text-sm text-loud-yellow/80 mb-2">Gen Z, Cannabis & Culture</p>
+                      <p className="text-sm text-white/70">
+                        How the youngest generation of consumers is rewriting the rules — different habits, different values, same plant.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
         </div>
       </section>
       <section className="relative mx-auto max-w-6xl px-6 pb-24">
