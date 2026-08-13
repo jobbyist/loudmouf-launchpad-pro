@@ -3,7 +3,7 @@ import { Logo } from "./Logo";
 import { Instagram, Send, Apple, Smartphone, Music2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 
 function PayBadge({ label }: { label: string }) {
   return (
@@ -39,7 +39,7 @@ function StoreBadge({
 export function Footer() {
   const [newsletterStatus, setNewsletterStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
-  async function handleNewsletterSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleNewsletterSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
     const emailInput = form.querySelector('input[type="email"]') as HTMLInputElement;
