@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Logo } from "./Logo";
-import { Instagram, Send, Apple, Smartphone, Music2 } from "lucide-react";
+import { Instagram, Send, Apple, Smartphone, Music2, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState, type FormEvent } from "react";
@@ -200,10 +200,15 @@ export function Footer() {
             />
             <Button
               type="submit"
-              className="cta-gradient text-black hover:opacity-90"
+              className="cta-gradient text-black hover:opacity-90 min-w-10"
               disabled={newsletterStatus === "loading"}
+              aria-label={newsletterStatus === "loading" ? "Submitting…" : "Subscribe"}
             >
-              <Send className="h-4 w-4" />
+              {newsletterStatus === "loading" ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <Send className="h-4 w-4" />
+              )}
             </Button>
           </form>
           {newsletterStatus === "success" && (

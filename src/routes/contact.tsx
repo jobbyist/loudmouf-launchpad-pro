@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteShell } from "@/components/site/SiteShell";
-import { Mail, MessageSquare } from "lucide-react";
+import { Mail, MessageSquare, Loader2 } from "lucide-react";
 import { useState, type FormEvent } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -154,7 +154,14 @@ function ContactPage() {
           className="cta-gradient text-black font-semibold uppercase tracking-widest hover:opacity-90"
           disabled={status === "loading"}
         >
-          {status === "loading" ? "Sending…" : "Send Message"}
+          {status === "loading" ? (
+            <>
+              <Loader2 className="h-4 w-4 animate-spin" />
+              Sending…
+            </>
+          ) : (
+            "Send Message"
+          )}
         </Button>
         {status === "success" && (
           <p className="text-sm text-loud-yellow">Message sent — we&apos;ll be in touch soon.</p>
