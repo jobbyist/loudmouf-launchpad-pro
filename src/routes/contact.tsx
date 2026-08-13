@@ -29,42 +29,29 @@ function ContactPage() {
     e.preventDefault();
     const form = e.currentTarget;
     const formData = new FormData(form);
-    const payload = {
-      name: formData.get("name") as string,
-      email: formData.get("email") as string,
-      subject: formData.get("subject") as string,
-      message: formData.get("message") as string,
-    };
-
-    const endpoint = import.meta.env.VITE_FORMBACKEND_CONTACT_ENDPOINT;
+    formData.append("access_key", "7c0c7e89-57cf-42b8-83a0-072a2114fa5e");
+    formData.append("from_name", "LOUDMOUF Contact Form");
+    formData.append("subject", (formData.get("subject") as string) || "New contact message");
 
     setStatus("loading");
 
-    // Endpoint will be configured later via env. If present, POST to Formbackend.
-    if (endpoint) {
-      try {
-        const res = await fetch(endpoint, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
-        if (res.ok) {
-          setStatus("success");
-          form.reset();
-          setTimeout(() => setStatus("idle"), 4000);
-        } else {
-          setStatus("error");
-        }
-      } catch (error) {
-        console.error("Contact form error:", error);
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await response.json();
+      if (data.success) {
+        setStatus("success");
+        form.reset();
+        setTimeout(() => setStatus("idle"), 4000);
+      } else {
+        console.error("Web3Forms contact error:", data);
         setStatus("error");
       }
-    } else {
-      // Placeholder until Formbackend endpoint is configured
-      console.info("Formbackend contact endpoint not configured yet. Payload:", payload);
-      setStatus("success");
-      form.reset();
-      setTimeout(() => setStatus("idle"), 4000);
+    } catch (error) {
+      console.error("Contact form error:", error);
+      setStatus("error");
     }
   }
 
@@ -102,8 +89,7 @@ function ContactPage() {
 
       <h2>Send us a message</h2>
       <p className="text-white/70">
-        Prefer a form? Drop your details below and we&apos;ll get back to you. This form is wired
-        to Formbackend — the endpoint will be configured shortly.
+        Prefer a form? Drop your details below and we&apos;ll get back to you.
       </p>
 
       <form onSubmit={handleSubmit} className="not-prose mt-6 space-y-5 max-w-xl">

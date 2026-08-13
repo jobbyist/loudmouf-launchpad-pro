@@ -42,38 +42,32 @@ export function Footer() {
   async function handleNewsletterSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
-    const emailInput = form.querySelector('input[type="email"]') as HTMLInputElement;
-    const endpoint = import.meta.env.VITE_FORMBACKEND_NEWSLETTER_ENDPOINT;
+    const formData = new FormData(form);
+    formData.append("access_key", "81aa79f6-d934-470b-9f94-76c430ef4faa");
+    formData.append("from_name", "LOUDMOUF Newsletter");
+    formData.append("subject", "New newsletter signup");
 
-    if (!emailInput?.value) return;
+    if (!formData.get("email")) return;
 
     setNewsletterStatus("loading");
 
-    // Endpoint will be configured later via env. If present, POST to Formbackend.
-    if (endpoint) {
-      try {
-        const res = await fetch(endpoint, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email: emailInput.value }),
-        });
-        if (res.ok) {
-          setNewsletterStatus("success");
-          emailInput.value = "";
-          setTimeout(() => setNewsletterStatus("idle"), 3000);
-        } else {
-          setNewsletterStatus("error");
-        }
-      } catch (error) {
-        console.error("Newsletter error:", error);
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await response.json();
+      if (data.success) {
+        setNewsletterStatus("success");
+        form.reset();
+        setTimeout(() => setNewsletterStatus("idle"), 3000);
+      } else {
+        console.error("Web3Forms newsletter error:", data);
         setNewsletterStatus("error");
       }
-    } else {
-      // Placeholder behaviour until endpoint is set
-      console.info("Formbackend newsletter endpoint not configured yet. Email:", emailInput.value);
-      setNewsletterStatus("success");
-      emailInput.value = "";
-      setTimeout(() => setNewsletterStatus("idle"), 3000);
+    } catch (error) {
+      console.error("Newsletter error:", error);
+      setNewsletterStatus("error");
     }
   }
 
