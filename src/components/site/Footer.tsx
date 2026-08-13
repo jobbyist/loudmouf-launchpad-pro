@@ -3,6 +3,7 @@ import { Logo } from "./Logo";
 import { Instagram, Send, Apple, Smartphone, Music2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
 
 function PayBadge({ label }: { label: string }) {
   return (
@@ -36,6 +37,46 @@ function StoreBadge({
 }
 
 export function Footer() {
+  const [newsletterStatus, setNewsletterStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
+  async function handleNewsletterSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const emailInput = form.querySelector('input[type="email"]') as HTMLInputElement;
+    const endpoint = import.meta.env.VITE_FORMBACKEND_NEWSLETTER_ENDPOINT;
+
+    if (!emailInput?.value) return;
+
+    setNewsletterStatus("loading");
+
+    // Endpoint will be configured later via env. If present, POST to Formbackend.
+    if (endpoint) {
+      try {
+        const res = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: emailInput.value }),
+        });
+        if (res.ok) {
+          setNewsletterStatus("success");
+          emailInput.value = "";
+          setTimeout(() => setNewsletterStatus("idle"), 3000);
+        } else {
+          setNewsletterStatus("error");
+        }
+      } catch (error) {
+        console.error("Newsletter error:", error);
+        setNewsletterStatus("error");
+      }
+    } else {
+      // Placeholder behaviour until endpoint is set
+      console.info("Formbackend newsletter endpoint not configured yet. Email:", emailInput.value);
+      setNewsletterStatus("success");
+      emailInput.value = "";
+      setTimeout(() => setNewsletterStatus("idle"), 3000);
+    }
+  }
+
   return (
     <footer className="relative border-t border-white/10 bg-black pb-28">
       <div className="mx-auto max-w-7xl px-6 py-16 grid gap-10 lg:grid-cols-4">
@@ -136,13 +177,13 @@ export function Footer() {
             </li>
             <li>
               <Link to="/privacy-policy" className="hover:text-white">
-                Privacy Policy
                 Privacy Statement
+              </Link>
             </li>
             <li>
               <Link to="/contact" className="hover:text-white">
-                Contact
                 Contact Support
+              </Link>
             </li>
           </ul>
         </div>
@@ -154,35 +195,45 @@ export function Footer() {
           <p className="mt-4 text-sm text-white/60">
             Founding-member updates, exclusive drops, community events.
           </p>
-          <form onSubmit={(e) => e.preventDefault()} className="mt-4 flex gap-2">
+          <form onSubmit={handleNewsletterSubmit} className="mt-4 flex gap-2">
             <Input
               type="email"
+              name="email"
               placeholder="you@loud.co"
               required
-              data-formbackend="newsletter"
-              onFocus={(e) => {
-                const form = e.currentTarget.form;
-                if (form && !form.dataset.configured) {
-                  form.dataset.configured = "true";
-                  form.onsubmit = async (evt) => {
-                    evt.preventDefault();
-                    const emailInput = form.querySelector('input[type="email"]') as HTMLInputElement;
-                    const endpoint = import.meta.env.VITE_FORMBACKEND_NEWSLETTER_ENDPOINT;
-                    if (endpoint && emailInput?.value) {
-                      try {
-                        await fetch(endpoint, {
-                          method: "POST",
-                          headers: { "Content-Type": "application/json" },
-                          body: JSON.stringify({ email: emailInput.value }),
-                        });
-                        emailInput.value = "";
-                      } catch (error) {
-                        console.error("Newsletter error:", error);
-                      }
-                    }
-                  };
-                }
-              }}
+              className="bg-white/5 border-white/10 text-white placeholder:text-white/40"
+              disabled={newsletterStatus === "loading"}
+            />
+            <Button
+              type="submit"
+              className="cta-gradient text-black hover:opacity-90"
+              disabled={newsletterStatus === "loading"}
+            >
+              <Send className="h-4 w-4" />
+            </Button>
+          </form>
+          {newsletterStatus === "success" && (
+            <p className="mt-2 text-xs text-loud-yellow">Thanks — you&apos;re on the list.</p>
+          )}
+          {newsletterStatus === "error" && (
+            <p className="mt-2 text-xs text-red-400">Something went wrong. Please try again.</p>
+          )}
+
+          <div className="mt-6">
+            <p className="text-[10px] uppercase tracking-widest text-white/40 mb-2">
+              Secure payment
+            </p>
+            <div className="flex flex-wrap items-center gap-2">
+              <PayBadge label="Visa" />
+              <PayBadge label="Mastercard" />
+              <PayBadge label="Apple Pay" />
+              <PayBadge label="EFT" />
+            </div>
+          </div>
+
+          <div className="mt-5">
+            <p className="text-[10px] uppercase tracking-widest text-white/40 mb-2">Coming soon</p>
+            <div className="flex flex-wrap items-center gap-2">
               <StoreBadge icon={Apple} top="Download on the" bottom="App Store" />
               <StoreBadge icon={Smartphone} top="Get it on" bottom="Google Play" />
             </div>
