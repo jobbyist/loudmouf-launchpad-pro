@@ -64,12 +64,12 @@ export const Route = createFileRoute("/terms")({
 
       <h2>5. Delivery</h2>
       <p>
-        See our <a href="/shipping-policy">Shipping Policy</a> for full delivery terms.
+        See our <a href="/shipping-refunds">Shipping & Refunds</a> for full delivery terms.
       </p>
 
       <h2>6. Returns & Refunds</h2>
       <p>
-        See our <a href="/refund-policy">Returns & Refunds Policy</a>.
+        See our <a href="/shipping-refunds">Shipping & Refunds</a> for returns and refunds policy.
       </p>
 
       <h2>7. Intellectual Property</h2>

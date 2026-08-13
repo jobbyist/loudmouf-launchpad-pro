@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
+import { NotificationBar } from "@/components/site/NotificationBar";
 
 export function SiteShell({
   children,
@@ -13,6 +14,7 @@ export function SiteShell({
 }) {
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <NotificationBar />
       <Nav />
       <main className="pt-40 pb-24">
         <div className="mx-auto max-w-4xl px-6">

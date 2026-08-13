@@ -12,6 +12,18 @@ export const Route = createFileRoute("/api/chat")({
   server: {
     handlers: {
       POST: async ({ request }) => {
+        // Check authentication
+        const { createClient } = await import("@/integrations/supabase/client.server");
+        const supabase = await createClient(request);
+        const {
+          data: { user },
+          error,
+        } = await supabase.auth.getUser();
+
+        if (error || !user) {
+          return new Response("Unauthorized - Please sign in to use LOUD AI", { status: 401 });
+        }
+
         const { messages } = (await request.json()) as { messages?: UIMessage[] };
         if (!Array.isArray(messages)) {
           return new Response("Messages are required", { status: 400 });

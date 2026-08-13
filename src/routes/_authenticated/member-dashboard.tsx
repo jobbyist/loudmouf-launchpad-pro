@@ -140,7 +140,7 @@ function MemberDashboard() {
               { label: "Membership Agreement", to: "/terms" },
               { label: "Community Guidelines", to: "/community-guidelines" },
               { label: "Privacy Policy", to: "/privacy-policy" },
-              { label: "Refund Policy", to: "/refund-policy" },
+              { label: "Shipping & Refunds", to: "/shipping-refunds" },
             ].map((d) => (
               <Link
                 key={d.to}

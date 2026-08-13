@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Sparkles, X, MessageCircle, ChevronLeft, ChevronRight, Send } from "lucide-react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport, type UIMessage } from "ai";
+import { supabase } from "@/integrations/supabase/client";
 
 const STARTERS = [
   "Explain Membership",
@@ -24,12 +25,25 @@ function messageText(m: UIMessage) {
 export function LoudAI() {
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const { messages, sendMessage, status } = useChat({
     id: "loud-ai",
     transport,
   });
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data } = await supabase.auth.getUser();
+      setIsAuthenticated(!!data.user);
+    };
+    checkAuth();
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(() => {
+      checkAuth();
+    });
+    return () => subscription.unsubscribe();
+  }, []);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -50,6 +64,10 @@ export function LoudAI() {
   }
 
   const busy = status === "submitted" || status === "streaming";
+
+  if (!isAuthenticated) {
+    return null;
+  }
 
   return (
     <div className="fixed right-0 top-1/2 -translate-y-1/2 z-40 flex items-center">
