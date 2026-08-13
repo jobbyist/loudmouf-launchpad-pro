@@ -7,8 +7,9 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { ArrowLeft, ExternalLink, Heart, MessageCircle } from "lucide-react";
+import { ArrowLeft, ExternalLink, Heart, MessageCircle, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
 interface DbArticle {
   id: string;
@@ -22,9 +23,67 @@ interface DbArticle {
   published_at: string;
 }
 
+const COMMENT_COOLDOWN_MS = 60_000;
+const MAX_COMMENTS_PER_HOUR = 5;
+const HONEYPOT_FIELD = "website_url";
+const GUEST_ID_KEY = "loudmouf-guest-id";
+
+function getGuestId(): string {
+  if (typeof window === "undefined") return "guest";
+  try {
+    let key = localStorage.getItem(GUEST_ID_KEY);
+    if (!key) {
+      key = crypto.randomUUID();
+      localStorage.setItem(GUEST_ID_KEY, key);
+    }
+    return key;
+  } catch {
+    return `guest-${Math.random().toString(36).slice(2, 12)}`;
+  }
+}
+
+function checkCommentRateLimit(): { allowed: boolean; reason?: string } {
+  if (typeof window === "undefined") return { allowed: true };
+  try {
+    const raw = localStorage.getItem("loudmouf-comment-ts");
+    const timestamps: number[] = raw ? JSON.parse(raw) : [];
+    const now = Date.now();
+    const recent = timestamps.filter((t) => now - t < 60 * 60 * 1000);
+    if (recent.length >= MAX_COMMENTS_PER_HOUR) {
+      return { allowed: false, reason: "Too many comments in the last hour. Please wait." };
+    }
+    const last = recent[recent.length - 1];
+    if (last && now - last < COMMENT_COOLDOWN_MS) {
+      return { allowed: false, reason: "Please wait a minute before commenting again." };
+    }
+    return { allowed: true };
+  } catch {
+    return { allowed: true };
+  }
+}
+
+function recordCommentTimestamp() {
+  if (typeof window === "undefined") return;
+  try {
+    const raw = localStorage.getItem("loudmouf-comment-ts");
+    const timestamps: number[] = raw ? JSON.parse(raw) : [];
+    const now = Date.now();
+    const recent = timestamps.filter((t) => now - t < 60 * 60 * 1000);
+    recent.push(now);
+    localStorage.setItem("loudmouf-comment-ts", JSON.stringify(recent));
+  } catch {
+    // ignore
+  }
+}
+
+function makeMathChallenge(): { a: number; b: number; answer: number; prompt: string } {
+  const a = Math.floor(Math.random() * 12) + 2;
+  const b = Math.floor(Math.random() * 12) + 2;
+  return { a, b, answer: a + b, prompt: `What is ${a} + ${b}?` };
+}
+
 export const Route = createFileRoute("/newsroom/$slug")({
   loader: async ({ params }) => {
-    // Try Supabase first via server function
     const { getArticle } = await import("@/lib/news.functions");
     const dbArticle = await getArticle({ data: { slug: params.slug } });
     if (dbArticle) {
@@ -61,6 +120,28 @@ export const Route = createFileRoute("/newsroom/$slug")({
             { name: "twitter:card", content: "summary_large_image" },
             { name: "twitter:image", content: loaderData.article.cover },
           ],
+          scripts: [
+            {
+              type: "application/ld+json",
+              children: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "NewsArticle",
+                headline: loaderData.article.title,
+                description: loaderData.article.excerpt,
+                datePublished: loaderData.article.publishedAt,
+                image: loaderData.article.cover || undefined,
+                mainEntityOfPage: loaderData.article.sourceUrl,
+                url: `https://loudmouf.co.za/newsroom/${loaderData.article.slug}`,
+                isBasedOn: loaderData.article.sourceUrl,
+                author: { "@type": "Organization", name: loaderData.article.source },
+                publisher: {
+                  "@type": "Organization",
+                  name: "LOUDMOUF™",
+                  url: "https://loudmouf.co.za",
+                },
+              }),
+            },
+          ],
         }
       : {},
   errorComponent: () => (
@@ -90,13 +171,20 @@ function ArticlePage() {
   const [comments, setComments] = useState<CommentRow[]>([]);
   const [name, setName] = useState("");
   const [body, setBody] = useState("");
+  const [honeypot, setHoneypot] = useState("");
   const [userId, setUserId] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [math, setMath] = useState(() => makeMathChallenge());
+  const [mathAnswer, setMathAnswer] = useState("");
   const articleId = article.id;
 
   useEffect(() => {
     (async () => {
       const { data: userRes } = await supabase.auth.getUser();
-      setUserId(userRes.user?.id ?? null);
+      const uid = userRes.user?.id ?? null;
+      setUserId(uid);
+      const guestId = getGuestId();
+
       const [likesRes, commentsRes, myLikeRes] = await Promise.all([
         supabase
           .from("article_likes")
@@ -109,14 +197,19 @@ function ArticlePage() {
           .eq("status", "approved")
           .order("created_at", { ascending: false })
           .limit(50),
-        userRes.user
+        uid
           ? supabase
               .from("article_likes")
-              .select("article_id")
+              .select("id")
               .eq("article_id", articleId)
-              .eq("user_id", userRes.user.id)
+              .eq("user_id", uid)
               .maybeSingle()
-          : Promise.resolve({ data: null }),
+          : supabase
+              .from("article_likes")
+              .select("id")
+              .eq("article_id", articleId)
+              .eq("guest_id", guestId)
+              .maybeSingle(),
       ]);
       setLikeCount(likesRes.count ?? 0);
       setComments((commentsRes.data ?? []) as CommentRow[]);
@@ -125,20 +218,54 @@ function ArticlePage() {
   }, [articleId]);
 
   async function toggleLike() {
-    if (!userId) {
-      toast.error("Sign in to like articles");
+    if (userId) {
+      if (liked) {
+        const { error } = await supabase
+          .from("article_likes")
+          .delete()
+          .eq("article_id", articleId)
+          .eq("user_id", userId);
+        if (error) {
+          toast.error("Could not update like");
+          return;
+        }
+        setLiked(false);
+        setLikeCount((c) => Math.max(0, c - 1));
+      } else {
+        const { error } = await supabase
+          .from("article_likes")
+          .insert({ article_id: articleId, user_id: userId, guest_id: null });
+        if (error && error.code !== "23505") {
+          toast.error("Could not update like");
+          return;
+        }
+        setLiked(true);
+        setLikeCount((c) => c + 1);
+      }
       return;
     }
+
+    const guestId = getGuestId();
     if (liked) {
-      await supabase
+      const { error } = await supabase
         .from("article_likes")
         .delete()
         .eq("article_id", articleId)
-        .eq("user_id", userId);
+        .eq("guest_id", guestId);
+      if (error) {
+        toast.error("Could not update like");
+        return;
+      }
       setLiked(false);
       setLikeCount((c) => Math.max(0, c - 1));
     } else {
-      await supabase.from("article_likes").insert({ article_id: articleId, user_id: userId });
+      const { error } = await supabase
+        .from("article_likes")
+        .insert({ article_id: articleId, user_id: null, guest_id: guestId });
+      if (error && error.code !== "23505") {
+        toast.error(error.message || "Could not update like");
+        return;
+      }
       setLiked(true);
       setLikeCount((c) => c + 1);
     }
@@ -146,30 +273,68 @@ function ArticlePage() {
 
   async function submitComment(e: FormEvent) {
     e.preventDefault();
-    if (!userId) {
-      toast.error("Sign in to comment");
+
+    if (honeypot.trim()) {
+      toast.success("Comment posted");
+      setBody("");
+      setMath(makeMathChallenge());
+      setMathAnswer("");
       return;
     }
+
+    const rate = checkCommentRateLimit();
+    if (!rate.allowed) {
+      toast.error(rate.reason ?? "Please slow down.");
+      return;
+    }
+
+    const parsed = Number.parseInt(mathAnswer.trim(), 10);
+    if (!Number.isFinite(parsed) || parsed !== math.answer) {
+      toast.error("Incorrect answer to the math question. Please try again.");
+      setMath(makeMathChallenge());
+      setMathAnswer("");
+      return;
+    }
+
     const trimmedName = name.trim().slice(0, 60);
     const trimmedBody = body.trim().slice(0, 1000);
     if (!trimmedName || !trimmedBody) return;
-    const { error } = await supabase.from("article_comments").insert({
-      article_id: articleId,
-      user_id: userId,
-      author_name: trimmedName,
-      body: trimmedBody,
-      status: "pending",
-    });
-    if (error) {
-      toast.error(error.message);
-    } else {
-      toast.success("Comment submitted", {
-        description: "It will appear once a moderator approves it.",
-      });
-      setBody("");
+
+    if (
+      /(https?:\/\/|www\.|\.com|\.xyz|crypto|viagra|casino)/i.test(trimmedBody) &&
+      trimmedBody.split(/\s+/).length < 8
+    ) {
+      toast.error("Comment looks like spam. Please write a longer, relevant comment.");
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      const { data, error } = await supabase
+        .from("article_comments")
+        .insert({
+          article_id: articleId,
+          user_id: userId,
+          author_name: trimmedName,
+          body: trimmedBody,
+          status: "approved",
+        })
+        .select("id, author_name, body, created_at")
+        .single();
+      if (error) {
+        toast.error(error.message);
+      } else {
+        recordCommentTimestamp();
+        if (data) setComments((prev) => [data as CommentRow, ...prev]);
+        toast.success("Comment posted");
+        setBody("");
+        setMath(makeMathChallenge());
+        setMathAnswer("");
+      }
+    } finally {
+      setSubmitting(false);
     }
   }
-
 
   const paragraphs = article.summary.split(/\n+/).filter(Boolean);
 
@@ -191,65 +356,70 @@ function ArticlePage() {
             {article.title}
           </h1>
           <p className="mt-4 text-lg text-white/70">{article.excerpt}</p>
-          <div className="mt-6 flex items-center gap-3">
+          <div className="mt-6 flex flex-wrap items-center gap-3">
             <a
               href={article.sourceUrl}
               target="_blank"
               rel="noreferrer noopener"
               className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs uppercase tracking-widest text-white/80 hover:border-loud-yellow/40 hover:text-loud-yellow"
             >
-              <ExternalLink className="h-3 w-3" /> Read original
+              <ExternalLink className="h-3 w-3" /> Read Original Article
             </a>
             <button
               type="button"
               onClick={toggleLike}
-              className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-xs uppercase tracking-widest transition ${
+              className={cn(
+                "inline-flex items-center gap-2 rounded-full border px-4 py-2 text-xs uppercase tracking-widest transition",
                 liked
                   ? "border-loud-pink/60 bg-loud-pink/15 text-loud-pink"
-                  : "border-white/15 bg-white/5 text-white/80 hover:border-loud-pink/40"
-              }`}
+                  : "border-white/15 bg-white/5 text-white/80 hover:border-loud-pink/40",
+              )}
               aria-pressed={liked}
+              aria-label={liked ? "Unlike article" : "Like article"}
             >
-              <Heart className={`h-3 w-3 ${liked ? "fill-current" : ""}`} /> {likeCount}
+              <Heart className={cn("h-3 w-3", liked && "fill-current")} /> {likeCount}
             </button>
-          </div>
-
-          <div className="mt-10 aspect-[16/9] overflow-hidden rounded-2xl border border-white/10">
-            <img
-              src={article.cover}
-              alt=""
-              className="h-full w-full object-cover"
-              loading="lazy"
-            />
+            <span className="inline-flex items-center gap-1.5 text-xs text-white/50">
+              <MessageCircle className="h-3.5 w-3.5" /> {comments.length}
+            </span>
           </div>
 
           <div className="prose prose-invert prose-lg mt-10 max-w-none text-white/80">
-            {paragraphs.map((p: string, i: number) => (
-              <p key={i} className="leading-relaxed">
+            {paragraphs.map((p, i) => (
+              <p key={i} className="mb-4 leading-relaxed">
                 {p}
               </p>
             ))}
           </div>
 
-          <p className="mt-10 text-xs uppercase tracking-widest text-white/40">
+          <p className="mt-8 text-[10px] uppercase tracking-widest text-white/40">
             Summary curated by LOUDMOUF™ · original reporting © {article.source}.
           </p>
 
-          {/* Comments */}
           <section id="comments" className="mt-16 border-t border-white/10 pt-10">
             <h2 className="display text-3xl text-white flex items-center gap-3">
               <MessageCircle className="h-6 w-6 text-loud-yellow" /> Discussion
             </h2>
             <p className="mt-2 text-sm text-white/60">
-              Comments are stored locally to your device. Community moderation launches with
-              Sprint 3.
+              Join the conversation — keep it constructive. No account required.
             </p>
             <form onSubmit={submitComment} className="mt-6 space-y-3">
+              <input
+                type="text"
+                name={HONEYPOT_FIELD}
+                value={honeypot}
+                onChange={(e) => setHoneypot(e.target.value)}
+                tabIndex={-1}
+                autoComplete="off"
+                className="absolute -left-[9999px] opacity-0 h-0 w-0"
+                aria-hidden="true"
+              />
               <Input
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Your name or member handle"
                 maxLength={60}
+                required
                 className="bg-white/5 border-white/10 text-white"
               />
               <Textarea
@@ -258,15 +428,40 @@ function ArticlePage() {
                 placeholder="Add to the conversation…"
                 maxLength={1000}
                 rows={4}
+                required
                 className="bg-white/5 border-white/10 text-white"
               />
-              <div className="flex justify-end">
+              <div className="flex flex-col sm:flex-row sm:items-end gap-3">
+                <div className="flex-1">
+                  <label
+                    htmlFor="page-math-captcha"
+                    className="text-[11px] uppercase tracking-widest text-white/50"
+                  >
+                    Spam check · {math.prompt}
+                  </label>
+                  <Input
+                    id="page-math-captcha"
+                    inputMode="numeric"
+                    value={mathAnswer}
+                    onChange={(e) => setMathAnswer(e.target.value)}
+                    placeholder="Your answer"
+                    required
+                    className="mt-1.5 bg-white/5 border-white/10 text-white"
+                    aria-label={math.prompt}
+                  />
+                </div>
                 <Button
                   type="submit"
-                  disabled={!name.trim() || !body.trim()}
+                  disabled={submitting || !name.trim() || !body.trim() || !mathAnswer.trim()}
                   className="cta-gradient text-black uppercase tracking-widest text-xs font-semibold"
                 >
-                  Post Comment
+                  {submitting ? (
+                    <>
+                      <Loader2 className="h-3 w-3 animate-spin mr-2" /> Posting…
+                    </>
+                  ) : (
+                    "Post Comment"
+                  )}
                 </Button>
               </div>
             </form>
