@@ -1,11 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteShell } from "@/components/site/SiteShell";
-import { Mail, MessageSquare, Loader2 } from "lucide-react";
+import { Mail, MessageSquare, Loader2, CheckCircle2 } from "lucide-react";
 import { useState, type FormEvent } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -24,6 +31,7 @@ export const Route = createFileRoute("/contact")({
 
 function ContactPage() {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [thankYouOpen, setThankYouOpen] = useState(false);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -42,9 +50,9 @@ function ContactPage() {
       });
       const data = await response.json();
       if (data.success) {
-        setStatus("success");
+        setStatus("idle");
         form.reset();
-        setTimeout(() => setStatus("idle"), 4000);
+        setThankYouOpen(true);
       } else {
         console.error("Web3Forms contact error:", data);
         setStatus("error");
@@ -89,7 +97,7 @@ function ContactPage() {
 
       <h2>Send us a message</h2>
       <p className="text-white/70">
-        Prefer a form? Drop your details below and we&apos;ll get back to you.
+        Prefer a form? Drop your details below and we'll get back to you.
       </p>
 
       <form onSubmit={handleSubmit} className="not-prose mt-6 space-y-5 max-w-xl">
@@ -163,9 +171,6 @@ function ContactPage() {
             "Send Message"
           )}
         </Button>
-        {status === "success" && (
-          <p className="text-sm text-loud-yellow">Message sent — we&apos;ll be in touch soon.</p>
-        )}
         {status === "error" && (
           <p className="text-sm text-red-400">Something went wrong. Please try again or email us directly.</p>
         )}
@@ -179,9 +184,32 @@ function ContactPage() {
 
       <h2>Wholesale & Media</h2>
       <p>
-        Email <a href="mailto:hi@loudmouf.co.za">hi@loudmouf.co.za</a> with &quot;Wholesale&quot; or
-        &quot;Media&quot; in the subject line.
+        Email <a href="mailto:hi@loudmouf.co.za">hi@loudmouf.co.za</a> with "Wholesale" or
+        "Media" in the subject line.
       </p>
+
+      <Dialog open={thankYouOpen} onOpenChange={setThankYouOpen}>
+        <DialogContent className="max-w-md bg-loud-ink border-white/10">
+          <DialogHeader className="items-center text-center sm:text-center">
+            <CheckCircle2 className="h-12 w-12 text-loud-yellow mb-2" />
+            <DialogTitle className="text-white text-2xl font-display uppercase">
+              Thank you
+            </DialogTitle>
+            <DialogDescription className="text-white/70 text-base pt-2">
+              Your message is with the LOUDMOUF™ team. We'll get back to you within a few
+              business hours.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="mt-4 flex justify-center">
+            <Button
+              onClick={() => setThankYouOpen(false)}
+              className="cta-gradient text-black font-semibold uppercase tracking-widest hover:opacity-90"
+            >
+              Close
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </SiteShell>
   );
 }
