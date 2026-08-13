@@ -208,7 +208,7 @@ function LandingPage() {
       <section className="relative overflow-hidden">
         <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 grid gap-14 lg:grid-cols-2 items-center">
           <motion.div initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-white/10">
-            <img src="https://github.com/user-attachments/assets/6a0c7fc7-e791-4ab6-9de8-f44601edeb19" alt="LOUDMOUF brand story" className="h-full w-full object-cover" />
+            <img src="https://github.com/user-attachments/assets/6d4f2607-0cc4-4cd6-9757-5ee6f987fae9" alt="LOUDMOUF brand story" className="h-full w-full object-cover" />
           </motion.div>
           <div>
             <p className="text-xs uppercase tracking-[0.3em] text-loud-yellow">The Movement</p>
