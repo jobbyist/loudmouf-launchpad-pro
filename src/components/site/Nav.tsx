@@ -10,7 +10,7 @@ const links = [
   { label: "Membership", href: "/membership", type: "route" as const },
   { label: "Newsroom", href: "/newsroom", type: "route" as const },
   { label: "Dashboard", href: "/member-dashboard", type: "route" as const },
-  { label: "Referrals", href: "/referrals", type: "route" as const },
+  { label: "Partners", href: "/partner-program", type: "route" as const },
   { label: "Community", href: "/community-guidelines", type: "route" as const },
 ];
 
