@@ -1,9 +1,16 @@
 import { Link } from "@tanstack/react-router";
 import { Logo } from "./Logo";
-import { Instagram, Send, Apple, Smartphone, Music2, Loader2 } from "lucide-react";
+import { Instagram, Send, Apple, Smartphone, Music2, Loader2, CheckCircle2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState, type FormEvent } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 
 function PayBadge({ label }: { label: string }) {
   return (
@@ -38,6 +45,7 @@ function StoreBadge({
 
 export function Footer() {
   const [newsletterStatus, setNewsletterStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [thankYouOpen, setThankYouOpen] = useState(false);
 
   async function handleNewsletterSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -58,9 +66,9 @@ export function Footer() {
       });
       const data = await response.json();
       if (data.success) {
-        setNewsletterStatus("success");
+        setNewsletterStatus("idle");
         form.reset();
-        setTimeout(() => setNewsletterStatus("idle"), 3000);
+        setThankYouOpen(true);
       } else {
         console.error("Web3Forms newsletter error:", data);
         setNewsletterStatus("error");
@@ -211,9 +219,6 @@ export function Footer() {
               )}
             </Button>
           </form>
-          {newsletterStatus === "success" && (
-            <p className="mt-2 text-xs text-loud-yellow">Thanks — you&apos;re on the list.</p>
-          )}
           {newsletterStatus === "error" && (
             <p className="mt-2 text-xs text-red-400">Something went wrong. Please try again.</p>
           )}
@@ -257,6 +262,29 @@ export function Footer() {
           </p>
         </div>
       </div>
+
+      <Dialog open={thankYouOpen} onOpenChange={setThankYouOpen}>
+        <DialogContent className="max-w-md bg-loud-ink border-white/10">
+          <DialogHeader className="items-center text-center sm:text-center">
+            <CheckCircle2 className="h-12 w-12 text-loud-yellow mb-2" />
+            <DialogTitle className="text-white text-2xl font-display uppercase">
+              You&apos;re on the list
+            </DialogTitle>
+            <DialogDescription className="text-white/70 text-base pt-2">
+              Thanks for joining the LOUDMOUF™ newsletter. Founding-member updates and exclusive
+              drops are on the way.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="mt-4 flex justify-center">
+            <Button
+              onClick={() => setThankYouOpen(false)}
+              className="cta-gradient text-black font-semibold uppercase tracking-widest hover:opacity-90"
+            >
+              Close
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </footer>
   );
 }
