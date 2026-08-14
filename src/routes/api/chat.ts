@@ -8,6 +8,8 @@ const SYSTEM = `You are LOUD AI, the concierge for LOUDMOUF™ Collective — a 
 - Never provide legal, medical, or dosage advice; refer to a licensed professional.
 - 18+ only; remind members that use is private and personal.`;
 
+const DAILY_MESSAGE_LIMIT = 3;
+
 export const Route = createFileRoute("/api/chat")({
   server: {
     handlers: {
@@ -24,6 +26,30 @@ export const Route = createFileRoute("/api/chat")({
           return new Response("Unauthorized - Please sign in to use LOUD AI", { status: 401 });
         }
 
+        const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+        const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+        const { count, error: countError } = await supabaseAdmin
+          .from("loud_ai_messages")
+          .select("*", { count: "exact", head: true })
+          .eq("user_id", user.id)
+          .gte("created_at", since);
+
+        if (countError) {
+          return new Response("Could not verify message limit", { status: 500 });
+        }
+
+        const usedToday = count ?? 0;
+        if (usedToday >= DAILY_MESSAGE_LIMIT) {
+          return Response.json(
+            {
+              error: "rate_limited",
+              message:
+                "You've reached your 3 messages for today. For anything else, reach out to a LOUDMOUF™ team member on WhatsApp (+27680200749) or email hi@loudmouf.co.za — we'll take it from here.",
+            },
+            { status: 429 },
+          );
+        }
+
         const { messages } = (await request.json()) as { messages?: UIMessage[] };
         if (!Array.isArray(messages)) {
           return new Response("Messages are required", { status: 400 });
@@ -37,9 +63,18 @@ export const Route = createFileRoute("/api/chat")({
           model,
           system: SYSTEM,
           messages: await convertToModelMessages(messages),
+          onFinish: async () => {
+            await supabaseAdmin.from("loud_ai_messages").insert({ user_id: user.id });
+          },
         });
 
-        return result.toUIMessageStreamResponse({ originalMessages: messages });
+        const messagesRemaining = DAILY_MESSAGE_LIMIT - usedToday - 1;
+
+        return result.toUIMessageStreamResponse({
+          originalMessages: messages,
+          messageMetadata: ({ part }) =>
+            part.type === "finish" ? { messagesRemaining } : undefined,
+        });
       },
     },
   },

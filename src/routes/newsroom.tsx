@@ -1,9 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
-import { Newsroom } from "@/components/site/Newsroom";
+import { NewsroomFeed } from "@/components/site/NewsroomFeed";
+import { listArticles } from "@/lib/news.functions";
+import type { ArticleRow } from "@/components/site/ArticleCard";
+
+const PAGE_SIZE = 5;
 
 export const Route = createFileRoute("/newsroom")({
+  loader: async () => {
+    const articles = await listArticles({ data: { limit: PAGE_SIZE, offset: 0 } });
+    return { articles: articles as ArticleRow[] };
+  },
   head: () => ({
     meta: [
       { title: "LOUDMOUF™ Newsroom — Cannabis Signal & Long-Form Summaries" },
@@ -26,11 +34,12 @@ export const Route = createFileRoute("/newsroom")({
 });
 
 function NewsroomPage() {
+  const { articles } = Route.useLoaderData();
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Nav />
       <main className="pt-32">
-        <Newsroom limit={20} />
+        <NewsroomFeed initialArticles={articles} pageSize={PAGE_SIZE} />
       </main>
       <Footer />
     </div>

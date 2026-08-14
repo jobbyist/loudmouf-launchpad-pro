@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
+import Markdown from "markdown-to-jsx";
 import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
 import { getArticleBySlug } from "@/lib/news";
@@ -9,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ArrowLeft, ExternalLink, Heart, MessageCircle, Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import { cn } from "@/lib/utils";
+import { cn, stripMarkdown } from "@/lib/utils";
 
 interface DbArticle {
   id: string;
@@ -112,9 +113,9 @@ export const Route = createFileRoute("/newsroom/$slug")({
       ? {
           meta: [
             { title: `${loaderData.article.title} · LOUDMOUF™ Newsroom` },
-            { name: "description", content: loaderData.article.excerpt },
+            { name: "description", content: stripMarkdown(loaderData.article.excerpt) },
             { property: "og:title", content: loaderData.article.title },
-            { property: "og:description", content: loaderData.article.excerpt },
+            { property: "og:description", content: stripMarkdown(loaderData.article.excerpt) },
             { property: "og:type", content: "article" },
             { property: "og:image", content: loaderData.article.cover },
             { name: "twitter:card", content: "summary_large_image" },
@@ -127,7 +128,7 @@ export const Route = createFileRoute("/newsroom/$slug")({
                 "@context": "https://schema.org",
                 "@type": "NewsArticle",
                 headline: loaderData.article.title,
-                description: loaderData.article.excerpt,
+                description: stripMarkdown(loaderData.article.excerpt),
                 datePublished: loaderData.article.publishedAt,
                 image: loaderData.article.cover || undefined,
                 mainEntityOfPage: loaderData.article.sourceUrl,
@@ -336,8 +337,6 @@ function ArticlePage() {
     }
   }
 
-  const paragraphs = article.summary.split(/\n+/).filter(Boolean);
-
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Nav />
@@ -355,7 +354,7 @@ function ArticlePage() {
           <h1 className="display mt-3 text-4xl sm:text-5xl md:text-6xl text-white leading-tight">
             {article.title}
           </h1>
-          <p className="mt-4 text-lg text-white/70">{article.excerpt}</p>
+          <p className="mt-4 text-lg text-white/70">{stripMarkdown(article.excerpt)}</p>
           <div className="mt-6 flex flex-wrap items-center gap-3">
             <a
               href={article.sourceUrl}
@@ -385,11 +384,15 @@ function ArticlePage() {
           </div>
 
           <div className="prose prose-invert prose-lg mt-10 max-w-none text-white/80">
-            {paragraphs.map((p, i) => (
-              <p key={i} className="mb-4 leading-relaxed">
-                {p}
-              </p>
-            ))}
+            <Markdown
+              options={{
+                overrides: {
+                  a: { props: { target: "_blank", rel: "noopener noreferrer" } },
+                },
+              }}
+            >
+              {article.summary}
+            </Markdown>
           </div>
 
           <p className="mt-8 text-[10px] uppercase tracking-widest text-white/40">

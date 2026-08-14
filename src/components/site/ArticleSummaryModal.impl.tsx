@@ -1,4 +1,5 @@
 import { useEffect, useState, type FormEvent } from "react";
+import Markdown from "markdown-to-jsx";
 import {
   Dialog,
   DialogContent,
@@ -16,7 +17,7 @@ import {
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { cn } from "@/lib/utils";
+import { cn, stripMarkdown } from "@/lib/utils";
 
 export interface ArticleForModal {
   id: string;
@@ -134,7 +135,7 @@ export function ArticleSummaryModal({
       "@context": "https://schema.org",
       "@type": "NewsArticle",
       headline: article.title,
-      description: article.excerpt ?? undefined,
+      description: article.excerpt ? stripMarkdown(article.excerpt) : undefined,
       datePublished: article.published_at ?? undefined,
       image: article.cover || undefined,
       mainEntityOfPage: article.source_url || undefined,
@@ -188,9 +189,9 @@ export function ArticleSummaryModal({
             .select("summary_md")
             .eq("id", article.id)
             .maybeSingle();
-          if (!cancelled) summaryText = row?.summary_md ?? article.excerpt ?? "";
+          if (!cancelled) summaryText = row?.summary_md ?? null;
         }
-        if (!cancelled) setSummary(summaryText || article.excerpt || "");
+        if (!cancelled) setSummary(summaryText || null);
 
         const [likesRes, commentsRes, myLikeRes] = await Promise.all([
           supabase
@@ -226,7 +227,7 @@ export function ArticleSummaryModal({
       } catch (err) {
         console.error("Article modal load error", err);
         if (!cancelled) {
-          setSummary(article.excerpt || "Summary is temporarily unavailable.");
+          setSummary(null);
         }
       } finally {
         if (!cancelled) setLoading(false);
@@ -363,10 +364,7 @@ export function ArticleSummaryModal({
     }
   }
 
-  const paragraphs = (summary || "")
-    .split(/\n+/)
-    .map((p) => p.trim())
-    .filter(Boolean);
+  const hasSummary = Boolean(summary && summary.trim());
 
   const publishDate =
     article?.published_at
@@ -380,7 +378,7 @@ export function ArticleSummaryModal({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        className="max-w-3xl w-[calc(100%-1.5rem)] sm:w-full bg-loud-ink border-white/10 p-0 overflow-hidden max-h-[min(92vh,900px)] flex flex-col gap-0 shadow-2xl"
+        className="max-w-3xl w-[calc(100%-2rem)] sm:w-full bg-loud-ink border-white/10 p-0 overflow-hidden max-h-[75vh] sm:max-h-[min(92vh,900px)] flex flex-col gap-0 shadow-2xl"
         aria-describedby={undefined}
         onOpenAutoFocus={(e) => {
           const title = (e.currentTarget as HTMLElement).querySelector(
@@ -398,10 +396,10 @@ export function ArticleSummaryModal({
         {article ? (
           <>
             <div
-              className="overflow-y-auto overscroll-contain flex-1 min-h-0 px-6 pt-6 pb-4 touch-pan-y"
+              className="overflow-y-auto overscroll-contain scroll-smooth flex-1 min-h-0 px-4 pt-4 pb-3 sm:px-6 sm:pt-6 sm:pb-4 touch-pan-y"
               style={{ WebkitOverflowScrolling: "touch" }}
             >
-              <div className="flex items-center justify-between gap-3 pr-10">
+              <div className="flex items-center justify-between gap-3 pr-12">
                 <p className="text-[11px] uppercase tracking-[0.3em] text-loud-yellow">
                   {article.source}
                   {publishDate ? ` · ${publishDate}` : ""}
@@ -418,7 +416,7 @@ export function ArticleSummaryModal({
 
               {article.excerpt ? (
                 <DialogDescription className="mt-3 text-base text-white/70">
-                  {article.excerpt}
+                  {stripMarkdown(article.excerpt)}
                 </DialogDescription>
               ) : (
                 <DialogDescription className="sr-only">
@@ -463,12 +461,16 @@ export function ArticleSummaryModal({
                   <div className="flex items-center gap-2 text-white/50 py-8">
                     <Loader2 className="h-4 w-4 animate-spin" /> Loading summary…
                   </div>
-                ) : paragraphs.length > 0 ? (
-                  paragraphs.map((p, i) => (
-                    <p key={i} className="mb-4 leading-relaxed">
-                      {p}
-                    </p>
-                  ))
+                ) : hasSummary ? (
+                  <Markdown
+                    options={{
+                      overrides: {
+                        a: { props: { target: "_blank", rel: "noopener noreferrer" } },
+                      },
+                    }}
+                  >
+                    {summary as string}
+                  </Markdown>
                 ) : (
                   <p className="text-white/50 py-6">
                     Summary is not available yet. Check back after the next curation run, or read the

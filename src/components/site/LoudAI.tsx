@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Sparkles, X, MessageCircle, ChevronLeft, ChevronRight, Send } from "lucide-react";
+import { Sparkles, X, MessageCircle, Send } from "lucide-react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport, type UIMessage } from "ai";
 import { supabase } from "@/integrations/supabase/client";
@@ -12,7 +12,8 @@ const STARTERS = [
   "When is the launch?",
 ];
 
-const DISMISS_KEY = "loudmouf-loud-ai-dismissed";
+const ESCALATION_MESSAGE =
+  "You've reached your 3 messages for today. For anything else, reach out to a LOUDMOUF™ team member on WhatsApp (+27680200749) or email hi@loudmouf.co.za — we'll take it from here.";
 
 const transport = new DefaultChatTransport({ api: "/api/chat" });
 
@@ -22,15 +23,29 @@ function messageText(m: UIMessage) {
     .join("");
 }
 
+function messagesRemainingOf(m: UIMessage): number | undefined {
+  const meta = m.metadata as { messagesRemaining?: number } | undefined;
+  return meta?.messagesRemaining;
+}
+
 export function LoudAI() {
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [limitReached, setLimitReached] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const { messages, sendMessage, status } = useChat({
     id: "loud-ai",
     transport,
+    onError: (err) => {
+      try {
+        const parsed = JSON.parse(err.message) as { error?: string };
+        if (parsed.error === "rate_limited") setLimitReached(true);
+      } catch {
+        // non-JSON error, ignore
+      }
+    },
   });
 
   useEffect(() => {
@@ -51,8 +66,24 @@ export function LoudAI() {
     }
   }, [messages, open]);
 
+  const lastAssistantRemaining = useMemo(() => {
+    for (let i = messages.length - 1; i >= 0; i--) {
+      const m = messages[i];
+      if (m.role !== "assistant") continue;
+      return messagesRemainingOf(m);
+    }
+    return undefined;
+  }, [messages]);
+
+  useEffect(() => {
+    if (lastAssistantRemaining !== undefined && lastAssistantRemaining <= 0) {
+      setLimitReached(true);
+    }
+  }, [lastAssistantRemaining]);
+
   async function submit(e: FormEvent) {
     e.preventDefault();
+    if (limitReached) return;
     const text = input.trim();
     if (!text) return;
     setInput("");
@@ -60,6 +91,7 @@ export function LoudAI() {
   }
 
   async function sendStarter(text: string) {
+    if (limitReached) return;
     await sendMessage({ text });
   }
 
@@ -148,19 +180,26 @@ export function LoudAI() {
                   LOUD AI is thinking…
                 </div>
               )}
+              {limitReached && (
+                <div className="mr-auto max-w-[90%] rounded-2xl rounded-tl-sm border border-loud-yellow/30 bg-loud-yellow/10 text-white px-3 py-2">
+                  <p className="whitespace-pre-wrap leading-relaxed">{ESCALATION_MESSAGE}</p>
+                </div>
+              )}
             </div>
 
             <form onSubmit={submit} className="border-t border-white/10 p-3 flex gap-2">
               <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask the Collective concierge…"
-                className="flex-1 rounded-full bg-white/5 border border-white/10 px-3 py-2 text-sm text-white placeholder:text-white/40 focus:outline-none focus:border-loud-yellow/40"
-                disabled={busy}
+                placeholder={
+                  limitReached ? "Daily limit reached — see you tomorrow" : "Ask the Collective concierge…"
+                }
+                className="flex-1 rounded-full bg-white/5 border border-white/10 px-3 py-2 text-sm text-white placeholder:text-white/40 focus:outline-none focus:border-loud-yellow/40 disabled:opacity-50"
+                disabled={busy || limitReached}
               />
               <button
                 type="submit"
-                disabled={busy || !input.trim()}
+                disabled={busy || limitReached || !input.trim()}
                 className="grid h-9 w-9 place-items-center rounded-full cta-gradient text-black disabled:opacity-40"
                 aria-label="Send message"
               >

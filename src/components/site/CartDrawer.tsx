@@ -12,8 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { ShoppingBasket, Minus, Plus, Trash2, ExternalLink, Loader2 } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
 import { useUIStore } from "@/stores/uiStore";
-import { incrementEarlyAccessClaimed } from "./EarlyAccessBar";
-import { membershipFeeFor } from "@/lib/launch";
+import { incrementEarlyAccessClaimed, membershipFeeFor } from "@/lib/launch";
 import { useEffect as useEffectReact, useState } from "react";
 
 function useMemberTier(): "standard" | "premium" | null {
