@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Home, Info, ShoppingBag, Tag, MoreHorizontal, Newspaper, Users, Mail } from "lucide-react";
+import { Home, Info, ShoppingBag, Tag, MoreHorizontal, Newspaper, Users, Mail, Calendar, Ticket } from "lucide-react";
 import {
   Popover,
   PopoverContent,
@@ -8,15 +8,14 @@ import {
 
 const primaryLinks = [
   { label: "Home", href: "/", type: "route" as const, icon: Home },
-  { label: "About", href: "/#why", type: "hash" as const, icon: Info },
-  { label: "Merch", href: "/#product", type: "hash" as const, icon: ShoppingBag },
+  { label: "About", href: "/about", type: "route" as const, icon: Info },
+  { label: "Merch", href: "/store", type: "route" as const, icon: ShoppingBag },
   { label: "Pricing", href: "/membership", type: "route" as const, icon: Tag },
 ];
 
 const moreLinks = [
-  { label: "Pricing", href: "/membership", type: "route" as const, icon: Tag },
+  { label: "Events", href: "/launch", type: "route" as const, icon: Ticket },
   { label: "Newsroom", href: "/newsroom", type: "route" as const, icon: Newspaper },
-  { label: "Merchandise", href: "/#product", type: "hash" as const, icon: ShoppingBag },
   { label: "Partners", href: "/partner-program", type: "route" as const, icon: Users },
   { label: "Contact", href: "/contact", type: "route" as const, icon: Mail },
 ];
