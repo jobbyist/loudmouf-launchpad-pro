@@ -2,7 +2,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
-import { EarlyAccessBar } from "@/components/site/EarlyAccessBar";
 import { Button } from "@/components/ui/button";
 import { Calendar, MapPin, Music, Sparkles } from "lucide-react";
 
@@ -127,7 +126,6 @@ function LaunchPage() {
         </div>
       </section>
       <Footer />
-      <EarlyAccessBar />
     </div>
   );
 }

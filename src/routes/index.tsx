@@ -9,7 +9,6 @@ import { AgeGate } from "@/components/site/AgeGate";
 import { Countdown } from "@/components/site/Countdown";
 import { ProductCard } from "@/components/site/ProductCard";
 import { Logo } from "@/components/site/Logo";
-import { EarlyAccessBar } from "@/components/site/EarlyAccessBar";
 import { OnboardingModal } from "@/components/site/OnboardingModal";
 import { LoudAI } from "@/components/site/LoudAI";
 import { PrivateCardSection } from "@/components/site/PrivateCardSection";
@@ -478,7 +477,6 @@ function LandingPage() {
             </div>
           </DialogContent>
         </Dialog>
-        </div>
       </section>
       <section className="relative mx-auto max-w-6xl px-6 pb-24">
         <div className="flex flex-wrap items-center justify-center gap-3 text-[10px] uppercase tracking-widest text-white/60">
@@ -486,7 +484,6 @@ function LandingPage() {
         </div>
       </section>
       <Footer />
-      <EarlyAccessBar />
       <OnboardingModal />
       <LoudAI />
     </div>

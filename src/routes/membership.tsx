@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
-import { EarlyAccessBar } from "@/components/site/EarlyAccessBar";
 import { OnboardingModal } from "@/components/site/OnboardingModal";
 import { LoudAI } from "@/components/site/LoudAI";
 import { Check, Sparkles, Star } from "lucide-react";
@@ -198,7 +197,6 @@ function MembershipPage() {
       </section>
 
       <Footer />
-      <EarlyAccessBar />
       <OnboardingModal />
       <LoudAI />
     </div>

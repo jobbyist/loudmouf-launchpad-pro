@@ -21,17 +21,26 @@ function publicClient() {
   });
 }
 
-export const listArticles = createServerFn({ method: "GET" }).handler(async () => {
-  const supa = publicClient();
-  const { data, error } = await supa
-    .from("newsroom_articles")
-    .select("id, slug, title, source, source_url, cover, excerpt, published_at")
-    .eq("status", "published")
-    .order("published_at", { ascending: false })
-    .limit(24);
-  if (error) throw new Error(error.message);
-  return data ?? [];
-});
+export const listArticles = createServerFn({ method: "GET" })
+  .inputValidator((input) =>
+    z
+      .object({
+        limit: z.number().int().min(1).max(24).default(5),
+        offset: z.number().int().min(0).default(0),
+      })
+      .parse(input ?? {}),
+  )
+  .handler(async ({ data }) => {
+    const supa = publicClient();
+    const { data: rows, error } = await supa
+      .from("newsroom_articles")
+      .select("id, slug, title, source, source_url, cover, excerpt, published_at, summary_md")
+      .eq("status", "published")
+      .order("published_at", { ascending: false })
+      .range(data.offset, data.offset + data.limit - 1);
+    if (error) throw new Error(error.message);
+    return rows ?? [];
+  });
 
 export const getArticle = createServerFn({ method: "GET" })
   .inputValidator((input) => z.object({ slug: z.string().min(1).max(200) }).parse(input))

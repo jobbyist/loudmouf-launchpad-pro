@@ -1,5 +1,5 @@
 // Single source of truth for the Soft Launch countdown + member capacity.
-// Consumed by Countdown, EarlyAccessBar, membership sections and MCP.
+// Consumed by Countdown, BottomNav, membership sections and MCP.
 export const LAUNCH_ISO = "2026-09-15T20:00:00+02:00";
 export const LAUNCH_TS = new Date(LAUNCH_ISO).getTime();
 
@@ -32,6 +32,20 @@ export function computeDailyClaimedDelta(now: number = Date.now()): number {
 export function currentClaimed(persistedClaimed: number, now: number = Date.now()): number {
   const withDaily = MEMBERS_CLAIMED_BASELINE + computeDailyClaimedDelta(now);
   return Math.min(MEMBER_CAP, Math.max(persistedClaimed, withDaily));
+}
+
+const EARLY_ACCESS_STORAGE_KEY = "loudmouf-early-access-claimed";
+
+/** Call this after a confirmed purchase to advance the "spots claimed" counter. */
+export function incrementEarlyAccessClaimed(by = 1) {
+  if (typeof window === "undefined") return;
+  const raw = window.localStorage.getItem(EARLY_ACCESS_STORAGE_KEY);
+  const cur = Math.max(
+    MEMBERS_CLAIMED_BASELINE,
+    raw != null ? Number(raw) : MEMBERS_CLAIMED_BASELINE,
+  );
+  const next = Math.min(MEMBER_CAP, cur + by);
+  window.localStorage.setItem(EARLY_ACCESS_STORAGE_KEY, String(next));
 }
 
 export const MEMBERSHIP_AGREEMENT_VERSION = "2026.09.v1";
