@@ -31,8 +31,8 @@ export const Route = createFileRoute("/sitemap.xml")({
         try {
           const { createClient } = await import("@supabase/supabase-js");
           const supa = createClient(
-            process.env.SUPABASE_URL!,
-            process.env.SUPABASE_PUBLISHABLE_KEY!,
+            process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL!,
+            process.env.SUPABASE_PUBLISHABLE_KEY || process.env.VITE_SUPABASE_PUBLISHABLE_KEY!,
             { auth: { persistSession: false } },
           );
           const { data } = await supa
