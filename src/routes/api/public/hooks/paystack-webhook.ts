@@ -23,12 +23,13 @@ export const Route = createFileRoute("/api/public/hooks/paystack-webhook")({
     handlers: {
       POST: async ({ request }) => {
         const secret = process.env.PAYSTACK_SECRET_KEY;
-        const raw = await request.text();
-
+        
         if (!secret) {
           console.error("[paystack] webhook received but PAYSTACK_SECRET_KEY is not configured");
           return new Response("Not configured", { status: 503 });
         }
+
+        const raw = await request.text();
 
         const signature = request.headers.get("x-paystack-signature") ?? "";
         const expected = createHmac("sha512", secret).update(raw, "utf8").digest("hex");
