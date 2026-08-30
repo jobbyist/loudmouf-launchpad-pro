@@ -77,10 +77,10 @@ export const Route = createFileRoute("/api/public/paystack/verify")({
 
         return Response.json({
           status,
-          productName: data.metadata?.product_name ?? "LOUDMOUF Herbal Tincture",
-          quantity: data.metadata?.quantity ?? 1,
-          amountZar: data.amount / 100,
-          email: data.customer?.email ?? null,
+          productName: data!.metadata?.product_name ?? "LOUDMOUF Herbal Tincture",
+          quantity: data!.metadata?.quantity ?? 1,
+          amountZar: data!.amount / 100,
+          email: data!.customer?.email ?? null,
         });
       },
     },
