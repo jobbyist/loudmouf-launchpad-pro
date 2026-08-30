@@ -44,6 +44,7 @@ import heroVideo from "@/assets/hero.mp4.asset.json";
 import storyImg from "@/assets/story.png.asset.json";
 import adCreative from "@/assets/ad-creative.png.asset.json";
 import { MEMBERSHIP_PLANS } from "@/lib/launch";
+import { TINCTURE_PRODUCTS } from "@/lib/tinctures";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -222,15 +223,20 @@ function LandingPage() {
         <div className="relative rounded-3xl border border-loud-yellow/30 bg-gradient-to-br from-loud-yellow/10 via-loud-pink/10 to-loud-blue/10 p-8 sm:p-12 overflow-hidden backdrop-blur-md">
           <div className="absolute inset-0 gradient-loud opacity-5" />
           <div className="relative grid gap-8 lg:grid-cols-[1fr_1.2fr] items-center">
-            <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="relative">
-              <img src="https://github.com/user-attachments/assets/d99fcfb3-9748-404a-b8a1-81e62ef0ae3f" alt="LOUDbible™ First Edition" className="w-full h-auto rounded-2xl shadow-2xl" />
+            <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="relative grid grid-cols-3 gap-3">
+              {TINCTURE_PRODUCTS.map((p) => (
+                <img key={p.id} src={p.image} alt={p.imageAlt} className="w-full h-auto rounded-2xl shadow-2xl object-cover aspect-[3/4]" />
+              ))}
             </motion.div>
             <div>
               <p className="text-xs uppercase tracking-[0.3em] text-loud-yellow flex items-center gap-2">
-                <span className="text-2xl">🚨🍃</span> Public Service Announcement
+                <Leaf className="h-4 w-4" /> Featured Collection
               </p>
-              <h2 className="display mt-4 text-4xl sm:text-5xl text-white leading-tight">LOUDbible™ Giveaway</h2>
-              <p className="mt-6 text-base sm:text-lg text-white/80 leading-relaxed">10 lucky premium LOUDMOUF™ members will get their hands on one of 250 physical copies of the first edition of our limited edition and self published book series — the LOUDbible™ — as a heartfelt gift from us to you when you secure any 3 or more tins of our assorted yield profiles from our upcoming drop.</p>
+              <h2 className="display mt-4 text-4xl sm:text-5xl text-white leading-tight">Premium Herbal Tinctures™</h2>
+              <p className="mt-6 text-base sm:text-lg text-white/80 leading-relaxed">A day-to-night ritual in three formulas by LOUDMOUF™ — Morning (Sativa) Goji Berry, Honey &amp; Ginseng, Afternoon (Hybrid) Passionflower, Holy Basil &amp; Moringa, and Night (Indica) Soursop, Blue Chamomile &amp; Ashwagandha. 10ml, 100mg per bottle, lab-tested.</p>
+              <Link to="/herbal-tinctures" className="cta-gradient mt-8 inline-flex items-center gap-2 rounded-full px-6 py-3 text-xs font-semibold uppercase tracking-widest text-black shadow-lg">
+                Shop the Collection <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
             </div>
           </div>
         </div>
