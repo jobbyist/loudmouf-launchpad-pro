@@ -11,7 +11,7 @@ create table public.tincture_reservations (
   unit_amount_cents integer not null,
   amount_cents integer not null,
   currency text not null default 'ZAR',
-  status text not null default 'pending',
+  status text not null default 'pending' check (status in ('pending', 'paid', 'failed')),
   paystack_data jsonb,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
