@@ -140,6 +140,11 @@ export function Footer() {
               </a>
             </li>
             <li>
+              <Link to="/herbal-tinctures" className="hover:text-white">
+                Herbal Tinctures
+              </Link>
+            </li>
+            <li>
               <Link to="/membership" className="hover:text-white">
                 Membership Plans
               </Link>
