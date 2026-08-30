@@ -105,7 +105,7 @@ export const Route = createFileRoute("/api/public/paystack/initialize")({
         }
 
         return Response.json({
-          authorizationUrl: paystackData.data.authorization_url,
+          authorizationUrl: paystackData.data!.authorization_url,
           reference,
         });
       },
