@@ -108,7 +108,7 @@ export const TINCTURE_PRODUCTS: TinctureProduct[] = [
     daypart: "Night / Sunset",
     strain: "Indica",
     name: "Soursop, Blue Chamomile & Ashwagandha",
-    flavourLine: "Soursop, Blue Chamomile & Ashwaghanda",
+    flavourLine: "Soursop, Blue Chamomile & Ashwagandha",
     effectsLine: "Provides calming, relaxing & stress-relieving effects.",
     tagline: "Deep Rest & Recovery",
     quote: "The quiet close to a loud day.",
