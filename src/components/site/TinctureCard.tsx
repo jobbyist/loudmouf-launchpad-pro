@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { TinctureProduct } from "@/lib/tinctures";
-import { ReserveTinctureModal } from "./ReserveTinctureModal";
+import { ReserveWhatsAppModal } from "./ReserveWhatsAppModal";
 
 export function TinctureCard({ product, index }: { product: TinctureProduct; index: number }) {
   const [open, setOpen] = useState(false);
@@ -75,7 +75,7 @@ export function TinctureCard({ product, index }: { product: TinctureProduct; ind
         </div>
       </motion.div>
 
-      <ReserveTinctureModal product={product} open={open} onOpenChange={setOpen} />
+      <ReserveWhatsAppModal product={product} open={open} onOpenChange={setOpen} />
     </>
   );
 }

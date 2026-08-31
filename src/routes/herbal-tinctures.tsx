@@ -42,7 +42,22 @@ export const Route = createFileRoute("/herbal-tinctures")({
           "A day-to-night ritual in three formulas. 10ml botanical tinctures, lab-tested, 100mg per bottle. Reserve now.",
       },
       { property: "og:type", content: "website" },
+      {
+        property: "og:image",
+        content: "https://loudmouf.co.za/images/tinctures/herbal-tinctures-showcase-banner.jpg",
+      },
+      { property: "og:image:width", content: "1424" },
+      { property: "og:image:height", content: "752" },
+      {
+        property: "og:image:alt",
+        content:
+          "LOUDMOUF™ Premium Herbal Tinctures — Goji Berry & Ginseng, Passionflower & Holy Basil, Soursop & Blue Chamomile",
+      },
       { name: "twitter:card", content: "summary_large_image" },
+      {
+        name: "twitter:image",
+        content: "https://loudmouf.co.za/images/tinctures/herbal-tinctures-showcase-banner.jpg",
+      },
     ],
     links: [{ rel: "canonical", href: "https://loudmouf.co.za/herbal-tinctures" }],
   }),
