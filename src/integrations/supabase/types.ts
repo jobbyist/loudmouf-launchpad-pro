@@ -363,6 +363,57 @@ export type Database = {
         }
         Relationships: []
       }
+      tincture_reservations: {
+        Row: {
+          amount_cents: number
+          created_at: string
+          currency: string
+          email: string
+          id: string
+          paystack_data: Json | null
+          product_id: string
+          product_name: string
+          quantity: number
+          reference: string
+          status: string
+          tier: string
+          unit_amount_cents: number
+          updated_at: string
+        }
+        Insert: {
+          amount_cents: number
+          created_at?: string
+          currency?: string
+          email: string
+          id?: string
+          paystack_data?: Json | null
+          product_id: string
+          product_name: string
+          quantity?: number
+          reference: string
+          status?: string
+          tier: string
+          unit_amount_cents: number
+          updated_at?: string
+        }
+        Update: {
+          amount_cents?: number
+          created_at?: string
+          currency?: string
+          email?: string
+          id?: string
+          paystack_data?: Json | null
+          product_id?: string
+          product_name?: string
+          quantity?: number
+          reference?: string
+          status?: string
+          tier?: string
+          unit_amount_cents?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string

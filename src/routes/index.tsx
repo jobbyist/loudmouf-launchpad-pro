@@ -42,7 +42,6 @@ import { Button } from "@/components/ui/button";
 import heroPoster from "@/assets/hero-poster.png.asset.json";
 import heroVideo from "@/assets/hero.mp4.asset.json";
 import storyImg from "@/assets/story.png.asset.json";
-import adCreative from "@/assets/ad-creative.png.asset.json";
 import { MEMBERSHIP_PLANS } from "@/lib/launch";
 import { TINCTURE_PRODUCTS } from "@/lib/tinctures";
 
@@ -62,9 +61,11 @@ export const Route = createFileRoute("/")({
           "SA’s first cannabis pouches made with high-grade THC and flavor-infused terpenes. Join the collective and secure your yield: Cheesecake, Blueberry & Bubblegum.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:image", content: adCreative.url },
+      { property: "og:image", content: "https://loudmouf.co.za/og-banner.jpg" },
+      { property: "og:image:width", content: "1536" },
+      { property: "og:image:height", content: "1024" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: adCreative.url },
+      { name: "twitter:image", content: "https://loudmouf.co.za/og-banner.jpg" },
     ],
     links: [{ rel: "canonical", href: "https://loudmouf.co.za/" }],
   }),

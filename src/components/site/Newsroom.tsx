@@ -1,9 +1,8 @@
 import { Link } from "@tanstack/react-router";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { getSeededArticles } from "@/lib/news";
-import { ArticleSummaryModal, type ArticleForModal } from "./ArticleSummaryModal";
 import { ArticleCard, type ArticleRow } from "./ArticleCard";
 
 interface NewsroomProps {
@@ -15,8 +14,6 @@ interface NewsroomProps {
 
 export function Newsroom({ limit = 20, showViewAll = false }: NewsroomProps) {
   const [articles, setArticles] = useState<ArticleRow[]>([]);
-  const [selectedArticle, setSelectedArticle] = useState<ArticleForModal | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -50,28 +47,6 @@ export function Newsroom({ limit = 20, showViewAll = false }: NewsroomProps) {
     };
   }, [limit]);
 
-  const openArticle = useCallback((a: ArticleRow) => {
-    setSelectedArticle({
-      id: a.id,
-      slug: a.slug,
-      title: a.title,
-      source: a.source,
-      source_url: a.source_url,
-      cover: a.cover,
-      excerpt: a.excerpt,
-      summary_md: a.summary_md,
-      published_at: a.published_at,
-    });
-    setIsModalOpen(true);
-  }, []);
-
-  const handleModalOpenChange = useCallback((open: boolean) => {
-    setIsModalOpen(open);
-    if (!open) {
-      setTimeout(() => setSelectedArticle(null), 200);
-    }
-  }, []);
-
   return (
     <section
       id="newsroom"
@@ -100,15 +75,9 @@ export function Newsroom({ limit = 20, showViewAll = false }: NewsroomProps) {
       </div>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {articles.map((a) => (
-          <ArticleCard key={a.id} a={a} onOpen={openArticle} />
+          <ArticleCard key={a.id} a={a} />
         ))}
       </div>
-
-      <ArticleSummaryModal
-        open={isModalOpen}
-        onOpenChange={handleModalOpenChange}
-        article={selectedArticle}
-      />
     </section>
   );
 }

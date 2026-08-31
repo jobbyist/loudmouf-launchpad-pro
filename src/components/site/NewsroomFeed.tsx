@@ -2,7 +2,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
 import { ArticleCard, type ArticleRow } from "./ArticleCard";
-import { ArticleSummaryModal, type ArticleForModal } from "./ArticleSummaryModal";
 import { listArticles } from "@/lib/news.functions";
 
 interface NewsroomFeedProps {
@@ -32,8 +31,6 @@ function SkeletonCard({ delay = 0 }: { delay?: number }) {
 
 export function NewsroomFeed({ initialArticles, pageSize }: NewsroomFeedProps) {
   const [articles, setArticles] = useState<ArticleRow[]>(initialArticles);
-  const [selectedArticle, setSelectedArticle] = useState<ArticleForModal | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(initialArticles.length === pageSize);
   const offsetRef = useRef(initialArticles.length);
@@ -73,28 +70,6 @@ export function NewsroomFeed({ initialArticles, pageSize }: NewsroomFeedProps) {
     return () => observer.disconnect();
   }, [loadMore]);
 
-  const openArticle = useCallback((a: ArticleRow) => {
-    setSelectedArticle({
-      id: a.id,
-      slug: a.slug,
-      title: a.title,
-      source: a.source,
-      source_url: a.source_url,
-      cover: a.cover,
-      excerpt: a.excerpt,
-      summary_md: a.summary_md,
-      published_at: a.published_at,
-    });
-    setIsModalOpen(true);
-  }, []);
-
-  const handleModalOpenChange = useCallback((open: boolean) => {
-    setIsModalOpen(open);
-    if (!open) {
-      setTimeout(() => setSelectedArticle(null), 200);
-    }
-  }, []);
-
   return (
     <section
       id="newsroom"
@@ -114,10 +89,12 @@ export function NewsroomFeed({ initialArticles, pageSize }: NewsroomFeedProps) {
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {articles.map((a) => (
-          <ArticleCard key={a.id} a={a} onOpen={openArticle} />
+          <ArticleCard key={a.id} a={a} />
         ))}
         {loading &&
-          Array.from({ length: 3 }).map((_, i) => <SkeletonCard key={`skeleton-${i}`} delay={i * 0.08} />)}
+          Array.from({ length: 3 }).map((_, i) => (
+            <SkeletonCard key={`skeleton-${i}`} delay={i * 0.08} />
+          ))}
       </div>
 
       {hasMore ? (
@@ -133,12 +110,6 @@ export function NewsroomFeed({ initialArticles, pageSize }: NewsroomFeedProps) {
           You've reached the end of the Newsroom.
         </p>
       ) : null}
-
-      <ArticleSummaryModal
-        open={isModalOpen}
-        onOpenChange={handleModalOpenChange}
-        article={selectedArticle}
-      />
     </section>
   );
 }
