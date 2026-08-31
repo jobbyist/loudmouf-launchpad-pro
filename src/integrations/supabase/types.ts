@@ -114,6 +114,24 @@ export type Database = {
           },
         ]
       }
+      loud_ai_messages: {
+        Row: {
+          created_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       member_signatures: {
         Row: {
           acceptance_statements: Json

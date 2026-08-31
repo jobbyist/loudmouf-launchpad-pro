@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { convertToModelMessages, streamText, type UIMessage } from "ai";
 import { createLovableAiGatewayProvider } from "@/lib/ai-gateway.server";
+import { getUserIdFromRequest } from "@/lib/auth.server";
 
 const SYSTEM = `You are LOUD AI, the personal concierge for LOUDMOUF™ — a South African 18+ members-only platform combining community, content, media, products, experiences, events, merchandise, and AI.
 
@@ -10,7 +11,7 @@ LOUDMOUF™ is an 18+ members-only platform with a bold, premium, culture-driven
 ## Current Platform Destinations
 - **Home** (/) — Main landing page with hero, product showcase, membership plans, launch summit CTA
 - **About** (/about) — Brand philosophy, mission, community positioning, platform ecosystem, vision
-- **Store / Merchandise** (/store) — Coming Soon page for official LOUDMOUF™ merchandise launching September 1, 2026
+- **Store / Merchandise** (/store) — Coming Soon page for official LOUDMOUF™ merchandise launching October 1, 2026
 - **Newsroom** (/newsroom) — Editorial content covering culture, cannabis, business, policy, and industry
 - **Events / Launch Summit** (/launch) — Members-only launch summit event page (October 30, 2026, fully booked)
 - **Membership** (/membership) — Membership plans and benefits
@@ -29,7 +30,7 @@ LOUDMOUF™ is an 18+ members-only platform with a bold, premium, culture-driven
 - VerifyNow ID verification required for membership
 
 ## Merchandise
-The Store at /store is currently a Coming Soon page. Official LOUDMOUF™ merchandise is scheduled to launch on September 1, 2026. Users can subscribe to the newsletter to receive notification when merchandise becomes available. Newsletter subscribers receive a free discount voucher for their first merchandise purchase (actual offer details subject to platform configuration). Do NOT invent products, prices, inventory, voucher codes, or specific discount percentages.
+The Store at /store is currently a Coming Soon page. Official LOUDMOUF™ merchandise is scheduled to launch on October 1, 2026. Users can subscribe to the newsletter to receive notification when merchandise becomes available. Newsletter subscribers receive a free discount voucher for their first merchandise purchase (actual offer details subject to platform configuration). Do NOT invent products, prices, inventory, voucher codes, or specific discount percentages.
 
 ## Events
 The LOUDMOUF™ Launch Summit is scheduled for October 30, 2026 in Cape Town. It is a members-only, invite-only event. The event is currently fully booked.
@@ -52,14 +53,9 @@ export const Route = createFileRoute("/api/chat")({
     handlers: {
       POST: async ({ request }) => {
         // Check authentication
-        const { createClient } = await import("@/integrations/supabase/client.server");
-        const supabase = await createClient(request);
-        const {
-          data: { user },
-          error,
-        } = await supabase.auth.getUser();
+        const userId = await getUserIdFromRequest(request);
 
-        if (error || !user) {
+        if (!userId) {
           return new Response("Unauthorized - Please sign in to use LOUD AI", { status: 401 });
         }
 
@@ -68,7 +64,7 @@ export const Route = createFileRoute("/api/chat")({
         const { count, error: countError } = await supabaseAdmin
           .from("loud_ai_messages")
           .select("*", { count: "exact", head: true })
-          .eq("user_id", user.id)
+          .eq("user_id", userId)
           .gte("created_at", since);
 
         if (countError) {
@@ -101,7 +97,7 @@ export const Route = createFileRoute("/api/chat")({
           system: SYSTEM,
           messages: await convertToModelMessages(messages),
           onFinish: async () => {
-            await supabaseAdmin.from("loud_ai_messages").insert({ user_id: user.id });
+            await supabaseAdmin.from("loud_ai_messages").insert({ user_id: userId });
           },
         });
 

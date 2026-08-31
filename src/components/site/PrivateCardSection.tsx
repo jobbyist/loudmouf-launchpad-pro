@@ -70,7 +70,7 @@ export function PrivateCardSection() {
               loop
               playsInline
               src={MEMBER_CARD_VIDEO}
-              alt="LOUDMOUF Premium Private Club Member Card illustrative preview"
+              aria-label="LOUDMOUF Premium Private Club Member Card illustrative preview"
               className="w-full h-auto object-contain select-none"
             />
           </div>

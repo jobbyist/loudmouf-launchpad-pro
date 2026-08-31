@@ -21,12 +21,12 @@ export const Route = createFileRoute("/store")({
       {
         name: "description",
         content:
-          "Official LOUDMOUF™ merchandise is coming soon. Sign up to be the first to know when the collection drops on September 1, 2026. Exclusive apparel and accessories for the collective.",
+          "Official LOUDMOUF™ merchandise is coming soon. Sign up to be the first to know when the collection drops on October 1, 2026. Exclusive apparel and accessories for the collective.",
       },
       { property: "og:title", content: "LOUDMOUF™ Store — Coming Soon" },
       {
         property: "og:description",
-        content: "Official LOUDMOUF™ merchandise launching September 1, 2026. Be first in line.",
+        content: "Official LOUDMOUF™ merchandise launching October 1, 2026. Be first in line.",
       },
     ],
     links: [{ rel: "canonical", href: "https://loudmouf.co.za/store" }],
@@ -34,7 +34,7 @@ export const Route = createFileRoute("/store")({
   component: StorePage,
 });
 
-const LAUNCH_DATE = new Date("2026-09-01T00:00:00").getTime();
+const LAUNCH_DATE = new Date("2026-10-01T00:00:00").getTime();
 
 function StorePage() {
   const [newsletterStatus, setNewsletterStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
