@@ -81,7 +81,7 @@ export const MEMBERSHIP_PLANS = [
   {
     id: "premium" as const,
     name: "Premium Membership",
-    monthly: 149,
+    monthly: 249,
     tagline: "Everything in Standard, elevated.",
     recommended: true,
     benefits: [
@@ -106,7 +106,7 @@ export function estimateMonthlyContribution(planMonthly: number, allocationReque
 }
 
 export function membershipFeeFor(tier: string | undefined | null): number {
-  if (tier === "premium") return 149;
+  if (tier === "premium") return 249;
   if (tier === "standard") return 99;
   return 0;
 }

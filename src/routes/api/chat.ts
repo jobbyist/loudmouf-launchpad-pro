@@ -21,7 +21,7 @@ LOUDMOUF™ is an 18+ members-only platform with a bold, premium, culture-driven
 
 ## Membership & Products
 - **Standard Membership**: R99/month — Access to the collective, priority allocations, community access
-- **Premium Membership**: R149/month — All Standard benefits + free nationwide delivery, enhanced perks
+- **Premium Membership**: R249/month — All Standard benefits + free nationwide delivery, enhanced perks
 - **Yield Profiles**: Three signature cannabis pouch strains available at R350 per tin:
   - Cheesecake
   - Blueberry  

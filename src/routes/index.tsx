@@ -281,7 +281,7 @@ function LandingPage() {
               { q: "Where do you deliver?", a: "Anywhere in South Africa via our reliable and discreet delivery partner. Standard delivery time is 3–5 working days for a flat R99 fee. Premium members enjoy free nationwide delivery." },
               { q: "Is this legal in South Africa?", a: "LOUDMOUF™ is sold in compliance with South African cannabis regulations for adult personal use. Strictly 18+ only." },
               { q: "What payment methods do you accept?", a: "We accept all major credit and debit cards (Visa, Mastercard), Apple Pay, and direct bank transfer (EFT). All payments are processed securely through our payment gateway." },
-              { q: "How does the membership work?", a: "Choose between Standard (R99/month) or Premium (R149/month) membership. Your monthly membership fee gives you access to the Collective, and you request yield allocations separately at R350 per tin." },
+              { q: "How does the membership work?", a: "Choose between Standard (R99/month) or Premium (R249/month) membership. Your monthly membership fee gives you access to the Collective, and you request yield allocations separately at R350 per tin." },
               { q: "What if I'm not satisfied with my order?", a: "We offer a 7-day return window for defective, damaged, or incorrect items. Contact us at hi@loudmouf.co.za and we'll make it right. Please note that opened or used products cannot be returned unless defective." },
               { q: "How discreet is the packaging?", a: "Every order arrives in plain, unbranded outer packaging with no visible LOUDMOUF™ branding. Your privacy is our priority." },
             ].map((item, i) => (

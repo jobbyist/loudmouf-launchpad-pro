@@ -22,13 +22,13 @@ export const Route = createFileRoute("/membership")({
       {
         name: "description",
         content:
-          "Two paths into the LOUDMOUF™ Collective. Standard at R99/month or Premium at R149/month with Rewards Card, loyalty, cashback and priority access.",
+          "Two paths into the LOUDMOUF™ Collective. Standard at R99/month or Premium at R249/month with Rewards Card, loyalty, cashback and priority access.",
       },
       { property: "og:title", content: "Membership — LOUDMOUF™ Private Lifestyle Club" },
       {
         property: "og:description",
         content:
-          "Standard R99 or Premium R149 with LOUDMOUF™ Rewards Card, cashback and priority access.",
+          "Standard R99 or Premium R249 with LOUDMOUF™ Rewards Card, cashback and priority access.",
       },
     ],
   }),

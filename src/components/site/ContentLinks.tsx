@@ -21,7 +21,7 @@ export const PRODUCT_TEASERS = {
   membership: {
     href: "/membership",
     eyebrow: "LOUDMOUF™ Membership",
-    title: "Standard R99 · Premium R149 a month",
+    title: "Standard R99 · Premium R249 a month",
     copy: "Join the Private Lifestyle Club for member pricing and a monthly allocation of LOUDMOUF™ cannabis pouches.",
     cta: "See membership tiers",
     icon: Sparkles,

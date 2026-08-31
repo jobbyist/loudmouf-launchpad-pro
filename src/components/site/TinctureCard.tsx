@@ -7,6 +7,7 @@ import { ReserveTinctureModal } from "./ReserveTinctureModal";
 
 export function TinctureCard({ product, index }: { product: TinctureProduct; index: number }) {
   const [open, setOpen] = useState(false);
+  const unavailable = product.strain === "Indica";
 
   return (
     <>
@@ -68,9 +69,16 @@ export function TinctureCard({ product, index }: { product: TinctureProduct; ind
 
           <Button
             onClick={() => setOpen(true)}
-            className="mt-5 w-full bg-white text-black hover:bg-white/90 uppercase tracking-widest text-xs font-semibold shadow-lg shadow-black/40"
+            disabled={unavailable}
+            className="mt-5 w-full bg-white text-black hover:bg-white/90 uppercase tracking-widest text-xs font-semibold shadow-lg shadow-black/40 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <Sparkles className="h-4 w-4 mr-1.5" /> Reserve Now
+            {unavailable ? (
+              "UNAVAILABLE"
+            ) : (
+              <>
+                <Sparkles className="h-4 w-4 mr-1.5" /> Reserve Now
+              </>
+            )}
           </Button>
         </div>
       </motion.div>

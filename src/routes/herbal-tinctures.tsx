@@ -261,7 +261,7 @@ function HerbalTincturesPage() {
             Three SKUs, side by side.
           </h2>
           <p className="mt-4 text-white/60">
-            10ml botanical spirit base · 100mg per bottle · reserve your allocation for R295 each.
+            10ml botanical spirit base · 100mg per bottle · reserve your allocation from R275 each.
           </p>
         </div>
         <div className="mt-10 grid gap-6 md:grid-cols-3">

@@ -247,8 +247,8 @@ function PartnerProgramPage() {
                   </div>
                   <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4">
                     <p className="text-[10px] uppercase tracking-widest text-white/50">Premium</p>
-                    <p className="mt-1 text-white/70 text-sm">R149 × 10%</p>
-                    <p className="mt-1 font-display text-2xl text-loud-yellow">R14.90</p>
+                    <p className="mt-1 text-white/70 text-sm">R249 × 10%</p>
+                    <p className="mt-1 font-display text-2xl text-loud-yellow">R24.90</p>
                   </div>
                 </div>
               </div>
@@ -259,7 +259,7 @@ function PartnerProgramPage() {
                 <p className="mt-2 text-sm text-white/80 leading-relaxed">
                   20 Standard + 10 Premium active referrals ={" "}
                   <span className="text-white font-semibold">
-                    (20 × R9.90) + (10 × R14.90) = R347 / month
+                    (20 × R9.90) + (10 × R24.90) = R447 / month
                   </span>
                   , recurring while they stay members.
                 </p>
@@ -327,8 +327,8 @@ function PartnerProgramPage() {
             <div className="mt-6 grid gap-4 sm:grid-cols-3">
               <div className="rounded-xl border border-white/10 bg-black/40 p-4">
                 <p className="text-[10px] uppercase tracking-widest text-white/50">Membership</p>
-                <p className="mt-2 text-sm text-white/70">R198 + R149</p>
-                <p className="mt-1 font-display text-xl text-white">R347</p>
+                <p className="mt-2 text-sm text-white/70">R198 + R249</p>
+                <p className="mt-1 font-display text-xl text-white">R447</p>
               </div>
               <div className="rounded-xl border border-white/10 bg-black/40 p-4">
                 <p className="text-[10px] uppercase tracking-widest text-white/50">Yield</p>
@@ -337,8 +337,8 @@ function PartnerProgramPage() {
               </div>
               <div className="rounded-xl border border-loud-yellow/30 bg-loud-yellow/10 p-4">
                 <p className="text-[10px] uppercase tracking-widest text-loud-yellow">Total that month</p>
-                <p className="mt-2 text-sm text-white/70">R347 + R700</p>
-                <p className="mt-1 font-display text-2xl text-loud-yellow">R1,047</p>
+                <p className="mt-2 text-sm text-white/70">R447 + R700</p>
+                <p className="mt-1 font-display text-2xl text-loud-yellow">R1,147</p>
               </div>
             </div>
             <p className="mt-6 text-xs text-white/40 leading-relaxed">

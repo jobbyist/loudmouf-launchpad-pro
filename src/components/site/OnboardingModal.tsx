@@ -43,7 +43,7 @@ const TIERS: Array<{
     id: "premium",
     name: "Premium Membership",
     sub: "Rewards Card · loyalty · cashback · priority.",
-    price: "R149 / month",
+    price: "R249 / month",
     accent:
       "from-loud-pink/25 via-loud-yellow/10 to-[color:var(--loud-blue-bright)]/20 border-loud-pink/40",
   },

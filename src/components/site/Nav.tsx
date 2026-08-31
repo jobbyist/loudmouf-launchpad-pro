@@ -6,8 +6,8 @@ import { Menu, X } from "lucide-react";
 
 const links = [
   { label: "Home", href: "/#home", type: "hash" as const },
-  { label: "Yield Profiles", href: "/#product", type: "hash" as const },
-  { label: "Herbal Tinctures", href: "/herbal-tinctures", type: "route" as const },
+  { label: "Profiles", href: "/#product", type: "hash" as const },
+  { label: "Tinctures", href: "/herbal-tinctures", type: "route" as const },
   { label: "Membership", href: "/membership", type: "route" as const },
   { label: "Newsroom", href: "/newsroom", type: "route" as const },
   { label: "Dashboard", href: "/member-dashboard", type: "route" as const },

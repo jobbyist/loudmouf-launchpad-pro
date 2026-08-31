@@ -81,7 +81,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "LOUDMOUF™ is South Africa's Private Lifestyle Club for premium cannabis pouches. Standard R99 or Premium R149 monthly membership. 18+ Members only.",
+          "LOUDMOUF™ is South Africa's Private Lifestyle Club for premium cannabis pouches. Standard R99 or Premium R249 monthly membership. 18+ Members only.",
       },
       { name: "author", content: "LOUDMOUF™ / Gravitas Industries (Pty) Ltd" },
       { name: "theme-color", content: "#0D0D0D" },
