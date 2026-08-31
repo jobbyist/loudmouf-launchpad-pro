@@ -1,6 +1,7 @@
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
+@plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -224,7 +225,8 @@
 }
 
 @keyframes gradient-x {
-  0%, 100% {
+  0%,
+  100% {
     background-position: 0% 50%;
   }
   50% {
@@ -234,4 +236,41 @@
 @utility animate-gradient-x {
   background-size: 200% 200%;
   animation: gradient-x 3s ease infinite;
+}
+
+/*
+ * Long-form article typography (newsroom article page + summary modal).
+ * Widens leading and paragraph spacing beyond the @tailwindcss/typography
+ * defaults for a more comfortable, magazine-style reading rhythm.
+ */
+.article-prose :where(p):not(:where([class~="not-prose"] *)) {
+  line-height: 1.9;
+  margin-top: 1.75em;
+  margin-bottom: 1.75em;
+  letter-spacing: 0.01em;
+  word-spacing: 0.02em;
+}
+.article-prose :where(h2):not(:where([class~="not-prose"] *)) {
+  margin-top: 2.75em;
+  margin-bottom: 1em;
+  line-height: 1.3;
+}
+.article-prose :where(h3):not(:where([class~="not-prose"] *)) {
+  margin-top: 2.25em;
+  margin-bottom: 0.85em;
+  line-height: 1.35;
+}
+.article-prose :where(ul, ol):not(:where([class~="not-prose"] *)) {
+  line-height: 1.85;
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+}
+.article-prose :where(li):not(:where([class~="not-prose"] *)) {
+  margin-top: 0.6em;
+  margin-bottom: 0.6em;
+}
+.article-prose :where(blockquote):not(:where([class~="not-prose"] *)) {
+  line-height: 1.8;
+  margin-top: 2em;
+  margin-bottom: 2em;
 }

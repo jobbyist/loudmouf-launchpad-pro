@@ -114,6 +114,24 @@ export type Database = {
           },
         ]
       }
+      loud_ai_messages: {
+        Row: {
+          created_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       member_signatures: {
         Row: {
           acceptance_statements: Json
@@ -360,6 +378,57 @@ export type Database = {
           tier?: string | null
           total_cents?: number | null
           user_id?: string | null
+        }
+        Relationships: []
+      }
+      tincture_reservations: {
+        Row: {
+          amount_cents: number
+          created_at: string
+          currency: string
+          email: string
+          id: string
+          paystack_data: Json | null
+          product_id: string
+          product_name: string
+          quantity: number
+          reference: string
+          status: string
+          tier: string
+          unit_amount_cents: number
+          updated_at: string
+        }
+        Insert: {
+          amount_cents: number
+          created_at?: string
+          currency?: string
+          email: string
+          id?: string
+          paystack_data?: Json | null
+          product_id: string
+          product_name: string
+          quantity?: number
+          reference: string
+          status?: string
+          tier: string
+          unit_amount_cents: number
+          updated_at?: string
+        }
+        Update: {
+          amount_cents?: number
+          created_at?: string
+          currency?: string
+          email?: string
+          id?: string
+          paystack_data?: Json | null
+          product_id?: string
+          product_name?: string
+          quantity?: number
+          reference?: string
+          status?: string
+          tier?: string
+          unit_amount_cents?: number
+          updated_at?: string
         }
         Relationships: []
       }

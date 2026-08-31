@@ -15,7 +15,14 @@ const STARTERS = [
 const ESCALATION_MESSAGE =
   "You've reached your 3 messages for today. For anything else, reach out to a LOUDMOUF™ team member on WhatsApp (+27680200749) or email hi@loudmouf.co.za — we'll take it from here.";
 
-const transport = new DefaultChatTransport({ api: "/api/chat" });
+const transport = new DefaultChatTransport({
+  api: "/api/chat",
+  headers: async (): Promise<Record<string, string>> => {
+    const { data } = await supabase.auth.getSession();
+    const token = data.session?.access_token;
+    return token ? { Authorization: `Bearer ${token}` } : {};
+  },
+});
 
 function messageText(m: UIMessage) {
   return m.parts

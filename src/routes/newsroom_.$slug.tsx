@@ -1,8 +1,8 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
-import Markdown from "markdown-to-jsx";
 import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
+import { EnrichedArticleBody, type RelatedArticleRef } from "@/components/site/EnrichedArticleBody";
 import { getArticleBySlug } from "@/lib/news";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -83,11 +83,13 @@ function makeMathChallenge(): { a: number; b: number; answer: number; prompt: st
   return { a, b, answer: a + b, prompt: `What is ${a} + ${b}?` };
 }
 
-export const Route = createFileRoute("/newsroom/$slug")({
+export const Route = createFileRoute("/newsroom_/$slug")({
   loader: async ({ params }) => {
-    const { getArticle } = await import("@/lib/news.functions");
+    const { getArticle, listArticles } = await import("@/lib/news.functions");
     const dbArticle = await getArticle({ data: { slug: params.slug } });
     if (dbArticle) {
+      const recent = await listArticles({ data: { limit: 4, offset: 0 } }).catch(() => []);
+      const related = recent.find((a) => a.slug !== params.slug) ?? null;
       return {
         article: {
           id: dbArticle.id,
@@ -100,12 +102,14 @@ export const Route = createFileRoute("/newsroom/$slug")({
           summary: dbArticle.summary_md,
           publishedAt: dbArticle.published_at,
         },
+        relatedArticle: related ? { slug: related.slug, title: related.title } : null,
       };
     }
     const seed = getArticleBySlug(params.slug);
     if (!seed) throw notFound();
     return {
       article: { id: seed.slug, ...seed },
+      relatedArticle: null as RelatedArticleRef | null,
     };
   },
   head: ({ loaderData }) =>
@@ -166,7 +170,7 @@ interface CommentRow {
 }
 
 function ArticlePage() {
-  const { article } = Route.useLoaderData();
+  const { article, relatedArticle } = Route.useLoaderData();
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
   const [comments, setComments] = useState<CommentRow[]>([]);
@@ -383,16 +387,12 @@ function ArticlePage() {
             </span>
           </div>
 
-          <div className="prose prose-invert prose-lg mt-10 max-w-none text-white/80">
-            <Markdown
-              options={{
-                overrides: {
-                  a: { props: { target: "_blank", rel: "noopener noreferrer" } },
-                },
-              }}
-            >
-              {article.summary}
-            </Markdown>
+          <div className="article-prose prose prose-invert prose-lg mt-10 max-w-none text-white/80">
+            <EnrichedArticleBody
+              markdown={article.summary}
+              slug={article.slug}
+              relatedArticle={relatedArticle}
+            />
           </div>
 
           <p className="mt-8 text-[10px] uppercase tracking-widest text-white/40">
@@ -473,10 +473,7 @@ function ArticlePage() {
                 <li className="text-sm text-white/50">Be the first to comment.</li>
               ) : (
                 comments.map((c) => (
-                  <li
-                    key={c.id}
-                    className="rounded-2xl border border-white/10 bg-white/[0.03] p-4"
-                  >
+                  <li key={c.id} className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
                     <div className="flex items-baseline justify-between">
                       <p className="text-sm font-semibold text-white">{c.author_name}</p>
                       <span className="text-[10px] uppercase tracking-widest text-white/40">

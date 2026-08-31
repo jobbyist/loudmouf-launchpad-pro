@@ -49,17 +49,28 @@ export const Route = createFileRoute("/api/public/paystack/verify")({
         const data = payload.data;
         const status =
           data.status === "success" ? "paid" : data.status === "failed" ? "failed" : "pending";
+        const productName = data.metadata?.product_name ?? "LOUDMOUF Herbal Tincture";
+        const tier = data.metadata?.tier ?? "unknown";
+        const quantity = data.metadata?.quantity ?? 1;
+        const email = data.customer?.email ?? "unknown";
 
         try {
           const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+          const { data: existing } = await supabaseAdmin
+            .from("tincture_reservations")
+            .select("status")
+            .eq("reference", data.reference)
+            .maybeSingle();
+          const alreadyPaid = existing?.status === "paid";
+
           await supabaseAdmin.from("tincture_reservations").upsert(
             {
               reference: data.reference,
               product_id: data.metadata?.product_id ?? "unknown",
-              product_name: data.metadata?.product_name ?? "LOUDMOUF Herbal Tincture",
-              tier: data.metadata?.tier ?? "unknown",
-              email: data.customer?.email ?? "unknown",
-              quantity: data.metadata?.quantity ?? 1,
+              product_name: productName,
+              tier,
+              email,
+              quantity,
               unit_amount_cents: data.metadata?.quantity
                 ? Math.round(data.amount / data.metadata.quantity)
                 : data.amount,
@@ -71,6 +82,18 @@ export const Route = createFileRoute("/api/public/paystack/verify")({
             },
             { onConflict: "reference" },
           );
+
+          if (status === "paid" && !alreadyPaid && email !== "unknown") {
+            const { sendTinctureReservationEmails } = await import("@/lib/email.server");
+            await sendTinctureReservationEmails({
+              reference: data.reference,
+              productName,
+              tier,
+              quantity,
+              amountZar: data.amount / 100,
+              email,
+            });
+          }
         } catch (err) {
           console.error("[paystack] failed to persist verified reservation", err);
         }

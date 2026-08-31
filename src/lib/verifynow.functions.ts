@@ -34,7 +34,25 @@ export const verifySAIDServerFn = createServerFn({ method: "POST" })
         const errorText = await res.text().catch(() => 'No error body');
         return { valid: false as const, reason: `VerifyNow ${res.status}: ${errorText}` };
       }
-      const raw = (await res.json()) as any;
+      interface VerifyNowResponse {
+        success?: boolean;
+        results?: {
+          said_verification?: {
+            Status?: string;
+            realTimeResults?: {
+              Status?: string;
+              Verification?: {
+                Status?: string;
+                Dob?: string;
+                Age?: number;
+                Gender?: string;
+                Citizenship?: string;
+              };
+            };
+          };
+        };
+      }
+      const raw = (await res.json()) as VerifyNowResponse;
       const verification = raw.results?.said_verification?.realTimeResults?.Verification || {};
       const realTimeStatus = raw.results?.said_verification?.realTimeResults?.Status;
       return {
